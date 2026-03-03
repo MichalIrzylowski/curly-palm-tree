@@ -71,6 +71,9 @@ export interface Config {
     posts: Post;
     media: Media;
     categories: Category;
+    team: Team;
+    services: Service;
+    equipment: Equipment;
     users: User;
     redirects: Redirect;
     forms: Form;
@@ -93,6 +96,9 @@ export interface Config {
     posts: PostsSelect<false> | PostsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
+    team: TeamSelect<false> | TeamSelect<true>;
+    services: ServicesSelect<false> | ServicesSelect<true>;
+    equipment: EquipmentSelect<false> | EquipmentSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
@@ -108,16 +114,20 @@ export interface Config {
   db: {
     defaultIDType: number;
   };
-  fallbackLocale: null;
+  fallbackLocale: ('false' | 'none' | 'null') | false | null | ('pl' | 'en') | ('pl' | 'en')[];
   globals: {
     header: Header;
     footer: Footer;
+    'opening-hours': OpeningHour;
+    contact: Contact;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
+    'opening-hours': OpeningHoursSelect<false> | OpeningHoursSelect<true>;
+    contact: ContactSelect<false> | ContactSelect<true>;
   };
-  locale: null;
+  locale: 'pl' | 'en';
   widgets: {
     collections: CollectionsWidget;
   };
@@ -784,6 +794,132 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "team".
+ */
+export interface Team {
+  id: number;
+  photo: number | Media;
+  name: string;
+  /**
+   * e.g. Lead Veterinarian / Lekarz Weterynarii
+   */
+  role: string;
+  /**
+   * Short biography (~100 words)
+   */
+  bio?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * e.g. Surgery, Dentistry, Exotic animals
+   */
+  specialisations?:
+    | {
+        tag: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Languages spoken (optional)
+   */
+  languages?:
+    | {
+        language: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Display order (lower number = shown first)
+   */
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "services".
+ */
+export interface Service {
+  id: number;
+  name: string;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Lucide icon name (e.g. "stethoscope", "scissors", "heart-pulse")
+   */
+  icon?: string | null;
+  /**
+   * e.g. "Ask for pricing" or "from 80 zł"
+   */
+  priceText?: string | null;
+  category?: (number | null) | Category;
+  /**
+   * Display order (lower number = shown first)
+   */
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "equipment".
+ */
+export interface Equipment {
+  id: number;
+  name: string;
+  photo: number | Media;
+  /**
+   * Patient-facing explanation of what this equipment is used for
+   */
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Display order (lower number = shown first)
+   */
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -987,6 +1123,18 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'categories';
         value: number | Category;
+      } | null)
+    | ({
+        relationTo: 'team';
+        value: number | Team;
+      } | null)
+    | ({
+        relationTo: 'services';
+        value: number | Service;
+      } | null)
+    | ({
+        relationTo: 'equipment';
+        value: number | Equipment;
       } | null)
     | ({
         relationTo: 'users';
@@ -1331,6 +1479,57 @@ export interface CategoriesSelect<T extends boolean = true> {
         label?: T;
         id?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "team_select".
+ */
+export interface TeamSelect<T extends boolean = true> {
+  photo?: T;
+  name?: T;
+  role?: T;
+  bio?: T;
+  specialisations?:
+    | T
+    | {
+        tag?: T;
+        id?: T;
+      };
+  languages?:
+    | T
+    | {
+        language?: T;
+        id?: T;
+      };
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "services_select".
+ */
+export interface ServicesSelect<T extends boolean = true> {
+  name?: T;
+  description?: T;
+  icon?: T;
+  priceText?: T;
+  category?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "equipment_select".
+ */
+export interface EquipmentSelect<T extends boolean = true> {
+  name?: T;
+  photo?: T;
+  description?: T;
+  order?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1692,6 +1891,83 @@ export interface Footer {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "opening-hours".
+ */
+export interface OpeningHour {
+  id: number;
+  /**
+   * One entry per day of the week
+   */
+  hours: {
+    day: 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday';
+    /**
+     * e.g. 08:00
+     */
+    openTime?: string | null;
+    /**
+     * e.g. 18:00
+     */
+    closeTime?: string | null;
+    isClosed?: boolean | null;
+    /**
+     * Optional note shown alongside hours (e.g. "Emergency only")
+     */
+    note?: string | null;
+    id?: string | null;
+  }[];
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact".
+ */
+export interface Contact {
+  id: number;
+  /**
+   * Latitude (e.g. 54.4472595)
+   */
+  lat: number;
+  /**
+   * Longitude (e.g. 18.5504898)
+   */
+  lng: number;
+  address: string;
+  /**
+   * One or more phone numbers
+   */
+  phones: {
+    /**
+     * e.g. "Reception" / "Rejestracja"
+     */
+    label?: string | null;
+    number: string;
+    id?: string | null;
+  }[];
+  email?: string | null;
+  /**
+   * Parking, public transport, or other directions notes
+   */
+  directionsNotes?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
@@ -1732,6 +2008,46 @@ export interface FooterSelect<T extends boolean = true> {
             };
         id?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "opening-hours_select".
+ */
+export interface OpeningHoursSelect<T extends boolean = true> {
+  hours?:
+    | T
+    | {
+        day?: T;
+        openTime?: T;
+        closeTime?: T;
+        isClosed?: T;
+        note?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact_select".
+ */
+export interface ContactSelect<T extends boolean = true> {
+  lat?: T;
+  lng?: T;
+  address?: T;
+  phones?:
+    | T
+    | {
+        label?: T;
+        number?: T;
+        id?: T;
+      };
+  email?: T;
+  directionsNotes?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
