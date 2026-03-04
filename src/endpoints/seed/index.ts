@@ -1,14 +1,11 @@
 import type { CollectionSlug, GlobalSlug, Payload, PayloadRequest, File } from 'payload'
 
-import { contactForm as contactFormData } from './contact-form'
-import { contact as contactPageData } from './contact-page'
-import { home } from './home'
 import { image1 } from './image-1'
 import { image2 } from './image-2'
 import { imageHero1 } from './image-hero-1'
-import { post1 } from './post-1'
-import { post2 } from './post-2'
-import { post3 } from './post-3'
+import { seedEquipment } from './vet-equipment'
+import { seedServices } from './vet-services'
+import { seedTeam } from './vet-team'
 
 const collections: CollectionSlug[] = [
   'categories',
@@ -21,8 +18,6 @@ const collections: CollectionSlug[] = [
 ]
 
 const globals: GlobalSlug[] = ['header', 'footer']
-
-const categories = ['Technology', 'News', 'Finance', 'Design', 'Software', 'Engineering']
 
 // Next.js revalidation errors are normal when seeding the database without a server running
 // i.e. running `yarn seed` locally instead of using the admin UI within an active app
@@ -37,13 +32,8 @@ export const seed = async ({
 }): Promise<void> => {
   payload.logger.info('Seeding database...')
 
-  // we need to clear the media directory before seeding
-  // as well as the collections and globals
-  // this is because while `yarn seed` drops the database
-  // the custom `/api/seed` endpoint does not
-  payload.logger.info(`— Clearing collections and globals...`)
+  payload.logger.info('— Clearing collections and globals...')
 
-  // clear the database
   await Promise.all(
     globals.map((global) =>
       payload.updateGlobal({
@@ -51,9 +41,7 @@ export const seed = async ({
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         data: { navItems: [] } as any,
         depth: 0,
-        context: {
-          disableRevalidate: true,
-        },
+        context: { disableRevalidate: true },
       }),
     ),
   )
@@ -64,23 +52,11 @@ export const seed = async ({
 
   await Promise.all(
     collections
-      .filter((collection) => Boolean(payload.collections[collection].config.versions))
+      .filter((collection) => Boolean(payload.collections[collection]?.config.versions))
       .map((collection) => payload.db.deleteVersions({ collection, req, where: {} })),
   )
 
-  payload.logger.info(`— Seeding demo author and user...`)
-
-  await payload.delete({
-    collection: 'users',
-    depth: 0,
-    where: {
-      email: {
-        equals: 'demo-author@example.com',
-      },
-    },
-  })
-
-  payload.logger.info(`— Seeding media...`)
+  payload.logger.info('— Seeding media...')
 
   const [image1Buffer, image2Buffer, image3Buffer, hero1Buffer] = await Promise.all([
     fetchFileByURL(
@@ -97,147 +73,135 @@ export const seed = async ({
     ),
   ])
 
-  const [demoAuthor, image1Doc, image2Doc, image3Doc, imageHomeDoc] = await Promise.all([
-    payload.create({
-      collection: 'users',
-      data: {
-        name: 'Demo Author',
-        email: 'demo-author@example.com',
-        password: 'password',
-      },
-    }),
-    payload.create({
-      collection: 'media',
-      data: image1,
-      file: image1Buffer,
-    }),
-    payload.create({
-      collection: 'media',
-      data: image2,
-      file: image2Buffer,
-    }),
-    payload.create({
-      collection: 'media',
-      data: image2,
-      file: image3Buffer,
-    }),
-    payload.create({
-      collection: 'media',
-      data: imageHero1,
-      file: hero1Buffer,
-    }),
-    categories.map((category) =>
-      payload.create({
-        collection: 'categories',
-        data: {
-          title: category,
-          slug: category,
+  const [image1Doc, image2Doc, image3Doc, imageHomeDoc] = await Promise.all([
+    payload.create({ collection: 'media', data: image1, file: image1Buffer }),
+    payload.create({ collection: 'media', data: image2, file: image2Buffer }),
+    payload.create({ collection: 'media', data: image2, file: image3Buffer }),
+    payload.create({ collection: 'media', data: imageHero1, file: hero1Buffer }),
+  ])
+
+  // Seed vet collections
+  const allImages = [image1Doc, image2Doc, image3Doc, imageHomeDoc]
+  await seedServices({ payload, req })
+  await seedTeam({ payload, req, images: allImages })
+  await seedEquipment({ payload, req, images: allImages })
+
+  payload.logger.info('— Seeding opening hours...')
+
+  await payload.updateGlobal({
+    slug: 'opening-hours',
+    data: {
+      hours: [
+        { day: 'monday', openTime: '08:00', closeTime: '19:00', isClosed: false },
+        { day: 'tuesday', openTime: '08:00', closeTime: '19:00', isClosed: false },
+        { day: 'wednesday', openTime: '08:00', closeTime: '19:00', isClosed: false },
+        { day: 'thursday', openTime: '08:00', closeTime: '19:00', isClosed: false },
+        { day: 'friday', openTime: '08:00', closeTime: '19:00', isClosed: false },
+        { day: 'saturday', openTime: '09:00', closeTime: '14:00', isClosed: false },
+        { day: 'sunday', isClosed: true },
+      ],
+    },
+  })
+
+  payload.logger.info('— Seeding contact...')
+
+  await payload.updateGlobal({
+    slug: 'contact',
+    locale: 'pl',
+    data: {
+      lat: 54.4472595,
+      lng: 18.5504898,
+      address: 'ul. 23 Marca 32E, 81-820 Sopot',
+      phones: [
+        { label: 'Rejestracja', number: '+48 58 555 12 34' },
+        { label: 'Nagłe przypadki', number: '+48 58 555 56 78' },
+      ],
+      email: 'gabinet@lecznicawet.pl',
+      directionsNotes: {
+        root: {
+          type: 'root',
+          children: [
+            {
+              type: 'paragraph',
+              children: [
+                {
+                  type: 'text',
+                  detail: 0,
+                  format: 0,
+                  mode: 'normal',
+                  style: '',
+                  text: 'Bezpłatny parking dostępny przy ulicy. Przystanek SKM Sopot Wyścigi w odległości 5 minut pieszo.',
+                  version: 1,
+                },
+              ],
+              direction: 'ltr' as const,
+              format: '' as const,
+              indent: 0,
+              textFormat: 0,
+              version: 1,
+            },
+          ],
+          direction: 'ltr' as const,
+          format: '' as const,
+          indent: 0,
+          version: 1,
         },
-      }),
-    ),
-  ])
-
-  payload.logger.info(`— Seeding posts...`)
-
-  // Do not create posts with `Promise.all` because we want the posts to be created in order
-  // This way we can sort them by `createdAt` or `publishedAt` and they will be in the expected order
-  const post1Doc = await payload.create({
-    collection: 'posts',
-    depth: 0,
-    context: {
-      disableRevalidate: true,
+      },
     },
-    data: post1({ heroImage: image1Doc, blockImage: image2Doc, author: demoAuthor }),
   })
 
-  const post2Doc = await payload.create({
-    collection: 'posts',
-    depth: 0,
-    context: {
-      disableRevalidate: true,
-    },
-    data: post2({ heroImage: image2Doc, blockImage: image3Doc, author: demoAuthor }),
-  })
-
-  const post3Doc = await payload.create({
-    collection: 'posts',
-    depth: 0,
-    context: {
-      disableRevalidate: true,
-    },
-    data: post3({ heroImage: image3Doc, blockImage: image1Doc, author: demoAuthor }),
-  })
-
-  // update each post with related posts
-  await payload.update({
-    id: post1Doc.id,
-    collection: 'posts',
+  await payload.updateGlobal({
+    slug: 'contact',
+    locale: 'en',
     data: {
-      relatedPosts: [post2Doc.id, post3Doc.id],
+      address: '23 Marca 32E St., 81-820 Sopot',
+      phones: [
+        { label: 'Reception', number: '+48 58 555 12 34' },
+        { label: 'Emergencies', number: '+48 58 555 56 78' },
+      ],
+      directionsNotes: {
+        root: {
+          type: 'root',
+          children: [
+            {
+              type: 'paragraph',
+              children: [
+                {
+                  type: 'text',
+                  detail: 0,
+                  format: 0,
+                  mode: 'normal',
+                  style: '',
+                  text: 'Free street parking available nearby. Sopot Wyścigi SKM train stop is a 5-minute walk away.',
+                  version: 1,
+                },
+              ],
+              direction: 'ltr' as const,
+              format: '' as const,
+              indent: 0,
+              textFormat: 0,
+              version: 1,
+            },
+          ],
+          direction: 'ltr' as const,
+          format: '' as const,
+          indent: 0,
+          version: 1,
+        },
+      },
     },
   })
-  await payload.update({
-    id: post2Doc.id,
-    collection: 'posts',
-    data: {
-      relatedPosts: [post1Doc.id, post3Doc.id],
-    },
-  })
-  await payload.update({
-    id: post3Doc.id,
-    collection: 'posts',
-    data: {
-      relatedPosts: [post1Doc.id, post2Doc.id],
-    },
-  })
 
-  payload.logger.info(`— Seeding contact form...`)
-
-  const contactForm = await payload.create({
-    collection: 'forms',
-    depth: 0,
-    data: contactFormData,
-  })
-
-  payload.logger.info(`— Seeding pages...`)
-
-  const [_, contactPage] = await Promise.all([
-    payload.create({
-      collection: 'pages',
-      depth: 0,
-      data: home({ heroImage: imageHomeDoc, metaImage: image2Doc }),
-    }),
-    payload.create({
-      collection: 'pages',
-      depth: 0,
-      data: contactPageData({ contactForm: contactForm }),
-    }),
-  ])
-
-  payload.logger.info(`— Seeding globals...`)
+  payload.logger.info('— Seeding header & footer nav...')
 
   await Promise.all([
     payload.updateGlobal({
       slug: 'header',
       data: {
         navItems: [
-          {
-            link: {
-              type: 'custom',
-              label: 'Posts',
-              url: '/posts',
-            },
-          },
-          {
-            link: {
-              type: 'reference',
-              label: 'Contact',
-              reference: {
-                relationTo: 'pages',
-                value: contactPage.id,
-              },
-            },
-          },
+          { link: { type: 'custom', label: 'Usługi', url: '/uslugi' } },
+          { link: { type: 'custom', label: 'Zespół', url: '/zespol' } },
+          { link: { type: 'custom', label: 'Kontakt', url: '/kontakt' } },
         ],
       },
     }),
@@ -245,29 +209,9 @@ export const seed = async ({
       slug: 'footer',
       data: {
         navItems: [
-          {
-            link: {
-              type: 'custom',
-              label: 'Admin',
-              url: '/admin',
-            },
-          },
-          {
-            link: {
-              type: 'custom',
-              label: 'Source Code',
-              newTab: true,
-              url: 'https://github.com/payloadcms/payload/tree/main/templates/website',
-            },
-          },
-          {
-            link: {
-              type: 'custom',
-              label: 'Payload',
-              newTab: true,
-              url: 'https://payloadcms.com/',
-            },
-          },
+          { link: { type: 'custom', label: 'Usługi', url: '/uslugi' } },
+          { link: { type: 'custom', label: 'Kontakt', url: '/kontakt' } },
+          { link: { type: 'custom', label: 'Admin', url: '/admin' } },
         ],
       },
     }),
@@ -277,10 +221,7 @@ export const seed = async ({
 }
 
 async function fetchFileByURL(url: string): Promise<File> {
-  const res = await fetch(url, {
-    credentials: 'include',
-    method: 'GET',
-  })
+  const res = await fetch(url, { credentials: 'include', method: 'GET' })
 
   if (!res.ok) {
     throw new Error(`Failed to fetch file from ${url}, status: ${res.status}`)
