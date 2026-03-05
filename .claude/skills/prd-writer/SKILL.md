@@ -1,11 +1,11 @@
 ---
 name: prd-writer
-description: Write professional Product Requirements Documents (PRDs) from user input, notes, or conversations. Use this skill whenever the user asks to write a PRD, product requirements document, product spec, feature spec, requirements doc, or says things like "write requirements for", "spec out this feature", "document this product idea", "create a PRD", or "help me define requirements". Also use when the user uploads notes or briefs and asks to turn them into a structured product document. Produces well-structured PRDs as .docx files following industry best practices.
+description: Write professional Product Requirements Documents (PRDs) from user input, notes, or conversations. Use this skill whenever the user asks to write a PRD, product requirements document, product spec, feature spec, requirements doc, or says things like "write requirements for", "spec out this feature", "document this product idea", "create a PRD", or "help me define requirements". Also use when the user uploads notes or briefs and asks to turn them into a structured product document. Produces well-structured PRDs as .md files following industry best practices.
 ---
 
 # PRD Writer
 
-Create comprehensive, well-structured Product Requirements Documents from user input. PRDs are produced as polished .docx files ready for stakeholder review.
+Create comprehensive, well-structured Product Requirements Documents from user input. PRDs are produced as polished .md files ready for stakeholder review.
 
 ## When to use
 
@@ -61,11 +61,11 @@ Good: "Search results must return within 200ms for 95th percentile queries on da
 
 ### Step 4: Produce the document
 
-Generate the PRD as a `.docx` file using the docx skill. Follow these formatting guidelines:
+Generate the PRD as a `.md` file using the Write tool. Follow these formatting guidelines:
 
-- Use the document title as a cover heading
+- Use the document title as an H1 heading
 - Include a metadata table at the top (author, date, status, version, stakeholders)
-- Use numbered sections with clear hierarchy (1, 1.1, 1.1.1)
+- Use numbered sections with clear hierarchy (1, 1.1, 1.1.1) as H2/H3 headings
 - Use tables for requirements with columns: ID, Requirement, Priority, Acceptance Criteria
 - Keep paragraphs concise — aim for 2-4 sentences each
 - Add a version history table at the end
@@ -97,7 +97,7 @@ Actions:
 1. Ask clarifying questions about target platforms, user research, timeline
 2. Select Lightweight PRD template (well-understood feature)
 3. Draft PRD with problem statement, user stories, requirements, design considerations
-4. Generate .docx with proper formatting
+4. Generate .md with proper formatting
 Result: A polished PRD ready for engineering review
 
 **Example 2: Full PRD from rough notes**
@@ -106,7 +106,7 @@ Actions:
 1. Parse notes, extract key themes, identify gaps
 2. Select Full PRD template (new product initiative)
 3. Draft comprehensive PRD, flagging open questions from gaps in notes
-4. Generate .docx with metadata, requirements tables, success metrics
+4. Generate .md with metadata, requirements tables, success metrics
 Result: A comprehensive PRD that transforms rough ideas into actionable requirements
 
 **Example 3: Technical/API PRD**
@@ -115,5 +115,5 @@ Actions:
 1. Gather technical context — existing architecture, target developers, scale requirements
 2. Select API/Technical PRD template
 3. Draft PRD with API contracts, data models, error handling, rate limits, migration plan
-4. Generate .docx with technical diagrams described in text, endpoint tables
+4. Generate .md with technical diagrams described in text, endpoint tables
 Result: A technical PRD that engineering can implement from directly

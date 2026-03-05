@@ -6,8 +6,12 @@ import { Archive } from '../../blocks/ArchiveBlock/config'
 import { CallToAction } from '../../blocks/CallToAction/config'
 import { Content } from '../../blocks/Content/config'
 import { FormBlock } from '../../blocks/Form/config'
+import { HeroBlock } from '../../blocks/HeroBlock/config'
 import { MediaBlock } from '../../blocks/MediaBlock/config'
-import { hero } from '@/heros/config'
+import { QuickInfoBlock } from '../../blocks/QuickInfoBlock/config'
+import { ServicesHighlightsBlock } from '../../blocks/ServicesHighlightsBlock/config'
+import { TeamTeaserBlock } from '../../blocks/TeamTeaserBlock/config'
+import { WhyUsBlock } from '../../blocks/WhyUsBlock/config'
 import { slugField } from 'payload'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
@@ -64,15 +68,11 @@ export const Pages: CollectionConfig<'pages'> = {
       type: 'tabs',
       tabs: [
         {
-          fields: [hero],
-          label: 'Hero',
-        },
-        {
           fields: [
             {
               name: 'layout',
               type: 'blocks',
-              blocks: [CallToAction, Content, MediaBlock, Archive, FormBlock],
+              blocks: [HeroBlock, QuickInfoBlock, ServicesHighlightsBlock, TeamTeaserBlock, WhyUsBlock, CallToAction, Content, MediaBlock, Archive, FormBlock],
               required: true,
               admin: {
                 initCollapsed: true,

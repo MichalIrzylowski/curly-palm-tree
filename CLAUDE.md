@@ -61,6 +61,10 @@ Required (see `.env.example`):
 - `CRON_SECRET` — authenticates Vercel cron jobs
 - `PREVIEW_SECRET` — draft preview validation
 
+## UI Copy
+
+Never use task names, comments, or spec labels as user-visible string literals. All frontend copy must be either a localized CMS field or an explicit Polish-default hardcoded string.
+
 ## Testing
 
 Integration tests (Vitest + jsdom) live in `tests/int/`.
