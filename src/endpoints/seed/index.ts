@@ -1,11 +1,27 @@
+import { readFileSync } from 'fs'
+import { dirname, join } from 'path'
+import { fileURLToPath } from 'url'
+
 import type { CollectionSlug, GlobalSlug, Payload, PayloadRequest, File } from 'payload'
 
 import { image1 } from './image-1'
 import { image2 } from './image-2'
 import { imageHero1 } from './image-hero-1'
+import { vetMan } from './vet-man'
 import { seedEquipment } from './vet-equipment'
 import { seedServices } from './vet-services'
 import { seedTeam } from './vet-team'
+
+// To add more team photos: drop the file in src/endpoints/seed/ and add an entry here.
+// Members are assigned photos by index (cycling if there are fewer photos than members).
+const TEAM_PHOTOS = [
+  { filename: 'vet-man.png', data: vetMan },
+  // { filename: 'vet-woman.png', data: vetWoman },
+]
+
+// Collections with FK refs to other cleared collections — must be deleted before media/categories
+// team, equipment → media (required/NOT NULL); services → categories (nullable FK)
+const dependentCollections: CollectionSlug[] = ['team', 'services', 'equipment']
 
 const collections: CollectionSlug[] = [
   'categories',
@@ -46,12 +62,17 @@ export const seed = async ({
     ),
   )
 
+  // Delete collections with FK references to media first, then the rest
+  await Promise.all(
+    dependentCollections.map((collection) => payload.db.deleteMany({ collection, req, where: {} })),
+  )
+
   await Promise.all(
     collections.map((collection) => payload.db.deleteMany({ collection, req, where: {} })),
   )
 
   await Promise.all(
-    collections
+    [...dependentCollections, ...collections]
       .filter((collection) => Boolean(payload.collections[collection]?.config.versions))
       .map((collection) => payload.db.deleteVersions({ collection, req, where: {} })),
   )
@@ -80,10 +101,22 @@ export const seed = async ({
     payload.create({ collection: 'media', data: imageHero1, file: hero1Buffer }),
   ])
 
+  payload.logger.info('— Seeding team photos...')
+
+  const teamPhotoDocs = await Promise.all(
+    TEAM_PHOTOS.map(({ filename, data }) =>
+      payload.create({
+        collection: 'media',
+        data,
+        file: readLocalFile(filename),
+      }),
+    ),
+  )
+
   // Seed vet collections
   const allImages = [image1Doc, image2Doc, image3Doc, imageHomeDoc]
   await seedServices({ payload, req })
-  await seedTeam({ payload, req, images: allImages })
+  await seedTeam({ payload, req, images: teamPhotoDocs })
   await seedEquipment({ payload, req, images: allImages })
 
   payload.logger.info('— Seeding opening hours...')
@@ -218,6 +251,19 @@ export const seed = async ({
   ])
 
   payload.logger.info('Seeded database successfully!')
+}
+
+function readLocalFile(filename: string): File {
+  const __dirname = dirname(fileURLToPath(import.meta.url))
+  const filePath = join(__dirname, filename)
+  const data = readFileSync(filePath)
+  const ext = filename.split('.').pop() ?? 'png'
+  return {
+    name: filename,
+    data,
+    mimetype: `image/${ext}`,
+    size: data.byteLength,
+  }
 }
 
 async function fetchFileByURL(url: string): Promise<File> {

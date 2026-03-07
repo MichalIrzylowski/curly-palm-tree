@@ -72,7 +72,18 @@ export const Pages: CollectionConfig<'pages'> = {
             {
               name: 'layout',
               type: 'blocks',
-              blocks: [HeroBlock, QuickInfoBlock, ServicesHighlightsBlock, TeamTeaserBlock, WhyUsBlock, CallToAction, Content, MediaBlock, Archive, FormBlock],
+              blocks: [
+                HeroBlock,
+                QuickInfoBlock,
+                ServicesHighlightsBlock,
+                TeamTeaserBlock,
+                WhyUsBlock,
+                CallToAction,
+                Content,
+                MediaBlock,
+                Archive,
+                FormBlock,
+              ],
               required: true,
               admin: {
                 initCollapsed: true,

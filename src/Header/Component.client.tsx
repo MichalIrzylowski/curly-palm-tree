@@ -1,5 +1,4 @@
 'use client'
-import { useHeaderTheme } from '@/providers/HeaderTheme'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
@@ -20,23 +19,18 @@ interface HeaderClientProps {
 
 export const HeaderClient: React.FC<HeaderClientProps> = ({ data, contact }) => {
   const [menuOpen, setMenuOpen] = useState(false)
-  const { headerTheme, setHeaderTheme } = useHeaderTheme()
   const pathname = usePathname()
 
   const navItems = data?.navItems || []
   const primaryPhone = contact?.phones?.[0]
 
   useEffect(() => {
-    setHeaderTheme(null)
     setMenuOpen(false)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname])
 
   return (
-    <header
-      className="sticky top-0 z-20 bg-background border-b border-border"
-      {...(headerTheme ? { 'data-theme': headerTheme } : {})}
-    >
+    <header className="sticky top-0 z-20 bg-background border-b border-border">
       <div className="container">
         <div className="py-4 flex items-center justify-between">
           {/* Logo */}

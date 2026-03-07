@@ -167,6 +167,8 @@ export async function seedServices({
 }): Promise<{ categories: Record<string, Category> }> {
   payload.logger.info('— Seeding vet categories...')
 
+  // Delete services before categories — services.category is a FK to categories
+  await payload.db.deleteMany({ collection: 'services', req, where: {} })
   await payload.db.deleteMany({ collection: 'categories', req, where: {} })
 
   const categoryMap: Record<string, Category> = {}
@@ -181,8 +183,6 @@ export async function seedServices({
   }
 
   payload.logger.info('— Seeding services...')
-
-  await payload.db.deleteMany({ collection: 'services', req, where: {} })
 
   for (const service of SERVICES) {
     const category = categoryMap[service.category]
