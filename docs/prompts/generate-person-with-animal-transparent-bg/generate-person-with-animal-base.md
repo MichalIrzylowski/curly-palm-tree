@@ -22,4 +22,13 @@ Composition:
 upper body portrait, centered character.
 
 Background:
-transparent background, PNG with alpha channel, isolated character, no background, no scenery, no shadow, no floor, no environment.
+transparent background, PNG with alpha channel, isolated character.
+Only the background is transparent.
+The character must be fully opaque with solid colors.
+Clean hard vector edges around the entire character.
+No fading into transparency.
+No glow.
+No halo.
+No vignette.
+No soft edge fade.
+No shadow, no floor, no environment.
