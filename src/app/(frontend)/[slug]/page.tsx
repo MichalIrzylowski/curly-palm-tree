@@ -58,7 +58,7 @@ export default async function Page({ params: paramsPromise }: Args) {
   const { layout } = page
 
   return (
-    <article className="pt-16 pb-24">
+    <article className="pb-24">
       <PayloadRedirects disableNotFound url={url} />
 
       {draft && <LivePreviewListener />}

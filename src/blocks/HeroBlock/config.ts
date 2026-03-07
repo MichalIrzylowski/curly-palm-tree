@@ -47,5 +47,22 @@ export const HeroBlock: Block = {
         description: 'Full-bleed background image (clinic exterior or calming animal photo).',
       },
     },
+    {
+      name: 'trustSignals',
+      type: 'array',
+      label: 'Trust signals',
+      admin: {
+        description: 'Short trust bullets shown below the CTAs (e.g. "Doświadczony zespół weterynarzy").',
+      },
+      fields: [
+        {
+          name: 'text',
+          type: 'text',
+          required: true,
+          localized: true,
+          label: 'Text',
+        },
+      ],
+    },
   ],
 }

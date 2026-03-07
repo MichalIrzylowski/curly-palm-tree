@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react'
 
+import { Badge } from '@/components/ui/badge'
+
 type Props = {
   openTime?: string | null
   closeTime?: string | null
@@ -41,12 +43,11 @@ export function OpenBadge({ openTime, closeTime, isClosed }: Props) {
   if (open === null) return null
 
   return (
-    <span
-      className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-semibold ${
-        open ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-      }`}
+    <Badge
+      variant={open ? 'default' : 'destructive'}
+      className={open ? 'border-transparent bg-green-100 text-green-800 hover:bg-green-100' : undefined}
     >
       {open ? 'Otwarte' : 'Zamknięte'}
-    </span>
+    </Badge>
   )
 }

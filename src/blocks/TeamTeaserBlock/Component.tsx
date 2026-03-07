@@ -3,11 +3,14 @@ import Link from 'next/link'
 import Image from 'next/image'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
+import { ArrowRight, UserRound } from 'lucide-react'
 
 import { SectionWrapper } from '@/components/SectionWrapper'
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 
 import type { TeamTeaserBlock as TeamTeaserBlockProps, Team, Media } from '@/payload-types'
-import { SectionHeading } from '@/components/SectionHeading'
 
 export const TeamTeaserBlockComponent: React.FC<TeamTeaserBlockProps> = async ({
   heading,
@@ -19,7 +22,6 @@ export const TeamTeaserBlockComponent: React.FC<TeamTeaserBlockProps> = async ({
   let members: Team[]
 
   if (pinnedMembers && pinnedMembers.length > 0) {
-    // Resolve pinned member IDs to full documents
     members = await Promise.all(
       pinnedMembers.map(async (m) => {
         if (typeof m === 'object' && m !== null) return m as Team
@@ -27,7 +29,6 @@ export const TeamTeaserBlockComponent: React.FC<TeamTeaserBlockProps> = async ({
       }),
     )
   } else {
-    // Fetch all team members sorted by order
     const result = await payload.find({
       collection: 'team',
       sort: 'order',
@@ -38,52 +39,60 @@ export const TeamTeaserBlockComponent: React.FC<TeamTeaserBlockProps> = async ({
 
   return (
     <SectionWrapper>
-      {heading && <SectionHeading>{heading}</SectionHeading>}
+      <div className="mb-10 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <Badge variant="secondary" className="mb-3 text-xs font-medium uppercase tracking-wider">
+            Nasz zespół
+          </Badge>
+          {heading && (
+            <h2 className="font-heading text-3xl font-bold text-foreground md:text-4xl">
+              {heading}
+            </h2>
+          )}
+        </div>
+        <Button asChild variant="outline" size="sm" className="shrink-0 gap-1.5">
+          <Link href="/team">
+            {ctaLabel ?? 'Poznaj nasz zespół'}
+            <ArrowRight className="size-3.5" />
+          </Link>
+        </Button>
+      </div>
 
-      {/* T-01 / T-02: Horizontal photo strip — scrollable on mobile, up to 4 on desktop */}
-      <div className="flex gap-6 overflow-x-auto pb-4 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:overflow-visible sm:pb-0">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {members.map((member) => {
           const photo = member.photo as Media | null
           return (
-            <div
-              key={member.id}
-              className="flex min-w-[200px] flex-col items-center gap-3 sm:min-w-0"
-            >
-              {/* T-01: Photo with correct alt text */}
-              <div className="relative h-40 w-40 overflow-hidden rounded-full bg-muted">
-                {photo?.url ? (
-                  <Image
-                    src={photo.url}
-                    alt={photo.alt ?? member.name}
-                    fill
-                    className="object-cover"
-                    sizes="160px"
-                  />
-                ) : (
-                  <div className="flex h-full w-full items-center justify-center text-4xl text-muted-foreground">
-                    🐾
-                  </div>
-                )}
-              </div>
+            <Link key={member.id} href="/team" className="group">
+              <Card className="h-full overflow-hidden rounded-xl border-border/60 transition-all duration-200 hover:-translate-y-0.5 hover:border-secondary/40 hover:shadow-lg">
+                {/* Photo */}
+                <div className="relative aspect-4/3 w-full overflow-hidden bg-muted">
+                  {photo?.url ? (
+                    <Image
+                      src={photo.url}
+                      alt={photo.alt ?? member.name}
+                      fill
+                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                    />
+                  ) : (
+                    <div className="flex h-full w-full items-center justify-center bg-primary/5 text-primary/30 transition-colors duration-200 group-hover:bg-secondary/10 group-hover:text-secondary/50">
+                      <UserRound className="size-16" strokeWidth={1.25} />
+                    </div>
+                  )}
+                </div>
 
-              {/* T-01: Name + role */}
-              <div className="text-center">
-                <p className="font-semibold">{member.name}</p>
-                <p className="text-sm text-muted-foreground">{member.role}</p>
-              </div>
-            </div>
+                <CardHeader className="pb-1 pt-4">
+                  <CardTitle className="text-base font-semibold leading-snug transition-colors duration-200 group-hover:text-secondary">
+                    {member.name}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CardDescription className="text-sm">{member.role}</CardDescription>
+                </CardContent>
+              </Card>
+            </Link>
           )
         })}
-      </div>
-
-      {/* T-03: Meet the team CTA */}
-      <div className="mt-10 text-center">
-        <Link
-          href="/team"
-          className="inline-block rounded border border-primary px-6 py-2 text-sm font-medium text-primary transition hover:bg-primary hover:text-primary-foreground"
-        >
-          {ctaLabel}
-        </Link>
       </div>
     </SectionWrapper>
   )

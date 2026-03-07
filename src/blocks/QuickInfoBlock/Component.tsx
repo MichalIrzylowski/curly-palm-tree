@@ -43,7 +43,7 @@ export const QuickInfoBlockComponent: React.FC = async () => {
 
   return (
     // Q-05: fixed bottom bar on mobile | Q-06: horizontal strip on desktop (xl+)
-    <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 xl:relative xl:bottom-auto xl:left-auto xl:right-auto xl:z-auto xl:border-b xl:border-t-0">
+    <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/80 xl:relative xl:bottom-auto xl:left-auto xl:right-auto xl:z-auto xl:border-b xl:border-t-0">
       <div className="container flex flex-col gap-2 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4 xl:py-2">
         {/* Q-01: Today's opening hours */}
         {hoursLabel && (
@@ -64,10 +64,7 @@ export const QuickInfoBlockComponent: React.FC = async () => {
         <div className="flex items-center gap-4">
           {/* Q-03: Phone as tel: link */}
           {primaryPhone && (
-            <a
-              href={`tel:${primaryPhone.number}`}
-              className="text-sm font-medium hover:underline"
-            >
+            <a href={`tel:${primaryPhone.number}`} className="text-sm font-medium hover:underline">
               {primaryPhone.number}
             </a>
           )}

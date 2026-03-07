@@ -8,6 +8,8 @@ import { image1 } from './image-1'
 import { image2 } from './image-2'
 import { imageHero1 } from './image-hero-1'
 import { vetMan } from './vet-man'
+import { staff1 } from './staff-1'
+import { staff2 } from './staff-2'
 import { seedEquipment } from './vet-equipment'
 import { seedServices } from './vet-services'
 import { seedTeam } from './vet-team'
@@ -16,7 +18,8 @@ import { seedTeam } from './vet-team'
 // Members are assigned photos by index (cycling if there are fewer photos than members).
 const TEAM_PHOTOS = [
   { filename: 'vet-man.png', data: vetMan },
-  // { filename: 'vet-woman.png', data: vetWoman },
+  { filename: 'staff-1.png', data: staff1 },
+  { filename: 'staff-2.png', data: staff2 },
 ]
 
 // Collections with FK refs to other cleared collections — must be deleted before media/categories

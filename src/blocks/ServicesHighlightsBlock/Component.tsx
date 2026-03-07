@@ -2,6 +2,18 @@ import React from 'react'
 import Link from 'next/link'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
+import {
+  Stethoscope,
+  Scissors,
+  HeartPulse,
+  Syringe,
+  Microscope,
+  Pill,
+  Bandage,
+  PawPrint,
+  ArrowRight,
+  ChevronRight,
+} from 'lucide-react'
 
 import type {
   ServicesHighlightsBlock as ServicesHighlightsBlockProps,
@@ -9,7 +21,9 @@ import type {
 } from '@/payload-types'
 
 import { SectionWrapper } from '@/components/SectionWrapper'
-import { SectionHeading } from '@/components/SectionHeading'
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 
 export const ServicesHighlightsBlockComponent: React.FC<ServicesHighlightsBlockProps> = async ({
   heading,
@@ -17,7 +31,6 @@ export const ServicesHighlightsBlockComponent: React.FC<ServicesHighlightsBlockP
 }) => {
   const payload = await getPayload({ config: configPromise })
 
-  // Resolve IDs to full documents if not already populated
   const resolvedServices: Service[] = await Promise.all(
     (services ?? []).map(async (s) => {
       if (typeof s === 'object' && s !== null) return s as Service
@@ -27,48 +40,52 @@ export const ServicesHighlightsBlockComponent: React.FC<ServicesHighlightsBlockP
   )
 
   return (
-    <SectionWrapper>
-      {/* S-05: Localized heading */}
-      {heading && <SectionHeading>{heading}</SectionHeading>}
-
-      {/* S-01: Service cards grid */}
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        {resolvedServices.map((service) => (
-          // S-02: Card links to services page
-          <Link
-            key={service.id}
-            href={`/services#service-${service.id}`}
-            className="group flex flex-col gap-3 rounded-lg border border-border bg-card p-6 transition hover:shadow-md"
-          >
-            {/* Icon */}
-            {service.icon && (
-              <span className="text-3xl text-primary" aria-hidden="true">
-                {/* Render icon name as accessible text placeholder; swap for Lucide if bundled */}
-                <ServiceIcon name={service.icon} />
-              </span>
-            )}
-
-            {/* Name */}
-            <h3 className="text-lg font-semibold group-hover:text-primary">{service.name}</h3>
-
-            {/* Short description — plain text only */}
-            {service.description && (
-              <p className="line-clamp-3 text-sm text-muted-foreground">
-                {extractPlainText(service.description)}
-              </p>
-            )}
+    <SectionWrapper className="bg-muted/40">
+      <div className="mb-10 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <Badge variant="secondary" className="mb-3 text-xs font-medium uppercase tracking-wider">
+            Nasze usługi
+          </Badge>
+          {heading && (
+            <h2 className="font-heading text-3xl font-bold text-foreground md:text-4xl">
+              {heading}
+            </h2>
+          )}
+        </div>
+        <Button asChild variant="outline" size="sm" className="shrink-0 gap-1.5">
+          <Link href="/services">
+            Zobacz wszystkie
+            <ArrowRight className="size-3.5" />
           </Link>
-        ))}
+        </Button>
       </div>
 
-      {/* S-03: "View all services" link */}
-      <div className="mt-10 text-center">
-        <Link
-          href="/services"
-          className="inline-block rounded border border-primary px-6 py-2 text-sm font-medium text-primary transition hover:bg-primary hover:text-primary-foreground"
-        >
-          Zobacz wszystkie usługi
-        </Link>
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {resolvedServices.map((service) => (
+          <Link key={service.id} href={`/services#service-${service.id}`} className="group">
+            <Card className="h-full rounded-xl border-border/60 transition-all duration-200 hover:-translate-y-0.5 hover:border-secondary/40 hover:shadow-lg">
+              <CardHeader className="pb-3">
+                <div className="mb-3 flex size-11 items-center justify-center rounded-lg bg-primary/8 text-primary transition-colors duration-200 group-hover:bg-secondary/15 group-hover:text-secondary">
+                  <ServiceIcon name={service.icon ?? ''} />
+                </div>
+                <CardTitle className="text-base font-semibold leading-snug transition-colors duration-200 group-hover:text-secondary">
+                  {service.name}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="flex flex-col gap-4">
+                {service.description && (
+                  <CardDescription className="line-clamp-3 text-sm leading-relaxed">
+                    {extractPlainText(service.description)}
+                  </CardDescription>
+                )}
+                <span className="inline-flex items-center gap-1 text-xs font-medium text-muted-foreground/50 transition-colors duration-200 group-hover:text-secondary">
+                  Dowiedz się więcej
+                  <ChevronRight className="size-3" />
+                </span>
+              </CardContent>
+            </Card>
+          </Link>
+        ))}
       </div>
     </SectionWrapper>
   )
@@ -78,7 +95,6 @@ export const ServicesHighlightsBlockComponent: React.FC<ServicesHighlightsBlockP
 // Helpers
 // ---------------------------------------------------------------------------
 
-/** Extract a plain-text snippet from Payload's Lexical rich-text JSON. */
 function extractPlainText(doc: Service['description']): string {
   if (!doc) return ''
   try {
@@ -102,26 +118,18 @@ function collectText(node: LexicalNode): string {
   return ''
 }
 
-/** Minimal icon renderer using a Unicode emoji fallback until Lucide is wired up. */
-const ICON_MAP: Record<string, string> = {
-  stethoscope: '🩺',
-  scissors: '✂️',
-  'heart-pulse': '💓',
-  syringe: '💉',
-  microscope: '🔬',
-  pill: '💊',
-  bandage: '🩹',
-  paw: '🐾',
+const LUCIDE_ICONS: Record<string, React.ElementType> = {
+  stethoscope: Stethoscope,
+  scissors: Scissors,
+  'heart-pulse': HeartPulse,
+  syringe: Syringe,
+  microscope: Microscope,
+  pill: Pill,
+  bandage: Bandage,
+  paw: PawPrint,
 }
 
 function ServiceIcon({ name }: { name: string }) {
-  const emoji = ICON_MAP[name]
-  if (emoji)
-    return (
-      <span role="img" aria-label={name}>
-        {emoji}
-      </span>
-    )
-  // Fallback: first letter of icon name
-  return <span className="font-mono text-sm uppercase">{name.slice(0, 2)}</span>
+  const Icon = LUCIDE_ICONS[name] ?? Stethoscope
+  return <Icon className="size-5" strokeWidth={1.75} aria-hidden="true" />
 }

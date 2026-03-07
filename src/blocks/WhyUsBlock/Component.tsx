@@ -14,9 +14,9 @@ import {
 import type { WhyUsBlock as WhyUsBlockProps } from '@/payload-types'
 
 import { SectionWrapper } from '@/components/SectionWrapper'
-import { SectionHeading } from '@/components/SectionHeading'
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
 
-// Map of supported Lucide icon names → components
 const ICON_MAP: Record<string, React.FC<LucideProps>> = {
   microscope: Microscope,
   users: Users,
@@ -30,34 +30,47 @@ const ICON_MAP: Record<string, React.FC<LucideProps>> = {
 
 export const WhyUsBlockComponent: React.FC<WhyUsBlockProps> = ({ heading, items }) => {
   return (
-    <SectionWrapper>
-      {heading && <SectionHeading>{heading}</SectionHeading>}
+    <SectionWrapper className="bg-muted/40">
+      <div className="mb-10">
+        <Badge variant="secondary" className="mb-3 text-xs font-medium uppercase tracking-wider">
+          Dlaczego my
+        </Badge>
+        {heading && (
+          <h2 className="font-heading text-3xl font-bold text-foreground md:text-4xl">{heading}</h2>
+        )}
+      </div>
 
-      <div className="grid gap-8 sm:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {(items ?? []).map((item, index) => {
           const IconComponent = item.icon ? ICON_MAP[item.icon] : null
 
           return (
-            <div key={index} className="flex flex-col items-center gap-4 text-center">
-              {/* W-03: 24px Lucide icon in secondary colour; emoji fallback */}
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-secondary/10">
-                {IconComponent ? (
-                  <IconComponent size={24} className="text-secondary" aria-hidden="true" />
-                ) : item.icon ? (
-                  <span className="text-2xl" role="img" aria-label={item.icon}>
-                    🐾
-                  </span>
-                ) : null}
-              </div>
-
-              {/* W-01: Heading */}
-              {item.heading && <h3 className="text-lg font-semibold">{item.heading}</h3>}
-
-              {/* W-01: Description ≤ 30 words */}
+            <Card
+              key={index}
+              className="rounded-xl border-border/60 transition-all duration-200 hover:-translate-y-0.5 hover:border-secondary/40 hover:shadow-lg"
+            >
+              <CardHeader className="pb-3">
+                <div className="mb-3 flex size-11 items-center justify-center rounded-lg bg-primary/8 text-primary">
+                  {IconComponent ? (
+                    <IconComponent className="size-5" strokeWidth={1.75} aria-hidden="true" />
+                  ) : (
+                    <PawPrint className="size-5" strokeWidth={1.75} aria-hidden="true" />
+                  )}
+                </div>
+                {item.heading && (
+                  <CardTitle className="text-base font-semibold leading-snug">
+                    {item.heading}
+                  </CardTitle>
+                )}
+              </CardHeader>
               {item.description && (
-                <p className="text-sm text-muted-foreground">{item.description}</p>
+                <CardContent>
+                  <CardDescription className="text-sm leading-relaxed">
+                    {item.description}
+                  </CardDescription>
+                </CardContent>
               )}
-            </div>
+            </Card>
           )
         })}
       </div>

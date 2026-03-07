@@ -224,6 +224,15 @@ export interface HeroBlock {
    * Full-bleed background image (clinic exterior or calming animal photo).
    */
   media?: (number | null) | Media;
+  /**
+   * Short trust bullets shown below the CTAs (e.g. "Doświadczony zespół weterynarzy").
+   */
+  trustSignals?:
+    | {
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'heroBlock';
@@ -1294,6 +1303,12 @@ export interface HeroBlockSelect<T extends boolean = true> {
   tagline?: T;
   primaryCtaLabel?: T;
   media?: T;
+  trustSignals?:
+    | T
+    | {
+        text?: T;
+        id?: T;
+      };
   id?: T;
   blockName?: T;
 }
