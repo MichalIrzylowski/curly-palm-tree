@@ -70,9 +70,9 @@
 
 | Property | Value | Rationale |
 |----------|-------|-----------|
-| Border radius | `4px` (0.25rem) | Sharp, clinical, professional |
-| Card radius | `6px` (0.375rem) | Slight softening for content cards |
-| Button radius | `4px` | Consistent with base radius |
+| Border radius | `8px` (0.5rem) | Approachable, modern — not clinical/sharp |
+| Card radius | `12px` (0.75rem) | Soft, friendly cards consistent with illustrated aesthetic |
+| Button radius | `8px` | Consistent with base radius |
 | Section padding | `80px` vertical (desktop), `48px` (mobile) | Generous white space |
 | Grid | 12-column, max-width 1280px | Existing container system |
 
@@ -87,13 +87,15 @@
 
 ---
 
-## 5. Imagery & Photography
+## 5. Imagery & Illustration
 
-- **Subject:** Animals (dogs, cats, small pets) in clinical or calm settings
-- **Style:** Well-lit, natural colours, clean backgrounds — no stock-photo clichés
+- **Subject:** Animals (dogs, cats, small pets) alongside people (owners, vets) — warm, caring interactions
+- **Style:** Two valid approaches, used consistently per section:
+  1. **Illustration** — Flat/semi-realistic illustrated characters (people + animals). Warm, friendly, not cartoony. Used in hero and teaser sections. Palette should harmonise with brand teal and navy.
+  2. **Photography** — Well-lit, natural colours, clean backgrounds. Used for staff headshots and equipment.
 - **Staff photos:** Professional headshots, consistent neutral background (light grey or white)
 - **Equipment photos:** Close-up, clean, modern — emphasise precision
-- **Avoid:** Cartoon/clipart animals, overly bright saturated edits, anything that looks scary or sterile
+- **Avoid:** Clip-art-quality stock icons, overly bright saturated edits, anything that looks scary or sterile; do not mix illustration and photo styles within the same section
 
 ---
 
@@ -120,5 +122,5 @@
 - CSS custom properties defined in `src/app/(frontend)/globals.css`
 - Fonts loaded via `next/font/google` in `src/app/(frontend)/layout.tsx`
 - Tailwind tokens extend from CSS variables — add classes like `bg-primary`, `text-accent`
-- `--radius` set to `0.25rem`; use `--radius-card: 0.375rem` for cards
+- `--radius` set to `0.5rem`; use `--radius-card: 0.75rem` for cards
 - Dark mode: not required for v1 (medical/clinic sites are typically light-only)

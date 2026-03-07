@@ -13,6 +13,9 @@ import {
 
 import type { WhyUsBlock as WhyUsBlockProps } from '@/payload-types'
 
+import { SectionWrapper } from '@/components/SectionWrapper'
+import { SectionHeading } from '@/components/SectionHeading'
+
 // Map of supported Lucide icon names → components
 const ICON_MAP: Record<string, React.FC<LucideProps>> = {
   microscope: Microscope,
@@ -27,10 +30,8 @@ const ICON_MAP: Record<string, React.FC<LucideProps>> = {
 
 export const WhyUsBlockComponent: React.FC<WhyUsBlockProps> = ({ heading, items }) => {
   return (
-    <section className="container py-16">
-      {heading && (
-        <h2 className="mb-10 text-center text-3xl font-bold">{heading}</h2>
-      )}
+    <SectionWrapper>
+      {heading && <SectionHeading>{heading}</SectionHeading>}
 
       <div className="grid gap-8 sm:grid-cols-3">
         {(items ?? []).map((item, index) => {
@@ -50,9 +51,7 @@ export const WhyUsBlockComponent: React.FC<WhyUsBlockProps> = ({ heading, items 
               </div>
 
               {/* W-01: Heading */}
-              {item.heading && (
-                <h3 className="text-lg font-semibold">{item.heading}</h3>
-              )}
+              {item.heading && <h3 className="text-lg font-semibold">{item.heading}</h3>}
 
               {/* W-01: Description ≤ 30 words */}
               {item.description && (
@@ -62,6 +61,6 @@ export const WhyUsBlockComponent: React.FC<WhyUsBlockProps> = ({ heading, items 
           )
         })}
       </div>
-    </section>
+    </SectionWrapper>
   )
 }

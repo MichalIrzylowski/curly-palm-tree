@@ -88,7 +88,7 @@ Pet owners searching for a veterinary clinic online face a high-anxiety decision
 | H-02 | Display the brand tagline below the heading (PL: *Dbamy o Twoje zwierzę — profesjonalnie i z troską.* / EN: *Expert care, every visit.*) | Must | Tagline visible in both locales; sourced from Payload field. |
 | H-03 | Show a primary CTA button "Umów wizytę / Book a visit" linking to `/contact`. | Must | Button renders, navigates to `/contact`. |
 | H-04 | Show a secondary CTA (phone number as `tel:` link) beside or below the primary CTA. | Must | Phone number is clickable on mobile; sourced from `Contact` global. |
-| H-05 | Display a full-bleed hero background image (clinic exterior or calming animal photo). | Should | Image has descriptive `alt` text; uses `next/image` with priority loading. |
+| H-05 | Display a hero visual — either a full-bleed background photo (clinic exterior / animal) or an inline illustrated scene (people + animals, flat/semi-realistic style). | Should | Visual has descriptive `alt` text; uses `next/image` with priority loading. |
 | H-06 | Hero content is editable via the layout builder (`HeroBlock`) in Payload. | Must | Editor can change heading, tagline, CTA label, and image without code changes. |
 
 ### 6.2 Section: Quick-info Bar
@@ -149,7 +149,7 @@ Pet owners searching for a veterinary clinic online face a high-anxiety decision
 
 **Typography:** Plus Jakarta Sans for all headings; Inter for body. `h1` at 3.5rem desktop / 2.25rem mobile.
 
-**Shape:** 4px base border radius; 6px for content cards.
+**Shape:** 8px base border radius; 12px for content cards.
 
 **Section order (top to bottom):**
 1. Hero

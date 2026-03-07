@@ -4,7 +4,10 @@ import Image from 'next/image'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 
+import { SectionWrapper } from '@/components/SectionWrapper'
+
 import type { TeamTeaserBlock as TeamTeaserBlockProps, Team, Media } from '@/payload-types'
+import { SectionHeading } from '@/components/SectionHeading'
 
 export const TeamTeaserBlockComponent: React.FC<TeamTeaserBlockProps> = async ({
   heading,
@@ -34,10 +37,8 @@ export const TeamTeaserBlockComponent: React.FC<TeamTeaserBlockProps> = async ({
   }
 
   return (
-    <section className="container py-16">
-      {heading && (
-        <h2 className="mb-10 text-center text-3xl font-bold">{heading}</h2>
-      )}
+    <SectionWrapper>
+      {heading && <SectionHeading>{heading}</SectionHeading>}
 
       {/* T-01 / T-02: Horizontal photo strip — scrollable on mobile, up to 4 on desktop */}
       <div className="flex gap-6 overflow-x-auto pb-4 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:overflow-visible sm:pb-0">
@@ -84,6 +85,6 @@ export const TeamTeaserBlockComponent: React.FC<TeamTeaserBlockProps> = async ({
           {ctaLabel}
         </Link>
       </div>
-    </section>
+    </SectionWrapper>
   )
 }

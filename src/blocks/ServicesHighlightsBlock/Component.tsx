@@ -3,7 +3,13 @@ import Link from 'next/link'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 
-import type { ServicesHighlightsBlock as ServicesHighlightsBlockProps, Service } from '@/payload-types'
+import type {
+  ServicesHighlightsBlock as ServicesHighlightsBlockProps,
+  Service,
+} from '@/payload-types'
+
+import { SectionWrapper } from '@/components/SectionWrapper'
+import { SectionHeading } from '@/components/SectionHeading'
 
 export const ServicesHighlightsBlockComponent: React.FC<ServicesHighlightsBlockProps> = async ({
   heading,
@@ -21,11 +27,9 @@ export const ServicesHighlightsBlockComponent: React.FC<ServicesHighlightsBlockP
   )
 
   return (
-    <section className="container py-16">
+    <SectionWrapper>
       {/* S-05: Localized heading */}
-      {heading && (
-        <h2 className="mb-10 text-center text-3xl font-bold">{heading}</h2>
-      )}
+      {heading && <SectionHeading>{heading}</SectionHeading>}
 
       {/* S-01: Service cards grid */}
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -66,7 +70,7 @@ export const ServicesHighlightsBlockComponent: React.FC<ServicesHighlightsBlockP
           Zobacz wszystkie usługi
         </Link>
       </div>
-    </section>
+    </SectionWrapper>
   )
 }
 
@@ -112,7 +116,12 @@ const ICON_MAP: Record<string, string> = {
 
 function ServiceIcon({ name }: { name: string }) {
   const emoji = ICON_MAP[name]
-  if (emoji) return <span role="img" aria-label={name}>{emoji}</span>
+  if (emoji)
+    return (
+      <span role="img" aria-label={name}>
+        {emoji}
+      </span>
+    )
   // Fallback: first letter of icon name
   return <span className="font-mono text-sm uppercase">{name.slice(0, 2)}</span>
 }
