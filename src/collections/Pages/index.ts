@@ -7,6 +7,7 @@ import { CallToAction } from '../../blocks/CallToAction/config'
 import { Content } from '../../blocks/Content/config'
 import { FormBlock } from '../../blocks/Form/config'
 import { HeroBlock } from '../../blocks/HeroBlock/config'
+import { MapBlock } from '../../blocks/MapBlock/config'
 import { MediaBlock } from '../../blocks/MediaBlock/config'
 import { QuickInfoBlock } from '../../blocks/QuickInfoBlock/config'
 import { ServicesHighlightsBlock } from '../../blocks/ServicesHighlightsBlock/config'
@@ -78,6 +79,7 @@ export const Pages: CollectionConfig<'pages'> = {
                 ServicesHighlightsBlock,
                 TeamTeaserBlock,
                 WhyUsBlock,
+                MapBlock,
                 CallToAction,
                 Content,
                 MediaBlock,

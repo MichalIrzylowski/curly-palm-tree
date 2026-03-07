@@ -174,6 +174,7 @@ export interface Page {
     | ServicesHighlightsBlock
     | TeamTeaserBlock
     | WhyUsBlock
+    | MapBlock
     | CallToActionBlock
     | ContentBlock
     | {
@@ -534,6 +535,15 @@ export interface WhyUsBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'whyUsBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "MapBlock".
+ */
+export interface MapBlock {
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'mapBlock';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1274,6 +1284,7 @@ export interface PagesSelect<T extends boolean = true> {
         servicesHighlightsBlock?: T | ServicesHighlightsBlockSelect<T>;
         teamTeaserBlock?: T | TeamTeaserBlockSelect<T>;
         whyUsBlock?: T | WhyUsBlockSelect<T>;
+        mapBlock?: T | MapBlockSelect<T>;
         cta?: T | CallToActionBlockSelect<T>;
         content?: T | ContentBlockSelect<T>;
         mediaBlock?: T | MediaBlockSelect<T>;
@@ -1355,6 +1366,14 @@ export interface WhyUsBlockSelect<T extends boolean = true> {
         description?: T;
         id?: T;
       };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "MapBlock_select".
+ */
+export interface MapBlockSelect<T extends boolean = true> {
   id?: T;
   blockName?: T;
 }

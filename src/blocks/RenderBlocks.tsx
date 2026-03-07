@@ -7,6 +7,7 @@ import { CallToActionBlock } from '@/blocks/CallToAction/Component'
 import { ContentBlock } from '@/blocks/Content/Component'
 import { FormBlock } from '@/blocks/Form/Component'
 import { HeroBlockComponent } from '@/blocks/HeroBlock/Component'
+import { MapBlockComponent } from '@/blocks/MapBlock/Component'
 import { MediaBlock } from '@/blocks/MediaBlock/Component'
 import { QuickInfoBlockComponent } from '@/blocks/QuickInfoBlock/Component'
 import { ServicesHighlightsBlockComponent } from '@/blocks/ServicesHighlightsBlock/Component'
@@ -19,6 +20,7 @@ const blockComponents = {
   cta: CallToActionBlock,
   formBlock: FormBlock,
   heroBlock: HeroBlockComponent,
+  mapBlock: MapBlockComponent,
   mediaBlock: MediaBlock,
   quickInfoBlock: QuickInfoBlockComponent,
   servicesHighlightsBlock: ServicesHighlightsBlockComponent,
