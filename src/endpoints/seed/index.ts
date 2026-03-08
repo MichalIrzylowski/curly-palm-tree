@@ -228,6 +228,50 @@ export const seed = async ({
     },
   })
 
+  payload.logger.info('— Seeding team page...')
+
+  const existingTeamPage = await payload.find({
+    collection: 'pages',
+    where: { slug: { equals: 'team' } },
+    limit: 1,
+  })
+
+  if (existingTeamPage.docs.length === 0) {
+    const teamPage = await payload.create({
+      collection: 'pages',
+      locale: 'pl',
+      data: {
+        title: 'Nasz Zespół',
+        slug: 'team',
+        layout: [
+          {
+            blockType: 'teamGrid',
+            heading: 'Nasz Zespół',
+            description: 'Poznaj weterynarzy i specjalistów, którzy dbają o zdrowie Twojego zwierzęcia.',
+          },
+        ],
+        meta: {
+          title: 'Nasz Zespół',
+          description: 'Poznaj zespół weterynarzy Lecznicy Weterynaryjnej w Sopocie.',
+        },
+        _status: 'published',
+      },
+    })
+
+    await payload.update({
+      collection: 'pages',
+      id: teamPage.id,
+      locale: 'en',
+      data: {
+        title: 'Our Team',
+        meta: {
+          title: 'Our Team',
+          description: 'Meet the veterinary team at our clinic in Sopot.',
+        },
+      },
+    })
+  }
+
   payload.logger.info('— Seeding header & footer nav...')
 
   await Promise.all([

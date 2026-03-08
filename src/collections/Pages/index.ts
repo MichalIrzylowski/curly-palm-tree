@@ -12,6 +12,7 @@ import { MediaBlock } from '../../blocks/MediaBlock/config'
 import { QuickInfoBlock } from '../../blocks/QuickInfoBlock/config'
 import { ServicesHighlightsBlock } from '../../blocks/ServicesHighlightsBlock/config'
 import { TeamTeaserBlock } from '../../blocks/TeamTeaserBlock/config'
+import { TeamGridBlock } from '../../blocks/TeamGrid/config'
 import { WhyUsBlock } from '../../blocks/WhyUsBlock/config'
 import { slugField } from 'payload'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
@@ -77,6 +78,7 @@ export const Pages: CollectionConfig<'pages'> = {
                 HeroBlock,
                 QuickInfoBlock,
                 ServicesHighlightsBlock,
+                TeamGridBlock,
                 TeamTeaserBlock,
                 WhyUsBlock,
                 MapBlock,

@@ -172,6 +172,13 @@ export interface Page {
     | HeroBlock
     | QuickInfoBlock
     | ServicesHighlightsBlock
+    | {
+        heading?: string | null;
+        description?: string | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'teamGrid';
+      }
     | TeamTeaserBlock
     | WhyUsBlock
     | MapBlock
@@ -1282,6 +1289,14 @@ export interface PagesSelect<T extends boolean = true> {
         heroBlock?: T | HeroBlockSelect<T>;
         quickInfoBlock?: T | QuickInfoBlockSelect<T>;
         servicesHighlightsBlock?: T | ServicesHighlightsBlockSelect<T>;
+        teamGrid?:
+          | T
+          | {
+              heading?: T;
+              description?: T;
+              id?: T;
+              blockName?: T;
+            };
         teamTeaserBlock?: T | TeamTeaserBlockSelect<T>;
         whyUsBlock?: T | WhyUsBlockSelect<T>;
         mapBlock?: T | MapBlockSelect<T>;
