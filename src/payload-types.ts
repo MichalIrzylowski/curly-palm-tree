@@ -177,6 +177,13 @@ export interface Page {
         description?: string | null;
         id?: string | null;
         blockName?: string | null;
+        blockType: 'serviceGrid';
+      }
+    | {
+        heading?: string | null;
+        description?: string | null;
+        id?: string | null;
+        blockName?: string | null;
         blockType: 'teamGrid';
       }
     | TeamTeaserBlock
@@ -422,6 +429,10 @@ export interface Service {
    * Display order (lower number = shown first)
    */
   order?: number | null;
+  /**
+   * Show on homepage highlight block
+   */
+  featured?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1289,6 +1300,14 @@ export interface PagesSelect<T extends boolean = true> {
         heroBlock?: T | HeroBlockSelect<T>;
         quickInfoBlock?: T | QuickInfoBlockSelect<T>;
         servicesHighlightsBlock?: T | ServicesHighlightsBlockSelect<T>;
+        serviceGrid?:
+          | T
+          | {
+              heading?: T;
+              description?: T;
+              id?: T;
+              blockName?: T;
+            };
         teamGrid?:
           | T
           | {
@@ -1657,6 +1676,7 @@ export interface ServicesSelect<T extends boolean = true> {
   priceText?: T;
   category?: T;
   order?: T;
+  featured?: T;
   updatedAt?: T;
   createdAt?: T;
 }

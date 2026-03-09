@@ -59,5 +59,14 @@ export const Services: CollectionConfig = {
         position: 'sidebar',
       },
     },
+    {
+      name: 'featured',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: {
+        description: 'Show on homepage highlight block',
+        position: 'sidebar',
+      },
+    },
   ],
 }

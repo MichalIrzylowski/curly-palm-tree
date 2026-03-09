@@ -10,6 +10,7 @@ import { HeroBlockComponent } from '@/blocks/HeroBlock/Component'
 import { MapBlockComponent } from '@/blocks/MapBlock/Component'
 import { MediaBlock } from '@/blocks/MediaBlock/Component'
 import { QuickInfoBlockComponent } from '@/blocks/QuickInfoBlock/Component'
+import { ServiceGridBlock as ServiceGridComponent } from '@/blocks/ServiceGridBlock/Component'
 import { ServicesHighlightsBlockComponent } from '@/blocks/ServicesHighlightsBlock/Component'
 import { TeamGridBlock as TeamGridComponent } from '@/blocks/TeamGrid/Component'
 import { TeamTeaserBlockComponent } from '@/blocks/TeamTeaserBlock/Component'
@@ -24,6 +25,7 @@ const blockComponents = {
   mapBlock: MapBlockComponent,
   mediaBlock: MediaBlock,
   quickInfoBlock: QuickInfoBlockComponent,
+  serviceGrid: ServiceGridComponent,
   servicesHighlightsBlock: ServicesHighlightsBlockComponent,
   teamGrid: TeamGridComponent,
   teamTeaserBlock: TeamTeaserBlockComponent,

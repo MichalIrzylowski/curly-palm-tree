@@ -10,6 +10,7 @@ import { HeroBlock } from '../../blocks/HeroBlock/config'
 import { MapBlock } from '../../blocks/MapBlock/config'
 import { MediaBlock } from '../../blocks/MediaBlock/config'
 import { QuickInfoBlock } from '../../blocks/QuickInfoBlock/config'
+import { ServiceGridBlock } from '../../blocks/ServiceGridBlock/config'
 import { ServicesHighlightsBlock } from '../../blocks/ServicesHighlightsBlock/config'
 import { TeamTeaserBlock } from '../../blocks/TeamTeaserBlock/config'
 import { TeamGridBlock } from '../../blocks/TeamGrid/config'
@@ -78,6 +79,7 @@ export const Pages: CollectionConfig<'pages'> = {
                 HeroBlock,
                 QuickInfoBlock,
                 ServicesHighlightsBlock,
+                ServiceGridBlock,
                 TeamGridBlock,
                 TeamTeaserBlock,
                 WhyUsBlock,

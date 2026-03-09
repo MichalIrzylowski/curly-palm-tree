@@ -4,6 +4,16 @@ import type { Category } from '@/payload-types'
 
 faker.seed(43)
 
+interface ServiceData {
+  name: { pl: string; en: string }
+  description: { pl: string; en: string }
+  icon: string
+  priceText: { pl: string; en: string }
+  category: string
+  order: number
+  featured?: boolean
+}
+
 function richText(text: string) {
   return {
     root: {
@@ -45,7 +55,7 @@ export const VET_CATEGORIES = [
   { pl: 'Specjalistyczne', en: 'Specialist' },
 ]
 
-const SERVICES = [
+const SERVICES: ServiceData[] = [
   {
     name: { pl: 'Konsultacja weterynaryjna', en: 'Veterinary Consultation' },
     description: {
@@ -56,6 +66,7 @@ const SERVICES = [
     priceText: { pl: 'od 80 zł', en: 'from 80 PLN' },
     category: 'Profilaktyka',
     order: 1,
+    featured: true,
   },
   {
     name: { pl: 'Szczepienia', en: 'Vaccinations' },
@@ -67,6 +78,7 @@ const SERVICES = [
     priceText: { pl: 'od 60 zł', en: 'from 60 PLN' },
     category: 'Profilaktyka',
     order: 2,
+    featured: true,
   },
   {
     name: { pl: 'Diagnostyka USG', en: 'Ultrasound Diagnostics' },
@@ -78,6 +90,7 @@ const SERVICES = [
     priceText: { pl: 'od 120 zł', en: 'from 120 PLN' },
     category: 'Diagnostyka',
     order: 3,
+    featured: true,
   },
   {
     name: { pl: 'Rentgenografia', en: 'X-Ray Imaging' },
@@ -89,6 +102,7 @@ const SERVICES = [
     priceText: { pl: 'od 100 zł', en: 'from 100 PLN' },
     category: 'Diagnostyka',
     order: 4,
+    featured: true,
   },
   {
     name: { pl: 'Badania laboratoryjne', en: 'Laboratory Tests' },
@@ -174,7 +188,7 @@ export async function seedServices({
   const categoryMap: Record<string, Category> = {}
   for (const cat of VET_CATEGORIES) {
     const slug = cat.pl.toLowerCase().replace(/\s+/g, '-')
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+     
     const doc = await payload.create({
       collection: 'categories',
       data: { title: cat.pl, slug } as any,
@@ -197,6 +211,7 @@ export async function seedServices({
         priceText: service.priceText.pl,
         category: category?.id ?? null,
         order: service.order,
+        featured: service.featured ?? false,
       },
     })
 

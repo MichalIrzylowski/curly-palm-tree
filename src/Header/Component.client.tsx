@@ -26,7 +26,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, contact }) => 
 
   useEffect(() => {
     setMenuOpen(false)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
   }, [pathname])
 
   return (
