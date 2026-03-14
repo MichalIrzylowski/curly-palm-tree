@@ -188,6 +188,7 @@ export interface Page {
       }
     | TeamTeaserBlock
     | WhyUsBlock
+    | EquipmentHighlightBlock
     | MapBlock
     | CallToActionBlock
     | ContentBlock
@@ -553,6 +554,16 @@ export interface WhyUsBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'whyUsBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "EquipmentHighlightBlock".
+ */
+export interface EquipmentHighlightBlock {
+  heading?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'equipmentHighlightBlock';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1318,6 +1329,7 @@ export interface PagesSelect<T extends boolean = true> {
             };
         teamTeaserBlock?: T | TeamTeaserBlockSelect<T>;
         whyUsBlock?: T | WhyUsBlockSelect<T>;
+        equipmentHighlightBlock?: T | EquipmentHighlightBlockSelect<T>;
         mapBlock?: T | MapBlockSelect<T>;
         cta?: T | CallToActionBlockSelect<T>;
         content?: T | ContentBlockSelect<T>;
@@ -1400,6 +1412,15 @@ export interface WhyUsBlockSelect<T extends boolean = true> {
         description?: T;
         id?: T;
       };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "EquipmentHighlightBlock_select".
+ */
+export interface EquipmentHighlightBlockSelect<T extends boolean = true> {
+  heading?: T;
   id?: T;
   blockName?: T;
 }

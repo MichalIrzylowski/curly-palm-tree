@@ -71,6 +71,10 @@ Required (see `.env.example`):
 - `CRON_SECRET` — authenticates Vercel cron jobs
 - `PREVIEW_SECRET` — draft preview validation
 
+## Markdown Style
+
+Never use markdown tables in any `.md` files. Use bullet lists or plain prose instead.
+
 ## UI Copy
 
 Never use task names, comments, or spec labels as user-visible string literals. All frontend copy must be either a localized CMS field or an explicit Polish-default hardcoded string.
