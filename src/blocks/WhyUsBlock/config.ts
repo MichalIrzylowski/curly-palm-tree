@@ -44,7 +44,9 @@ export const WhyUsBlock: Block = {
           type: 'text',
           label: 'Icon name (Lucide)',
           admin: {
-            description: 'Lucide icon name, e.g. microscope, users, paw-print',
+            components: {
+              Field: '@/components/IconPickerField#IconPickerField',
+            },
           },
         },
         {

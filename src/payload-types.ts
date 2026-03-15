@@ -417,9 +417,6 @@ export interface Service {
     };
     [k: string]: unknown;
   } | null;
-  /**
-   * Lucide icon name (e.g. "stethoscope", "scissors", "heart-pulse")
-   */
   icon?: string | null;
   /**
    * e.g. "Ask for pricing" or "from 80 zł"
@@ -539,9 +536,6 @@ export interface WhyUsBlock {
   heading?: string | null;
   items?:
     | {
-        /**
-         * Lucide icon name, e.g. microscope, users, paw-print
-         */
         icon?: string | null;
         heading: string;
         /**

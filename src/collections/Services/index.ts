@@ -31,7 +31,9 @@ export const Services: CollectionConfig = {
       name: 'icon',
       type: 'text',
       admin: {
-        description: 'Lucide icon name (e.g. "stethoscope", "scissors", "heart-pulse")',
+        components: {
+          Field: '@/components/IconPickerField#IconPickerField',
+        },
       },
     },
     {
