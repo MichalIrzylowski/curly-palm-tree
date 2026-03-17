@@ -28,4 +28,7 @@ export async function clearData(payload: Payload, req: PayloadRequest): Promise<
   await payload.db.deleteMany({ collection: 'team', req, where: {} })
   await payload.db.deleteMany({ collection: 'equipment', req, where: {} })
   await payload.db.deleteMany({ collection: 'media', req, where: {} })
+  // services must be deleted before categories due to FK constraint
+  await payload.db.deleteMany({ collection: 'services', req, where: {} })
+  await payload.db.deleteMany({ collection: 'categories', req, where: {} })
 }

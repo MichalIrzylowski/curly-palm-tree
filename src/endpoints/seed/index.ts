@@ -1,6 +1,7 @@
 import type { Payload, PayloadRequest } from 'payload'
 
 import { seedTeam } from './vet-team'
+import { seedCategories } from './vet-categories'
 import { seedServices } from './vet-services'
 import { seedEquipment } from './vet-equipment'
 import { clearData } from './clear-data'
@@ -24,7 +25,8 @@ export async function seed({
   const { staffImages } = await seedMedia(payload)
 
   // 3. Seed collections
-  await seedServices({ payload, req })
+  const categories = await seedCategories({ payload, req })
+  await seedServices({ payload, req, categories })
   await seedEquipment({ payload, req, images: staffImages })
   await seedTeam({ payload, req, images: staffImages })
 

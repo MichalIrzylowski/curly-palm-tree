@@ -191,14 +191,10 @@ export async function seedPages(
       _status: 'published',
       layout: [
         {
-          blockType: 'heroBlock',
-          heading: 'Nasze usługi',
-          tagline: 'Kompleksowa opieka weterynaryjna dla Twojego zwierzęcia.',
-        },
-        {
           blockType: 'serviceGrid',
           heading: 'Wszystkie usługi',
-          description: 'Oferujemy szeroki zakres usług weterynaryjnych — od profilaktyki po zaawansowaną diagnostykę i leczenie.',
+          description:
+            'Oferujemy szeroki zakres usług weterynaryjnych — od profilaktyki po zaawansowaną diagnostykę i leczenie.',
         },
         {
           blockType: 'cta',
@@ -230,16 +226,11 @@ export async function seedPages(
       title: 'Services',
       layout: [
         {
-          id: sp0.id,
-          blockType: 'heroBlock',
-          heading: 'Our services',
-          tagline: 'Comprehensive veterinary care for your pet.',
-        },
-        {
           id: sp1.id,
           blockType: 'serviceGrid',
           heading: 'All services',
-          description: 'We offer a wide range of veterinary services — from preventive care to advanced diagnostics and treatment.',
+          description:
+            'We offer a wide range of veterinary services — from preventive care to advanced diagnostics and treatment.',
         },
         {
           id: sp2.id,
@@ -270,18 +261,16 @@ export async function seedPages(
       _status: 'published',
       layout: [
         {
-          blockType: 'heroBlock',
-          heading: 'Nasz zespół',
-          tagline: 'Poznaj lekarzy i specjalistów, którzy dbają o Twoje zwierzę.',
-        },
-        {
           blockType: 'teamGrid',
           heading: 'Lekarze i specjaliści',
-          description: 'Nasi weterynarze posiadają wieloletnie doświadczenie i pasję do pracy ze zwierzętami.',
+          description:
+            'Nasi weterynarze posiadają wieloletnie doświadczenie i pasję do pracy ze zwierzętami.',
         },
         {
           blockType: 'cta',
-          richText: richText('Umów wizytę i powierz opiekę nad swoim zwierzęciem naszym specjalistom.'),
+          richText: richText(
+            'Umów wizytę i powierz opiekę nad swoim zwierzęciem naszym specjalistom.',
+          ),
           links: [
             {
               link: {
@@ -297,7 +286,6 @@ export async function seedPages(
     } as any,
   })
 
-  const tp0 = (teamPage.layout as any[])[0] ?? {}
   const tp1 = (teamPage.layout as any[])[1] ?? {}
   const tp2 = (teamPage.layout as any[])[2] ?? {}
 
@@ -309,21 +297,18 @@ export async function seedPages(
       title: 'Team',
       layout: [
         {
-          id: tp0.id,
-          blockType: 'heroBlock',
-          heading: 'Our team',
-          tagline: 'Meet the vets and specialists who care for your pet.',
-        },
-        {
           id: tp1.id,
           blockType: 'teamGrid',
           heading: 'Vets and specialists',
-          description: 'Our veterinarians bring years of experience and a genuine passion for working with animals.',
+          description:
+            'Our veterinarians bring years of experience and a genuine passion for working with animals.',
         },
         {
           id: tp2.id,
           blockType: 'cta',
-          richText: richText('Book an appointment and put your pet in the hands of our specialists.'),
+          richText: richText(
+            'Book an appointment and put your pet in the hands of our specialists.',
+          ),
           links: [
             {
               link: {
@@ -347,10 +332,7 @@ export async function seedPages(
       title: 'Kontakt',
       slug: 'contact',
       _status: 'published',
-      layout: [
-        { blockType: 'heroBlock', heading: 'Kontakt' },
-        { blockType: 'mapBlock' },
-      ],
+      layout: [{ blockType: 'mapBlock' }],
     } as any,
   })
 
@@ -363,10 +345,7 @@ export async function seedPages(
     locale: 'en',
     data: {
       title: 'Contact',
-      layout: [
-        { id: cb.id, blockType: 'heroBlock', heading: 'Contact' },
-        { id: cmb.id, blockType: 'mapBlock' },
-      ],
+      layout: [{ id: cmb.id, blockType: 'mapBlock' }],
     } as any,
   })
 }

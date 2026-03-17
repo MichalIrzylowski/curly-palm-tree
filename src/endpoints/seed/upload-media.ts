@@ -44,6 +44,31 @@ export async function seedMedia(payload: Payload): Promise<{
     'image/png',
   )
 
+  const staff3Media = await uploadImage(
+    payload,
+    path.resolve(__dirname, 'staff-3.png'),
+    { alt: 'Zdjęcie członka zespołu' },
+    'image/png',
+  )
+  const staff4Media = await uploadImage(
+    payload,
+    path.resolve(__dirname, 'staff-4.png'),
+    { alt: 'Zdjęcie członka zespołu' },
+    'image/png',
+  )
+  const staff5Media = await uploadImage(
+    payload,
+    path.resolve(__dirname, 'staff-5.png'),
+    { alt: 'Zdjęcie członka zespołu' },
+    'image/png',
+  )
+  const staff6Media = await uploadImage(
+    payload,
+    path.resolve(__dirname, 'staff-6.png'),
+    { alt: 'Zdjęcie członka zespołu' },
+    'image/png',
+  )
+
   const vetManMedia = await uploadImage(
     payload,
     path.resolve(__dirname, 'vet-man.png'),
@@ -51,7 +76,15 @@ export async function seedMedia(payload: Payload): Promise<{
     'image/png',
   )
 
-  const staffImages: Media[] = [staff1Media, staff2Media, vetManMedia]
+  const staffImages: Media[] = [
+    staff1Media,
+    staff2Media,
+    vetManMedia,
+    staff3Media,
+    staff4Media,
+    staff5Media,
+    staff6Media,
+  ]
 
   return { staffImages }
 }

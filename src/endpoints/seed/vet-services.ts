@@ -1,6 +1,5 @@
 import { faker } from '@faker-js/faker'
 import type { Payload, PayloadRequest } from 'payload'
-import type { Category } from '@/payload-types'
 
 faker.seed(43)
 
@@ -46,14 +45,6 @@ function richText(text: string) {
     },
   }
 }
-
-export const VET_CATEGORIES = [
-  { pl: 'Profilaktyka', en: 'Prevention' },
-  { pl: 'Diagnostyka', en: 'Diagnostics' },
-  { pl: 'Leczenie', en: 'Treatment' },
-  { pl: 'Chirurgia', en: 'Surgery' },
-  { pl: 'Specjalistyczne', en: 'Specialist' },
-]
 
 const SERVICES: ServiceData[] = [
   {
@@ -175,32 +166,15 @@ const SERVICES: ServiceData[] = [
 export async function seedServices({
   payload,
   req,
+  categories,
 }: {
   payload: Payload
   req: PayloadRequest
-}): Promise<{ categories: Record<string, Category> }> {
-  payload.logger.info('— Seeding vet categories...')
-
-  // Delete services before categories — services.category is a FK to categories
-  await payload.db.deleteMany({ collection: 'services', req, where: {} })
-  await payload.db.deleteMany({ collection: 'categories', req, where: {} })
-
-  const categoryMap: Record<string, Category> = {}
-  for (const cat of VET_CATEGORIES) {
-    const slug = cat.pl.toLowerCase().replace(/\s+/g, '-')
-     
-    const doc = await payload.create({
-      collection: 'categories',
-      data: { title: cat.pl, slug } as any,
-    })
-    categoryMap[cat.pl] = doc as unknown as Category
-  }
-
+  categories: Record<string, number>
+}): Promise<void> {
   payload.logger.info('— Seeding services...')
 
   for (const service of SERVICES) {
-    const category = categoryMap[service.category]
-
     const doc = await payload.create({
       collection: 'services',
       locale: 'pl',
@@ -209,7 +183,7 @@ export async function seedServices({
         description: richText(service.description.pl),
         icon: service.icon,
         priceText: service.priceText.pl,
-        category: category?.id ?? null,
+        category: categories[service.category] ?? null,
         order: service.order,
         featured: service.featured ?? false,
       },
@@ -227,5 +201,4 @@ export async function seedServices({
     })
   }
 
-  return { categories: categoryMap }
 }
