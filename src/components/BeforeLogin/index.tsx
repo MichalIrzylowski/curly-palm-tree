@@ -1,12 +1,10 @@
 import React from 'react'
+import { Logo } from '@/components/Logo/Logo'
 
 const BeforeLogin: React.FC = () => {
   return (
-    <div>
-      <p>
-        <b>Welcome to your dashboard!</b>
-        {' This is where site admins will log in to manage your website.'}
-      </p>
+    <div className="flex flex-col items-center gap-4 pb-4">
+      <Logo />
     </div>
   )
 }

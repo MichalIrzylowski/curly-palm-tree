@@ -9,6 +9,12 @@ declare global {
   }
 }
 
+declare module '*.svg' {
+  import type { FC, SVGProps } from 'react'
+  const ReactComponent: FC<SVGProps<SVGSVGElement>>
+  export default ReactComponent
+}
+
 // If this file has no import/export statements (i.e. is a script)
 // convert it into a module by adding an empty export statement.
 export {}

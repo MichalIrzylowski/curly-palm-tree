@@ -35,7 +35,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, contact }) => 
         <div className="py-4 flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="shrink-0">
-            <Logo loading="eager" priority="high" />
+            <Logo width={220} height={41} />
           </Link>
 
           {/* Desktop nav + controls */}
