@@ -27,3 +27,5 @@ export const Logo: React.FC<Props> = ({
     />
   )
 }
+
+export default Logo
