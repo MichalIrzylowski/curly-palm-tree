@@ -154,7 +154,7 @@ const SERVICES: ServiceData[] = [
 
 export async function seedServices({
   payload,
-  req,
+  req: _req,
   categories,
 }: {
   payload: Payload
@@ -187,5 +187,4 @@ export async function seedServices({
       },
     })
   }
-
 }
