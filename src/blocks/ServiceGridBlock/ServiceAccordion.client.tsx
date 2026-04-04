@@ -6,28 +6,38 @@ import React from 'react'
 type AccordionItemType = {
   id: number | string
   name: string
-  priceText?: string | null
   description: React.ReactNode
 }
 
-type Props = {
+type ServiceGroup = {
+  categoryName: string | null
   items: AccordionItemType[]
 }
 
-export function ServiceAccordion({ items }: Props) {
+type Props = {
+  groups: ServiceGroup[]
+}
+
+export function ServiceAccordion({ groups }: Props) {
   return (
-    <Accordion type="multiple" className="w-full space-y-2">
-      {items.map((item) => (
-        <AccordionItem key={item.id} value={String(item.id)} className="border rounded-lg px-4">
-          <AccordionTrigger className="hover:no-underline py-4">
-            <div className="flex flex-1 items-center justify-between pr-4 w-full">
-              <span className="font-medium text-left">{item.name}</span>
-              {item.priceText && <span className="text-sm text-muted-foreground">{item.priceText}</span>}
-            </div>
-          </AccordionTrigger>
-          <AccordionContent className="pb-4 pt-0">{item.description}</AccordionContent>
-        </AccordionItem>
+    <div className="space-y-8">
+      {groups.map((group, i) => (
+        <div key={group.categoryName ?? `group-${i}`}>
+          {group.categoryName && (
+            <h3 className="text-lg font-semibold mb-3">{group.categoryName}</h3>
+          )}
+          <Accordion type="multiple" className="w-full space-y-2">
+            {group.items.map((item) => (
+              <AccordionItem key={item.id} value={String(item.id)} className="border rounded-lg px-4">
+                <AccordionTrigger className="hover:no-underline py-4">
+                  <span className="font-medium text-left">{item.name}</span>
+                </AccordionTrigger>
+                <AccordionContent className="pb-4 pt-0">{item.description}</AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
       ))}
-    </Accordion>
+    </div>
   )
 }

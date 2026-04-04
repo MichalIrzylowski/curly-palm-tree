@@ -60,20 +60,6 @@ export async function seedPages(
       heading: 'Nowoczesny sprzęt',
     },
     { blockType: 'mapBlock' },
-    {
-      blockType: 'cta',
-      richText: richText('Umów wizytę już dziś — Twoje zwierzę zasługuje na najlepszą opiekę.'),
-      links: [
-        {
-          link: {
-            type: 'custom',
-            url: '/contact',
-            label: 'Umów wizytę',
-            appearance: 'default',
-          },
-        },
-      ],
-    },
   ]
 
   const homepage = await payload.create({
@@ -162,21 +148,6 @@ export async function seedPages(
           heading: 'Modern equipment',
         },
         { id: mb.id, blockType: 'mapBlock' },
-        {
-          id: ctab.id,
-          blockType: 'cta',
-          richText: richText('Book an appointment today — your pet deserves the best care.'),
-          links: [
-            {
-              link: {
-                type: 'custom',
-                url: '/contact',
-                label: 'Book an appointment',
-                appearance: 'default',
-              },
-            },
-          ],
-        },
       ],
     } as any,
   })
@@ -196,27 +167,11 @@ export async function seedPages(
           description:
             'Oferujemy szeroki zakres usług weterynaryjnych — od profilaktyki po zaawansowaną diagnostykę i leczenie.',
         },
-        {
-          blockType: 'cta',
-          richText: richText('Masz pytania? Skontaktuj się z nami lub umów wizytę.'),
-          links: [
-            {
-              link: {
-                type: 'custom',
-                url: '/contact',
-                label: 'Skontaktuj się',
-                appearance: 'default',
-              },
-            },
-          ],
-        },
       ],
     } as any,
   })
 
-  const sp0 = (servicesPage.layout as any[])[0] ?? {}
   const sp1 = (servicesPage.layout as any[])[1] ?? {}
-  const sp2 = (servicesPage.layout as any[])[2] ?? {}
 
   await payload.update({
     collection: 'pages',
@@ -231,21 +186,6 @@ export async function seedPages(
           heading: 'All services',
           description:
             'We offer a wide range of veterinary services — from preventive care to advanced diagnostics and treatment.',
-        },
-        {
-          id: sp2.id,
-          blockType: 'cta',
-          richText: richText('Have questions? Contact us or book an appointment.'),
-          links: [
-            {
-              link: {
-                type: 'custom',
-                url: '/contact',
-                label: 'Contact us',
-                appearance: 'default',
-              },
-            },
-          ],
         },
       ],
     } as any,
@@ -309,16 +249,6 @@ export async function seedPages(
           richText: richText(
             'Book an appointment and put your pet in the hands of our specialists.',
           ),
-          links: [
-            {
-              link: {
-                type: 'custom',
-                url: '/contact',
-                label: 'Book an appointment',
-                appearance: 'default',
-              },
-            },
-          ],
         },
       ],
     } as any,

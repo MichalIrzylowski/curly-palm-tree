@@ -17,7 +17,7 @@ export const SectionWrapper: React.FC<Props> = ({
 }) => {
   return (
     <Tag className={cn('w-full py-16', className)}>
-      <div className={cn('mx-auto max-w-[1280px] px-4 md:px-6 lg:px-8', innerClassName)}>
+      <div className={cn('container', innerClassName)}>
         {children}
       </div>
     </Tag>

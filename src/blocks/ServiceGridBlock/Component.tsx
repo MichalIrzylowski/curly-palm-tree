@@ -22,19 +22,29 @@ export async function ServiceGridBlock({ locale = 'pl', heading, description }: 
     pagination: false,
   })
 
-  const items = docs.map((service) => ({
-    id: service.id,
-    name: service.name,
-    priceText: service.priceText,
-    description: service.description ? (
-      <RichText
-        data={service.description}
-        enableGutter={false}
-        enableProse={false}
-        className="text-sm leading-relaxed text-foreground/70 [&_p]:mb-2 [&_p:last-child]:mb-0"
-      />
-    ) : null,
-  }))
+  const groupMap = new Map<string | null, { categoryName: string | null; items: any[] }>()
+
+  for (const service of docs) {
+    const cat = service.category as { id: number | string; title: string } | null | undefined
+    const key = cat?.id != null ? String(cat.id) : null
+    if (!groupMap.has(key)) {
+      groupMap.set(key, { categoryName: cat?.title ?? null, items: [] })
+    }
+    groupMap.get(key)!.items.push({
+      id: service.id,
+      name: service.name,
+      description: service.description ? (
+        <RichText
+          data={service.description}
+          enableGutter={false}
+          enableProse={false}
+          className="text-sm leading-relaxed text-foreground/70 [&_p]:mb-2 [&_p:last-child]:mb-0"
+        />
+      ) : null,
+    })
+  }
+
+  const groups = Array.from(groupMap.values())
 
   return (
     <SectionWrapper>
@@ -42,7 +52,7 @@ export async function ServiceGridBlock({ locale = 'pl', heading, description }: 
       {docs.length === 0 ? (
         <p className="text-muted-foreground">Brak usług.</p>
       ) : (
-        <ServiceAccordion items={items} />
+        <ServiceAccordion groups={groups} />
       )}
     </SectionWrapper>
   )
