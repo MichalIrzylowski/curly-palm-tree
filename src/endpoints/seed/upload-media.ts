@@ -1,3 +1,5 @@
+import fs from 'fs'
+import path from 'path'
 import type { Payload } from 'payload'
 import type { Media } from '@/payload-types'
 
@@ -11,11 +13,7 @@ async function uploadImage(
   metadata: Omit<Media, 'createdAt' | 'id' | 'updatedAt'>,
   mimetype: string,
 ): Promise<Media> {
-  const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'
-  const res = await fetch(`${serverUrl}/seed/${filename}`)
-  if (!res.ok) throw new Error(`Failed to fetch seed image: ${filename} (${res.status})`)
-  const buffer = await res.arrayBuffer()
-  const data = Buffer.from(buffer)
+  const data = fs.readFileSync(path.join(process.cwd(), 'public', 'seed', filename))
   return payload.create({
     collection: 'media',
     data: metadata,
