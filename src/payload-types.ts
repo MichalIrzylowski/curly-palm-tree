@@ -418,10 +418,6 @@ export interface Service {
     [k: string]: unknown;
   } | null;
   icon?: string | null;
-  /**
-   * e.g. "Ask for pricing" or "from 80 zł"
-   */
-  priceText?: string | null;
   category?: (number | null) | Category;
   /**
    * Display order (lower number = shown first)
@@ -1688,7 +1684,6 @@ export interface ServicesSelect<T extends boolean = true> {
   name?: T;
   description?: T;
   icon?: T;
-  priceText?: T;
   category?: T;
   order?: T;
   featured?: T;

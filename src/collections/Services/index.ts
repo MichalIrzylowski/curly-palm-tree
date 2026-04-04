@@ -37,14 +37,6 @@ export const Services: CollectionConfig = {
       },
     },
     {
-      name: 'priceText',
-      type: 'text',
-      localized: true,
-      admin: {
-        description: 'e.g. "Ask for pricing" or "from 80 zł"',
-      },
-    },
-    {
       name: 'category',
       type: 'relationship',
       relationTo: 'categories',

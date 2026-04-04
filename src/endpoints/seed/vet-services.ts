@@ -7,7 +7,6 @@ interface ServiceData {
   name: { pl: string; en: string }
   description: { pl: string; en: string }
   icon: string
-  priceText: { pl: string; en: string }
   category: string
   order: number
   featured?: boolean
@@ -54,7 +53,6 @@ const SERVICES: ServiceData[] = [
       en: 'A comprehensive clinical examination of your pet, health status assessment and discussion of preventive and therapeutic recommendations.',
     },
     icon: 'stethoscope',
-    priceText: { pl: 'od 80 zł', en: 'from 80 PLN' },
     category: 'Profilaktyka',
     order: 1,
     featured: true,
@@ -66,7 +64,6 @@ const SERVICES: ServiceData[] = [
       en: 'Protective vaccinations for dogs, cats and other companion animals in line with the current vaccination schedule.',
     },
     icon: 'syringe',
-    priceText: { pl: 'od 60 zł', en: 'from 60 PLN' },
     category: 'Profilaktyka',
     order: 2,
     featured: true,
@@ -78,7 +75,6 @@ const SERVICES: ServiceData[] = [
       en: 'Ultrasound examination of the abdomen, heart and other organs using state-of-the-art equipment.',
     },
     icon: 'monitor',
-    priceText: { pl: 'od 120 zł', en: 'from 120 PLN' },
     category: 'Diagnostyka',
     order: 3,
     featured: true,
@@ -90,7 +86,6 @@ const SERVICES: ServiceData[] = [
       en: 'Digital X-ray of bones, joints and the thoracic cavity. Fast results and specialist consultation available.',
     },
     icon: 'scan-line',
-    priceText: { pl: 'od 100 zł', en: 'from 100 PLN' },
     category: 'Diagnostyka',
     order: 4,
     featured: true,
@@ -102,7 +97,6 @@ const SERVICES: ServiceData[] = [
       en: 'Blood count, biochemistry, urinalysis and faecal examination. Results available within a few hours.',
     },
     icon: 'flask-conical',
-    priceText: { pl: 'od 50 zł', en: 'from 50 PLN' },
     category: 'Diagnostyka',
     order: 5,
   },
@@ -113,7 +107,6 @@ const SERVICES: ServiceData[] = [
       en: faker.lorem.sentence(20),
     },
     icon: 'scissors',
-    priceText: { pl: 'wycena indywidualna', en: 'quote on request' },
     category: 'Chirurgia',
     order: 6,
   },
@@ -124,7 +117,6 @@ const SERVICES: ServiceData[] = [
       en: 'Echocardiography, ECG and blood pressure monitoring. Diagnosis and treatment of heart disease in dogs and cats.',
     },
     icon: 'heart-pulse',
-    priceText: { pl: 'od 150 zł', en: 'from 150 PLN' },
     category: 'Specjalistyczne',
     order: 7,
   },
@@ -135,7 +127,6 @@ const SERVICES: ServiceData[] = [
       en: 'Diagnosis and treatment of skin diseases, allergies and ear disorders. Sample collection for cytological and histological examination.',
     },
     icon: 'shield',
-    priceText: { pl: 'od 100 zł', en: 'from 100 PLN' },
     category: 'Specjalistyczne',
     order: 8,
   },
@@ -146,7 +137,6 @@ const SERVICES: ServiceData[] = [
       en: 'Dental check-up and cleaning, extractions and periodontal treatment under full general anaesthesia.',
     },
     icon: 'smile',
-    priceText: { pl: 'od 200 zł', en: 'from 200 PLN' },
     category: 'Leczenie',
     order: 9,
   },
@@ -157,7 +147,6 @@ const SERVICES: ServiceData[] = [
       en: 'Round-the-clock patient care for cases requiring intensive medical supervision.',
     },
     icon: 'bed',
-    priceText: { pl: 'wycena indywidualna', en: 'quote on request' },
     category: 'Leczenie',
     order: 10,
   },
@@ -182,7 +171,6 @@ export async function seedServices({
         name: service.name.pl,
         description: richText(service.description.pl),
         icon: service.icon,
-        priceText: service.priceText.pl,
         category: categories[service.category] ?? null,
         order: service.order,
         featured: service.featured ?? false,
@@ -196,7 +184,6 @@ export async function seedServices({
       data: {
         name: service.name.en,
         description: richText(service.description.en),
-        priceText: service.priceText.en,
       },
     })
   }
