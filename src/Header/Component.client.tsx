@@ -62,10 +62,12 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, contact }) => 
             {menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
+      </div>
 
-        {/* Mobile drawer */}
-        {menuOpen && (
-          <div className="md:hidden border-t border-border py-6 flex flex-col gap-5">
+      {/* Mobile drawer — absolutely positioned so Safari doesn't clip it inside the sticky header */}
+      {menuOpen && (
+        <div className="md:hidden absolute top-full left-0 right-0 z-20 bg-background border-b border-border shadow-md">
+          <div className="container py-6 flex flex-col gap-5">
             <nav className="flex flex-col gap-4">
               {navItems.map(({ link }, i) => (
                 <CMSLink key={i} {...link} appearance="link" />
@@ -82,8 +84,8 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, contact }) => 
               />
             )}
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </header>
   )
 }
