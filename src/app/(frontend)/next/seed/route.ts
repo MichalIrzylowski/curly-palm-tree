@@ -3,29 +3,38 @@ import { seed } from '@/endpoints/seed'
 import config from '@payload-config'
 import { headers } from 'next/headers'
 
-export const maxDuration = 60 // This function can run for a maximum of 60 seconds
+export const maxDuration = 300
 
 export async function POST(): Promise<Response> {
   const payload = await getPayload({ config })
   const requestHeaders = await headers()
 
-  // Authenticate by passing request headers
   const { user } = await payload.auth({ headers: requestHeaders })
 
   if (!user) {
     return new Response('Action forbidden.', { status: 403 })
   }
 
-  try {
-    // Create a Payload request object to pass to the Local API for transactions
-    // At this point you should pass in a user, locale, and any other context you need for the Local API
-    const payloadReq = await createLocalReq({ user }, payload)
+  const encoder = new TextEncoder()
+  const stream = new TransformStream<Uint8Array, Uint8Array>()
+  const writer = stream.writable.getWriter()
 
-    await seed({ payload, req: payloadReq })
+  const write = (msg: string) => writer.write(encoder.encode(`${msg}\n`))
 
-    return Response.json({ success: true })
-  } catch (e) {
-    payload.logger.error({ err: e, message: 'Error seeding data' })
-    return new Response('Error seeding data.', { status: 500 })
-  }
+  // Run seed in background, streaming progress to the client
+  seed({
+    payload,
+    req: await createLocalReq({ user }, payload),
+    onProgress: write,
+  })
+    .then(() => writer.close())
+    .catch(async (e) => {
+      payload.logger.error({ err: e, message: 'Error seeding data' })
+      await write(`Error: ${e instanceof Error ? e.message : 'Unknown error'}`)
+      await writer.close()
+    })
+
+  return new Response(stream.readable, {
+    headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+  })
 }
