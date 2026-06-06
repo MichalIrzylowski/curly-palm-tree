@@ -11,8 +11,7 @@ export default function TeamMemberCard({ member }: Props) {
   const photo = member.photo as Media
 
   return (
-    <div className="group flex flex-col overflow-hidden rounded-xl bg-card border border-border shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-0.5">
-
+    <div className="group flex flex-col overflow-hidden rounded-xl bg-card border border-border shadow-sm">
       {/* Photo */}
       {photo?.url && (
         <div className="relative w-full aspect-3/4 overflow-hidden bg-muted">
@@ -21,14 +20,13 @@ export default function TeamMemberCard({ member }: Props) {
             alt={member.name}
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
+            className="object-cover object-top duration-500"
           />
         </div>
       )}
 
       {/* Content */}
       <div className="flex flex-col gap-4 p-6">
-
         {/* Name + role with teal left accent */}
         <div className="border-l-2 border-secondary pl-3">
           <h3 className="font-heading text-lg font-semibold leading-tight text-primary tracking-[-0.01em]">
@@ -70,7 +68,6 @@ export default function TeamMemberCard({ member }: Props) {
             <span>{member.languages.map((item) => item.language).join(', ')}</span>
           </div>
         )}
-
       </div>
     </div>
   )
