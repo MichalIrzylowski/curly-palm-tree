@@ -1,5 +1,5 @@
 import React from 'react'
-import FaviconSvg from '@/../public/favicon.svg'
+import FaviconSvg from '@/../public/logo.svg'
 
 const DEFAULT_SIZE = 18
 

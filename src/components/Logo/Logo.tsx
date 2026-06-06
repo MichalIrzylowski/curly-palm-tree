@@ -11,8 +11,8 @@ interface Props {
 
 export const Logo: React.FC<Props> = ({
   className,
-  width = 310,
-  height = 58,
+  width = 50,
+  height = 50,
   color = '#3a803b',
   'aria-label': ariaLabel = 'Lecznica Weterynaryjna',
 }) => {

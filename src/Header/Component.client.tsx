@@ -26,7 +26,6 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, contact }) => 
 
   useEffect(() => {
     setMenuOpen(false)
-     
   }, [pathname])
 
   return (
@@ -35,7 +34,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, contact }) => 
         <div className="py-4 flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="shrink-0">
-            <Logo width={220} height={41} />
+            <Logo />
           </Link>
 
           {/* Desktop nav + controls */}
