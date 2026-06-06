@@ -24,7 +24,7 @@ export async function Footer() {
           {/* Logo + copyright */}
           <div className="flex flex-col gap-4">
             <Link href="/">
-              <Logo />
+              <Logo multiline={false} />
             </Link>
             <p className="text-sm text-muted-foreground">
               © {new Date().getFullYear()} Lecznica Weterynaryjna. Wszelkie prawa zastrzeżone.

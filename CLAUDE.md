@@ -32,6 +32,15 @@ Pages and Posts use a block-based layout system. Each block lives in `src/blocks
 
 Access functions are in `src/access/`.
 
+## Deployment
+
+- **Production URL:** https://curly-palm-tree-tawny.vercel.app/
+- **Platform:** Vercel
+- **Media storage:** Vercel Blob (production)
+- **Database:** NeonDB (production) · local PostgreSQL for development
+  - NeonDB connection string includes `?sslmode=require&uselibpqcompat=true`
+  - Local dev uses `postgres://postgres@127.0.0.1:5432/vet-project`
+
 ## Environment Variables
 
 Required (see `.env.example`):
