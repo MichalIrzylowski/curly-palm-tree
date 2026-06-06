@@ -62,35 +62,33 @@ export const TeamTeaserBlockComponent: React.FC<TeamTeaserBlockProps> = async ({
         {members.map((member) => {
           const photo = member.photo as Media | null
           return (
-            <Link key={member.id} href="/team" className="group">
-              <Card className="h-full overflow-hidden rounded-xl border-border/60 transition-all duration-200 hover:-translate-y-0.5 hover:border-secondary/40 hover:shadow-lg">
-                {/* Photo */}
-                <div className="relative aspect-4/3 w-full overflow-hidden bg-muted">
-                  {photo?.url ? (
-                    <Image
-                      src={photo.url}
-                      alt={photo.alt ?? member.name}
-                      fill
-                      className="object-cover transition-transform duration-300 group-hover:scale-105"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                    />
-                  ) : (
-                    <div className="flex h-full w-full items-center justify-center bg-primary/5 text-primary/30 transition-colors duration-200 group-hover:bg-secondary/10 group-hover:text-secondary/50">
-                      <UserRound className="size-16" strokeWidth={1.25} />
-                    </div>
-                  )}
-                </div>
+            <Card key={member.id} className="h-full overflow-hidden rounded-xl border-border/60">
+              {/* Photo */}
+              <div className="relative aspect-4/3 w-full overflow-hidden bg-muted">
+                {photo?.url ? (
+                  <Image
+                    src={photo.url}
+                    alt={photo.alt ?? member.name}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                  />
+                ) : (
+                  <div className="flex h-full w-full items-center justify-center bg-primary/5 text-primary/30">
+                    <UserRound className="size-16" strokeWidth={1.25} />
+                  </div>
+                )}
+              </div>
 
-                <CardHeader className="pb-1 pt-4">
-                  <CardTitle className="text-base font-semibold leading-snug transition-colors duration-200 group-hover:text-secondary">
-                    {member.name}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <CardDescription className="text-sm">{member.role}</CardDescription>
-                </CardContent>
-              </Card>
-            </Link>
+              <CardHeader className="pb-1 pt-4">
+                <CardTitle className="text-base font-semibold leading-snug">
+                  {member.name}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription className="text-sm">{member.role}</CardDescription>
+              </CardContent>
+            </Card>
           )
         })}
       </div>
