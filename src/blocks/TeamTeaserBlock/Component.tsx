@@ -1,10 +1,10 @@
 import React from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import { ArrowRight, UserRound } from 'lucide-react'
 
+import { Media as MediaComponent } from '@/components/Media'
 import { SectionWrapper } from '@/components/SectionWrapper'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -65,13 +65,13 @@ export const TeamTeaserBlockComponent: React.FC<TeamTeaserBlockProps> = async ({
             <Card key={member.id} className="h-full overflow-hidden rounded-xl border-border/60">
               {/* Photo */}
               <div className="relative aspect-4/3 w-full overflow-hidden bg-muted">
-                {photo?.url ? (
-                  <Image
-                    src={photo.url}
-                    alt={photo.alt ?? member.name}
+                {photo ? (
+                  <MediaComponent
+                    resource={photo}
                     fill
-                    className="object-cover"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                    imgClassName="object-cover"
+                    size="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                    htmlElement={null}
                   />
                 ) : (
                   <div className="flex h-full w-full items-center justify-center bg-primary/5 text-primary/30">

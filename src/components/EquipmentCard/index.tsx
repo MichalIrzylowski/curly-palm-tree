@@ -1,5 +1,5 @@
 import type { Equipment, Media } from '@/payload-types'
-import Image from 'next/image'
+import { Media as MediaComponent } from '@/components/Media'
 import RichText from '@/components/RichText'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
@@ -14,13 +14,13 @@ export function EquipmentCard({ item }: Props) {
     <Card className="overflow-hidden rounded-xl border-border/60 bg-card">
       <div className="relative aspect-video w-full overflow-hidden bg-muted">
         {photo?.url && (
-          <Image
-            src={photo.url}
-            alt={item.name as string}
+          <MediaComponent
+            resource={photo}
             fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            className="object-cover"
+            size="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            imgClassName="object-cover"
             loading="lazy"
+            htmlElement={null}
           />
         )}
       </div>

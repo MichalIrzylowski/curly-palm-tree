@@ -1,5 +1,5 @@
 import type { Team, Media } from '@/payload-types'
-import Image from 'next/image'
+import { Media as MediaComponent } from '@/components/Media'
 import RichText from '@/components/RichText'
 import { Globe2 } from 'lucide-react'
 
@@ -15,12 +15,13 @@ export default function TeamMemberCard({ member }: Props) {
       {/* Photo */}
       {photo?.url && (
         <div className="relative w-full aspect-3/4 overflow-hidden bg-muted">
-          <Image
-            src={photo.url}
-            alt={member.name}
+          <MediaComponent
+            resource={photo}
             fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            className="object-cover object-top duration-500"
+            size="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            imgClassName="object-cover duration-500"
+            objectPositionFallback="top"
+            htmlElement={null}
           />
         </div>
       )}
