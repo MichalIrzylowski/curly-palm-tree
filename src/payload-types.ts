@@ -189,6 +189,7 @@ export interface Page {
     | TeamTeaserBlock
     | WhyUsBlock
     | EquipmentHighlightBlock
+    | ImageGalleryBlock
     | MapBlock
     | CallToActionBlock
     | ContentBlock
@@ -554,6 +555,22 @@ export interface EquipmentHighlightBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'equipmentHighlightBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ImageGalleryBlock".
+ */
+export interface ImageGalleryBlock {
+  heading?: string | null;
+  images?:
+    | {
+        image: number | Media;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'imageGalleryBlock';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1320,6 +1337,7 @@ export interface PagesSelect<T extends boolean = true> {
         teamTeaserBlock?: T | TeamTeaserBlockSelect<T>;
         whyUsBlock?: T | WhyUsBlockSelect<T>;
         equipmentHighlightBlock?: T | EquipmentHighlightBlockSelect<T>;
+        imageGalleryBlock?: T | ImageGalleryBlockSelect<T>;
         mapBlock?: T | MapBlockSelect<T>;
         cta?: T | CallToActionBlockSelect<T>;
         content?: T | ContentBlockSelect<T>;
@@ -1411,6 +1429,21 @@ export interface WhyUsBlockSelect<T extends boolean = true> {
  */
 export interface EquipmentHighlightBlockSelect<T extends boolean = true> {
   heading?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ImageGalleryBlock_select".
+ */
+export interface ImageGalleryBlockSelect<T extends boolean = true> {
+  heading?: T;
+  images?:
+    | T
+    | {
+        image?: T;
+        id?: T;
+      };
   id?: T;
   blockName?: T;
 }

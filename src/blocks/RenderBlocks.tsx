@@ -16,6 +16,7 @@ import { TeamGridBlock as TeamGridComponent } from '@/blocks/TeamGrid/Component'
 import { TeamTeaserBlockComponent } from '@/blocks/TeamTeaserBlock/Component'
 import { WhyUsBlockComponent } from '@/blocks/WhyUsBlock/Component'
 import { EquipmentHighlightBlockComponent } from '@/blocks/EquipmentHighlightBlock/Component'
+import { ImageGalleryBlockComponent } from '@/blocks/ImageGalleryBlock/Component'
 
 const blockComponents = {
   archive: ArchiveBlock,
@@ -32,6 +33,7 @@ const blockComponents = {
   teamTeaserBlock: TeamTeaserBlockComponent,
   whyUsBlock: WhyUsBlockComponent,
   equipmentHighlightBlock: EquipmentHighlightBlockComponent,
+  imageGalleryBlock: ImageGalleryBlockComponent,
 }
 
 export const RenderBlocks: React.FC<{
