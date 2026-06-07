@@ -50,11 +50,11 @@ export const HeroBlockComponent: React.FC<HeroBlockProps> = async ({
             </p>
           )}
 
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center w-full sm:w-auto">
             <Button
               asChild
               size="lg"
-              className="transition-transform hover:-translate-y-0.5 active:translate-y-0"
+              className="w-full sm:w-auto transition-transform hover:-translate-y-0.5 active:translate-y-0"
             >
               <Link href="/contact">{primaryCtaLabel ?? 'Umów wizytę'}</Link>
             </Button>
@@ -64,7 +64,7 @@ export const HeroBlockComponent: React.FC<HeroBlockProps> = async ({
                 asChild
                 size="lg"
                 variant="secondary"
-                className="transition-transform hover:-translate-y-0.5 active:translate-y-0"
+                className="w-full sm:w-auto transition-transform hover:-translate-y-0.5 active:translate-y-0"
               >
                 <a href={`tel:${primaryPhone.number}`}>
                   <Phone className="h-4 w-4" aria-hidden />

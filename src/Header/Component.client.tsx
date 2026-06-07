@@ -7,7 +7,6 @@ import type { Contact, Header } from '@/payload-types'
 
 import { Logo } from '@/components/Logo/Logo'
 import { PhoneLink } from '@/components/PhoneLink'
-import { LanguageSwitcher } from './LanguageSwitcher'
 import { HeaderNav } from './Nav'
 import { Menu, Phone, X } from 'lucide-react'
 import { CMSLink } from '@/components/Link'
@@ -40,7 +39,6 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, contact }) => 
           {/* Desktop nav + controls */}
           <div className="hidden md:flex items-center gap-6">
             <HeaderNav data={data} />
-            <LanguageSwitcher />
             {primaryPhone && (
               <a
                 href={`tel:${primaryPhone.number.replace(/\s/g, '')}`}
@@ -72,9 +70,6 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, contact }) => 
                 <CMSLink key={i} {...link} appearance="link" />
               ))}
             </nav>
-            <div className="flex items-center gap-3">
-              <LanguageSwitcher />
-            </div>
             {primaryPhone && (
               <PhoneLink
                 number={primaryPhone.number}
