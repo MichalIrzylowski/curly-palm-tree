@@ -25,8 +25,6 @@ export const ImageGalleryBlockComponent: React.FC<ImageGalleryBlockType> = ({
     ]
   })
 
-  if (!items.length) return null
-
   return (
     <SectionWrapper>
       {heading && <SectionHeading>{heading}</SectionHeading>}
