@@ -9,8 +9,8 @@ import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
 import RichText from '@/components/RichText'
 
-// ~0.008° ≈ 700–900 m at lat 54 — comfortable street-level view
-const BBOX_DELTA = 0.008
+// the smaller the closer
+const BBOX_DELTA = 0.005
 
 type InfoRowProps = {
   icon: React.ReactNode
@@ -170,18 +170,6 @@ export const MapBlockComponent: React.FC = async () => {
               }
             />
           </div>
-
-          <p className="px-1 text-xs text-muted-foreground">
-            Mapa:{' '}
-            <a
-              href={osmLargerUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline underline-offset-2 hover:text-foreground"
-            >
-              OpenStreetMap
-            </a>
-          </p>
 
           <noscript>
             <div className="mt-2 flex items-start gap-2 rounded-lg border border-border bg-card p-4">
