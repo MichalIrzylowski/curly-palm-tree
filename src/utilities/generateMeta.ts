@@ -1,9 +1,10 @@
 import type { Metadata } from 'next'
 
-import type { Media, Page, Post, Config } from '../payload-types'
+import type { Media, Page, Post, Config, SiteSetting } from '../payload-types'
 
 import { mergeOpenGraph } from './mergeOpenGraph'
 import { getServerSideURL } from './getURL'
+import { getCachedGlobal } from './getGlobals'
 
 const getImageURL = (image?: Media | Config['db']['defaultIDType'] | null) => {
   const serverUrl = getServerSideURL()
@@ -24,11 +25,12 @@ export const generateMeta = async (args: {
 }): Promise<Metadata> => {
   const { doc } = args
 
+  const siteSettings = (await getCachedGlobal('site-settings', 0)()) as SiteSetting
+  const clinicName = siteSettings?.clinicName ?? 'Lecznica Weterynaryjna'
+
   const ogImage = getImageURL(doc?.meta?.image)
 
-  const title = doc?.meta?.title
-    ? doc?.meta?.title + ' | Lecznica Weterynaryjna'
-    : 'Lecznica Weterynaryjna'
+  const title = doc?.meta?.title ? doc?.meta?.title + ' | ' + clinicName : clinicName
 
   return {
     description: doc?.meta?.description,

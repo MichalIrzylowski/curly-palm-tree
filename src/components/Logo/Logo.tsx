@@ -1,11 +1,13 @@
 import React from 'react'
 import LogoSvg from '@/../public/logo.svg'
 
+const FALLBACK_NAME = 'Lecznica Weterynaryjna'
+
 interface Props {
   className?: string
   width?: number
   height?: number
-  'aria-label'?: string
+  name?: string
   multiline?: boolean
 }
 
@@ -13,22 +15,20 @@ export const Logo: React.FC<Props> = ({
   className,
   width = 50,
   height = 50,
-  'aria-label': ariaLabel = 'Lecznica Weterynaryjna',
+  name = FALLBACK_NAME,
   multiline = true,
 }) => {
   return (
-    <div className={`flex items-center gap-2 ${className ?? ''}`} aria-label={ariaLabel} role="img">
+    <div
+      className={`flex items-center gap-2 ${className ?? ''}`}
+      aria-label={name}
+      role="img"
+    >
       <LogoSvg width={width} height={height} className="fill-secondary" aria-hidden="true" />
-      <span className="font-semibold leading-tight text-xl text-secondary">
-        {multiline ? (
-          <>
-            Lecznica
-            <br />
-            Weterynaryjna
-          </>
-        ) : (
-          'Lecznica Weterynaryjna'
-        )}
+      <span
+        className={`font-semibold leading-tight text-xl text-secondary${multiline ? ' max-w-36' : ''}`}
+      >
+        {name}
       </span>
     </div>
   )

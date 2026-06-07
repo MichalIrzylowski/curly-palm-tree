@@ -16,6 +16,7 @@ import { Footer } from './Footer/config'
 import { Header } from './Header/config'
 import { Contact } from './globals/Contact'
 import { OpeningHours } from './globals/OpeningHours'
+import { SiteSettings } from './globals/SiteSettings'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
@@ -71,7 +72,7 @@ export default buildConfig({
   }),
   collections: [Pages, Posts, Media, Categories, Team, Services, Equipment, Users],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [Header, Footer, OpeningHours, Contact],
+  globals: [Header, Footer, OpeningHours, Contact, SiteSettings],
   localization: {
     locales: [
       { label: 'Polish', code: 'pl' },

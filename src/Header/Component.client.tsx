@@ -14,9 +14,10 @@ import { CMSLink } from '@/components/Link'
 interface HeaderClientProps {
   data: Header
   contact: Contact
+  clinicName?: string
 }
 
-export const HeaderClient: React.FC<HeaderClientProps> = ({ data, contact }) => {
+export const HeaderClient: React.FC<HeaderClientProps> = ({ data, contact, clinicName }) => {
   const [menuOpen, setMenuOpen] = useState(false)
   const pathname = usePathname()
 
@@ -33,7 +34,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, contact }) => 
         <div className="py-4 flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="shrink-0">
-            <Logo />
+            <Logo name={clinicName} />
           </Link>
 
           {/* Desktop nav + controls */}

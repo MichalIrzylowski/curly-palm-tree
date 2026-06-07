@@ -120,12 +120,14 @@ export interface Config {
     footer: Footer;
     'opening-hours': OpeningHour;
     contact: Contact;
+    'site-settings': SiteSetting;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
     'opening-hours': OpeningHoursSelect<false> | OpeningHoursSelect<true>;
     contact: ContactSelect<false> | ContactSelect<true>;
+    'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
   };
   locale: 'pl' | 'en';
   widgets: {
@@ -2170,6 +2172,23 @@ export interface Contact {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings".
+ */
+export interface SiteSetting {
+  id: number;
+  /**
+   * Brand name shown in the logo, page titles, and accessibility labels
+   */
+  clinicName: string;
+  /**
+   * Legal entity name shown in the footer copyright line
+   */
+  legalName: string;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
@@ -2250,6 +2269,17 @@ export interface ContactSelect<T extends boolean = true> {
       };
   email?: T;
   directionsNotes?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings_select".
+ */
+export interface SiteSettingsSelect<T extends boolean = true> {
+  clinicName?: T;
+  legalName?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

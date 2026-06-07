@@ -2,20 +2,23 @@ import { getCachedGlobal } from '@/utilities/getGlobals'
 import Link from 'next/link'
 import React from 'react'
 
-import type { Contact, Footer } from '@/payload-types'
+import type { Contact, Footer, SiteSetting } from '@/payload-types'
 
 import { CMSLink } from '@/components/Link'
 import { Logo } from '@/components/Logo/Logo'
 import { PhoneLink } from '@/components/PhoneLink'
 
 export async function Footer() {
-  const [footerData, contactData] = (await Promise.all([
+  const [footerData, contactData, siteSettings] = (await Promise.all([
     getCachedGlobal('footer', 1)(),
     getCachedGlobal('contact', 1)(),
-  ])) as [Footer, Contact]
+    getCachedGlobal('site-settings', 0)(),
+  ])) as [Footer, Contact, SiteSetting]
 
   const navItems = footerData?.navItems || []
   const primaryPhone = contactData?.phones?.[0]
+  const clinicName = siteSettings?.clinicName
+  const legalName = siteSettings?.legalName
 
   return (
     <footer className="mt-auto border-t border-border bg-card text-card-foreground">
@@ -24,10 +27,10 @@ export async function Footer() {
           {/* Logo + copyright */}
           <div className="flex flex-col gap-4">
             <Link href="/">
-              <Logo multiline={false} />
+              <Logo multiline={false} name={clinicName} />
             </Link>
             <p className="text-sm text-muted-foreground">
-              © {new Date().getFullYear()} Lecznica Weterynaryjna. Wszelkie prawa zastrzeżone.
+              © {new Date().getFullYear()} {legalName}. Wszelkie prawa zastrzeżone.
             </p>
           </div>
 

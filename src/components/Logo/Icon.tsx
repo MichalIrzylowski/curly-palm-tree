@@ -19,7 +19,7 @@ export const Icon: React.FC<Props> = ({
       width={width}
       height={height}
       className={className}
-      aria-label="Lecznica Weterynaryjna"
+      aria-label="Veterinary clinic logo"
       role="img"
     />
   )

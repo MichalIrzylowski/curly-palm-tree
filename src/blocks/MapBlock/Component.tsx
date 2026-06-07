@@ -42,7 +42,10 @@ const InfoRow: React.FC<InfoRowProps> = ({ icon, label, children }) => (
  */
 export const MapBlockComponent: React.FC = async () => {
   const payload = await getPayload({ config: configPromise })
-  const contact = await payload.findGlobal({ slug: 'contact' })
+  const [contact, siteSettings] = await Promise.all([
+    payload.findGlobal({ slug: 'contact' }),
+    payload.findGlobal({ slug: 'site-settings' }),
+  ])
 
   const { lat, lng, address, directionsNotes, phones, email } = contact
 
@@ -158,7 +161,7 @@ export const MapBlockComponent: React.FC = async () => {
         <div className="lg:col-start-1 lg:row-start-1 flex flex-col gap-1">
           <div className="relative flex-1 overflow-hidden rounded-xl border border-border shadow-sm">
             <iframe
-              title="Mapa — Lecznica Weterynaryjna"
+              title={`Mapa — ${siteSettings?.clinicName ?? 'Lecznica Weterynaryjna'}`}
               src={osmEmbedUrl}
               width="100%"
               height="100%"
