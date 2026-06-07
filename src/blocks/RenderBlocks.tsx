@@ -51,7 +51,6 @@ export const RenderBlocks: React.FC<{
             const Block = blockComponents[blockType]
 
             if (Block) {
-              const noMargin = blockType === 'quickInfoBlock'
               return (
                 <div key={index}>
                   {/* @ts-expect-error there may be some mismatch between the expected types here */}
@@ -60,6 +59,7 @@ export const RenderBlocks: React.FC<{
               )
             }
           }
+
           return null
         })}
       </Fragment>
