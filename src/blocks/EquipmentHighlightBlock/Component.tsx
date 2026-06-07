@@ -1,24 +1,14 @@
 import React from 'react'
-import configPromise from '@payload-config'
-import { getPayload } from 'payload'
-
 import type { EquipmentHighlightBlock as EquipmentHighlightBlockType } from '@/payload-types'
-
 import { EquipmentCard } from '@/components/EquipmentCard'
 import { SectionWrapper } from '@/components/SectionWrapper'
 import { SectionHeading } from '@/components/SectionHeading'
+import { getEquipment } from '@/loaders/getEquipment'
 
 export const EquipmentHighlightBlockComponent: React.FC<EquipmentHighlightBlockType> = async ({
   heading,
 }) => {
-  const payload = await getPayload({ config: configPromise })
-
-  const { docs } = await payload.find({
-    collection: 'equipment',
-    limit: 0,
-    sort: 'order',
-    depth: 1,
-  })
+  const docs = await getEquipment()
 
   if (!docs.length) return null
 

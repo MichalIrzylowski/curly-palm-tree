@@ -1,9 +1,8 @@
-import configPromise from '@payload-config'
-import { getPayload } from 'payload'
 import RichText from '@/components/RichText'
 import { SectionWrapper } from '@/components/SectionWrapper'
 import { SectionHeading } from '@/components/SectionHeading'
 import { ServiceAccordion } from './ServiceAccordion.client'
+import { getServices } from '@/loaders/getServices'
 
 type Props = {
   locale?: string
@@ -12,15 +11,7 @@ type Props = {
 }
 
 export async function ServiceGridBlock({ locale = 'pl', heading, description }: Props) {
-  const payload = await getPayload({ config: configPromise })
-  const { docs } = await payload.find({
-    collection: 'services',
-    sort: 'order',
-    locale: locale as 'pl' | 'en',
-    depth: 1,
-    limit: 100,
-    pagination: false,
-  })
+  const docs = await getServices(locale as 'pl' | 'en')
 
   const groupMap = new Map<string | null, { categoryName: string | null; items: any[] }>()
 

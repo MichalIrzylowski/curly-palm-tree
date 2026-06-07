@@ -1,8 +1,7 @@
-import configPromise from '@payload-config'
-import { getPayload } from 'payload'
 import TeamMemberCard from '@/components/TeamMemberCard'
 import { SectionWrapper } from '@/components/SectionWrapper'
 import { SectionHeading } from '@/components/SectionHeading'
+import { getTeamMembers } from '@/loaders/getTeamMembers'
 
 type Props = {
   locale?: string
@@ -11,15 +10,7 @@ type Props = {
 }
 
 export async function TeamGridBlock({ locale = 'pl', heading, description }: Props) {
-  const payload = await getPayload({ config: configPromise })
-  const { docs } = await payload.find({
-    collection: 'team',
-    sort: 'order',
-    locale: locale as 'pl' | 'en',
-    depth: 1,
-    limit: 100,
-    pagination: false,
-  })
+  const docs = await getTeamMembers(locale as 'pl' | 'en')
 
   return (
     <SectionWrapper>

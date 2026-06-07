@@ -2,12 +2,13 @@ import type { Metadata } from 'next'
 
 import { PayloadRedirects } from '@/components/PayloadRedirects'
 import configPromise from '@payload-config'
-import { getPayload, type RequiredDataFromCollectionSlug } from 'payload'
+import { getPayload } from 'payload'
 import { draftMode } from 'next/headers'
-import React, { cache } from 'react'
+import React from 'react'
 import { RenderBlocks } from '@/blocks/RenderBlocks'
 import { generateMeta } from '@/utilities/generateMeta'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
+import { getPageBySlug } from '@/loaders/getPageBySlug'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -45,9 +46,7 @@ export default async function Page({ params: paramsPromise }: Args) {
   // Decode to support slugs with special characters
   const decodedSlug = decodeURIComponent(slug)
   const url = '/' + decodedSlug
-  const page: RequiredDataFromCollectionSlug<'pages'> | null = await queryPageBySlug({
-    slug: decodedSlug,
-  })
+  const page = await getPageBySlug(decodedSlug)
 
   if (!page) {
     return <PayloadRedirects url={url} />
@@ -70,30 +69,7 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
   const { slug = 'home' } = await paramsPromise
   // Decode to support slugs with special characters
   const decodedSlug = decodeURIComponent(slug)
-  const page = await queryPageBySlug({
-    slug: decodedSlug,
-  })
+  const page = await getPageBySlug(decodedSlug)
 
   return generateMeta({ doc: page })
 }
-
-const queryPageBySlug = cache(async ({ slug }: { slug: string }) => {
-  const { isEnabled: draft } = await draftMode()
-
-  const payload = await getPayload({ config: configPromise })
-
-  const result = await payload.find({
-    collection: 'pages',
-    draft,
-    limit: 1,
-    pagination: false,
-    overrideAccess: draft,
-    where: {
-      slug: {
-        equals: slug,
-      },
-    },
-  })
-
-  return result.docs?.[0] || null
-})
