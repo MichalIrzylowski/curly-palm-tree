@@ -62,7 +62,7 @@ export function GalleryCarousel({ items }: { items: GalleryItem[] }) {
 
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="max-w-4xl gap-0 overflow-hidden p-0">
-          <div className="relative h-[60vh] w-full bg-secondary">
+          <div className="relative h-[60vh] w-full bg-linear-to-br from-secondary/15 via-accent/8 to-transparent">
             {activeItem && <Media resource={activeItem.media} fill imgClassName="object-contain" />}
             {items.length > 1 && (
               <>
@@ -70,7 +70,7 @@ export function GalleryCarousel({ items }: { items: GalleryItem[] }) {
                   variant="ghost"
                   size="clear"
                   onClick={prev}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full bg-black/50 p-2 text-white hover:bg-black/70"
+                  className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full bg-black/50 p-2 text-white hover:bg-black/70 hover:text-white"
                   aria-label="Poprzednie zdjęcie"
                 >
                   <ChevronLeft className="h-6 w-6" />
@@ -79,7 +79,7 @@ export function GalleryCarousel({ items }: { items: GalleryItem[] }) {
                   variant="ghost"
                   size="clear"
                   onClick={next}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-black/50 p-2 text-white hover:bg-black/70"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-black/50 p-2 text-white hover:bg-black/70 hover:text-white"
                   aria-label="Następne zdjęcie"
                 >
                   <ChevronRight className="h-6 w-6" />
