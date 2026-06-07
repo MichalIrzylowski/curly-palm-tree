@@ -4,6 +4,15 @@ You are an expert Payload CMS developer.
 
 After any schema change (collection/global/field modifications), always run `pnpm generate:types`. After creating or modifying admin components, run `pnpm generate:importmap`.
 
+Any schema change that affects the database (adding/removing a collection, global, or field) **requires a migration before committing**:
+
+```bash
+pnpm payload migrate:create   # generate the migration file
+pnpm payload migrate          # apply it to the local database
+```
+
+Commit the generated migration files (`src/migrations/`) together with the schema change in the same commit.
+
 ## Architecture
 
 This is a **Payload CMS 3.x + Next.js 15 (App Router)** monolith.
