@@ -17,6 +17,7 @@ import { TeamTeaserBlockComponent } from '@/blocks/TeamTeaserBlock/Component'
 import { WhyUsBlockComponent } from '@/blocks/WhyUsBlock/Component'
 import { EquipmentHighlightBlockComponent } from '@/blocks/EquipmentHighlightBlock/Component'
 import { ImageGalleryBlockComponent } from '@/blocks/ImageGalleryBlock/Component'
+import { OpeningHoursBlockComponent } from '@/blocks/OpeningHoursBlock/Component'
 
 const blockComponents = {
   archive: ArchiveBlock,
@@ -34,6 +35,7 @@ const blockComponents = {
   whyUsBlock: WhyUsBlockComponent,
   equipmentHighlightBlock: EquipmentHighlightBlockComponent,
   imageGalleryBlock: ImageGalleryBlockComponent,
+  openingHoursBlock: OpeningHoursBlockComponent,
 }
 
 export const RenderBlocks: React.FC<{

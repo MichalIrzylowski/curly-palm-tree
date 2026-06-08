@@ -193,6 +193,7 @@ export interface Page {
     | EquipmentHighlightBlock
     | ImageGalleryBlock
     | MapBlock
+    | OpeningHoursBlock
     | CallToActionBlock
     | ContentBlock
     | {
@@ -582,6 +583,15 @@ export interface MapBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'mapBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "OpeningHoursBlock".
+ */
+export interface OpeningHoursBlock {
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'openingHoursBlock';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1341,6 +1351,7 @@ export interface PagesSelect<T extends boolean = true> {
         equipmentHighlightBlock?: T | EquipmentHighlightBlockSelect<T>;
         imageGalleryBlock?: T | ImageGalleryBlockSelect<T>;
         mapBlock?: T | MapBlockSelect<T>;
+        openingHoursBlock?: T | OpeningHoursBlockSelect<T>;
         cta?: T | CallToActionBlockSelect<T>;
         content?: T | ContentBlockSelect<T>;
         mediaBlock?: T | MediaBlockSelect<T>;
@@ -1454,6 +1465,14 @@ export interface ImageGalleryBlockSelect<T extends boolean = true> {
  * via the `definition` "MapBlock_select".
  */
 export interface MapBlockSelect<T extends boolean = true> {
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "OpeningHoursBlock_select".
+ */
+export interface OpeningHoursBlockSelect<T extends boolean = true> {
   id?: T;
   blockName?: T;
 }

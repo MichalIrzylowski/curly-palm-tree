@@ -17,6 +17,7 @@ import { TeamGridBlock } from '../../blocks/TeamGrid/config'
 import { WhyUsBlock } from '../../blocks/WhyUsBlock/config'
 import { EquipmentHighlightBlock } from '../../blocks/EquipmentHighlightBlock/config'
 import { ImageGalleryBlock } from '../../blocks/ImageGalleryBlock/config'
+import { OpeningHoursBlock } from '../../blocks/OpeningHoursBlock/config'
 import { slugField } from 'payload'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
@@ -88,6 +89,7 @@ export const Pages: CollectionConfig<'pages'> = {
                 EquipmentHighlightBlock,
                 ImageGalleryBlock,
                 MapBlock,
+                OpeningHoursBlock,
                 CallToAction,
                 Content,
                 MediaBlock,
