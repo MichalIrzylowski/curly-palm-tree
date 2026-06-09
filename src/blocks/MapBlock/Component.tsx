@@ -2,6 +2,7 @@ import React from 'react'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import { MapPin, Navigation, Phone, Mail } from 'lucide-react'
+import { getTranslations } from 'next-intl/server'
 
 import { SectionWrapper } from '@/components/SectionWrapper'
 import { Button } from '@/components/ui/button'
@@ -41,7 +42,10 @@ const InfoRow: React.FC<InfoRowProps> = ({ icon, label, children }) => (
  *
  */
 export const MapBlockComponent: React.FC = async () => {
-  const payload = await getPayload({ config: configPromise })
+  const [payload, t] = await Promise.all([
+    getPayload({ config: configPromise }),
+    getTranslations('Map'),
+  ])
   const [contact, siteSettings] = await Promise.all([
     payload.findGlobal({ slug: 'contact' }),
     payload.findGlobal({ slug: 'site-settings' }),
@@ -67,10 +71,10 @@ export const MapBlockComponent: React.FC = async () => {
       {/* Section header */}
       <div className="mb-8 flex flex-col gap-2">
         <Badge variant="secondary" className="w-fit text-xs font-semibold uppercase tracking-wider">
-          Kontakt & Lokalizacja
+          {t('sectionBadge')}
         </Badge>
         <h2 className="font-heading text-3xl font-bold text-foreground md:text-4xl">
-          Jak do nas dotrzeć
+          {t('heading')}
         </h2>
       </div>
 
@@ -91,7 +95,7 @@ export const MapBlockComponent: React.FC = async () => {
             />
 
             {hasAddress && (
-              <InfoRow icon={<MapPin size={18} strokeWidth={1.5} />} label="Adres">
+              <InfoRow icon={<MapPin size={18} strokeWidth={1.5} />} label={t('address')}>
                 <span>{address}</span>
               </InfoRow>
             )}
@@ -101,7 +105,7 @@ export const MapBlockComponent: React.FC = async () => {
             {hasPhones && (
               <InfoRow
                 icon={<Phone size={18} strokeWidth={1.5} />}
-                label={phones.length > 1 ? 'Telefony' : 'Telefon'}
+                label={phones.length > 1 ? t('phones') : t('phone')}
               >
                 <div className="space-y-1.5">
                   {phones.map((phone) => (
@@ -124,7 +128,7 @@ export const MapBlockComponent: React.FC = async () => {
             {hasPhones && hasEmail && <Separator />}
 
             {hasEmail && (
-              <InfoRow icon={<Mail size={18} strokeWidth={1.5} />} label="E-mail">
+              <InfoRow icon={<Mail size={18} strokeWidth={1.5} />} label={t('email')}>
                 <a
                   href={`mailto:${email}`}
                   className="font-medium text-foreground transition-colors hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 rounded-sm"
@@ -150,7 +154,7 @@ export const MapBlockComponent: React.FC = async () => {
               <Button asChild className="w-full gap-2" size="lg">
                 <a href={directionsUrl} target="_blank" rel="noopener noreferrer">
                   <Navigation className="h-4 w-4" aria-hidden />
-                  Nawiguj do nas
+                  {t('navigate')}
                 </a>
               </Button>
             </div>
@@ -161,7 +165,7 @@ export const MapBlockComponent: React.FC = async () => {
         <div className="lg:col-start-1 lg:row-start-1 flex flex-col gap-1">
           <div className="relative flex-1 overflow-hidden rounded-xl border border-border shadow-sm">
             <iframe
-              title={`Mapa — ${siteSettings?.clinicName ?? 'Lecznica Weterynaryjna'}`}
+              title={t('mapTitle', { clinicName: siteSettings?.clinicName ?? 'Lecznica Weterynaryjna' })}
               src={osmEmbedUrl}
               width="100%"
               height="100%"
@@ -169,7 +173,7 @@ export const MapBlockComponent: React.FC = async () => {
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
               aria-label={
-                address ? `Mapa z lokalizacją: ${address}` : 'Mapa z lokalizacją lecznicy'
+                address ? t('mapAriaWithAddress', { address }) : t('mapAriaDefault')
               }
             />
           </div>

@@ -1,0 +1,74 @@
+{
+  "LanguageSwitcher": {
+    "label": "Language",
+    "pl": "Polski",
+    "en": "English"
+  },
+  "Header": {
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "Footer": {
+    "rightsReserved": "All rights reserved."
+  },
+  "NotFound": {
+    "message": "This page could not be found.",
+    "goHome": "Go home"
+  },
+  "OpeningHours": {
+    "heading": "Opening hours",
+    "closed": "Closed",
+    "days": {
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday",
+      "sunday": "Sunday"
+    }
+  },
+  "QuickInfo": {
+    "open": "Open",
+    "closed": "Closed"
+  },
+  "Hero": {
+    "defaultCta": "Book an appointment",
+    "callPrefix": "Call: "
+  },
+  "Map": {
+    "sectionBadge": "Contact & Location",
+    "heading": "How to find us",
+    "navigate": "Get directions",
+    "phone": "Phone",
+    "phones": "Phones",
+    "email": "E-mail",
+    "address": "Address",
+    "mapTitle": "Map — {clinicName}",
+    "mapAriaWithAddress": "Map showing location: {address}",
+    "mapAriaDefault": "Map showing clinic location"
+  },
+  "EquipmentHighlight": {
+    "defaultHeading": "Modern equipment",
+    "defaultSubtitle": "We invest in modern tools for the benefit of your pets."
+  },
+  "ServiceGrid": {
+    "empty": "No services available."
+  },
+  "TeamGrid": {
+    "empty": "No team members found."
+  },
+  "TeamTeaser": {
+    "badge": "Our team",
+    "defaultCta": "Meet our team"
+  },
+  "Form": {
+    "loading": "Loading, please wait...",
+    "errorDefault": "Something went wrong.",
+    "fieldRequired": "This field is required."
+  },
+  "CopyButton": {
+    "copy": "Copy",
+    "copied": "Copied!"
+  }
+}

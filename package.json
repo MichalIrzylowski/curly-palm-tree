@@ -50,6 +50,7 @@
     "graphql": "^16.8.2",
     "lucide-react": "0.563.0",
     "next": "15.4.11",
+    "next-intl": "^4.13.0",
     "next-sitemap": "^4.2.3",
     "payload": "3.78.0",
     "prism-react-renderer": "^2.3.1",
@@ -57,6 +58,7 @@
     "react-dom": "19.2.1",
     "react-hook-form": "7.71.1",
     "sharp": "0.34.2",
+    "slugify": "^1.6.9",
     "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {

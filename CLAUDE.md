@@ -56,7 +56,14 @@ Required (see `.env.example`):
 
 ## UI Copy
 
-Never use task names, comments, or spec labels as user-visible string literals. All frontend copy must be either a localized CMS field or an explicit Polish-default hardcoded string.
+Never use task names, comments, or spec labels as user-visible string literals.
+
+There are exactly **two** homes for user-visible text — no hardcoded string literals:
+
+- **Editor-authored content** (page blocks, service names, bios, nav labels editors maintain) → a **localized Payload field**, resolved by passing `locale` to the query.
+- **Developer-owned UI copy** (buttons, form errors, aria-labels, "Read more") → a **next-intl message catalog** (`messages/pl.json`, `messages/en.json`), accessed via `t('key')`.
+
+Decision rule: *"Would an editor be expected to change this text?"* Yes → CMS field. No → message catalog. See `docs/adr/0002-next-intl-for-frontend-localization.md`.
 
 ## Testing
 

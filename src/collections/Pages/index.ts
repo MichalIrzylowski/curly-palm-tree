@@ -19,6 +19,7 @@ import { EquipmentHighlightBlock } from '../../blocks/EquipmentHighlightBlock/co
 import { ImageGalleryBlock } from '../../blocks/ImageGalleryBlock/config'
 import { OpeningHoursBlock } from '../../blocks/OpeningHoursBlock/config'
 import { slugField } from 'payload'
+import { slugify } from '@/utilities/slugify'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { revalidateDelete, revalidatePage } from './hooks/revalidatePage'
@@ -69,6 +70,7 @@ export const Pages: CollectionConfig<'pages'> = {
       name: 'title',
       type: 'text',
       required: true,
+      localized: true,
     },
     {
       type: 'tabs',
@@ -115,12 +117,15 @@ export const Pages: CollectionConfig<'pages'> = {
             }),
             MetaTitleField({
               hasGenerateFn: true,
+              overrides: { localized: true },
             }),
             MetaImageField({
               relationTo: 'media',
             }),
 
-            MetaDescriptionField({}),
+            MetaDescriptionField({
+              overrides: { localized: true },
+            }),
             PreviewField({
               // if the `generateUrl` function is configured
               hasGenerateFn: true,
@@ -140,7 +145,10 @@ export const Pages: CollectionConfig<'pages'> = {
         position: 'sidebar',
       },
     },
-    slugField(),
+    slugField({
+      localized: true,
+      slugify: ({ valueToSlugify }) => slugify(String(valueToSlugify ?? '')),
+    }),
   ],
   hooks: {
     afterChange: [revalidatePage],

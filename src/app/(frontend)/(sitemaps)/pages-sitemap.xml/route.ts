@@ -3,6 +3,8 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { unstable_cache } from 'next/cache'
 
+import { routing } from '@/i18n/routing'
+
 const getPagesSitemap = unstable_cache(
   async () => {
     const payload = await getPayload({ config })
@@ -11,12 +13,14 @@ const getPagesSitemap = unstable_cache(
       process.env.VERCEL_PROJECT_PRODUCTION_URL ||
       'https://example.com'
 
+    // `locale: 'all'` returns each localized slug keyed by locale.
     const results = await payload.find({
       collection: 'pages',
       overrideAccess: false,
       draft: false,
       depth: 0,
       limit: 1000,
+      locale: 'all',
       pagination: false,
       where: {
         _status: {
@@ -31,29 +35,22 @@ const getPagesSitemap = unstable_cache(
 
     const dateFallback = new Date().toISOString()
 
-    const defaultSitemap = [
-      {
-        loc: `${SITE_URL}/search`,
-        lastmod: dateFallback,
-      },
-      {
-        loc: `${SITE_URL}/posts`,
-        lastmod: dateFallback,
-      },
-    ]
+    const sitemap: { loc: string; lastmod: string }[] = []
 
-    const sitemap = results.docs
-      ? results.docs
-          .filter((page) => Boolean(page?.slug))
-          .map((page) => {
-            return {
-              loc: page?.slug === 'home' ? `${SITE_URL}/` : `${SITE_URL}/${page?.slug}`,
-              lastmod: page.updatedAt || dateFallback,
-            }
-          })
-      : []
+    for (const page of results.docs ?? []) {
+      const slugByLocale = (page?.slug ?? {}) as unknown as Record<string, string | undefined>
+      const lastmod = page.updatedAt || dateFallback
 
-    return [...defaultSitemap, ...sitemap]
+      for (const locale of routing.locales) {
+        const slug = slugByLocale[locale]
+        if (!slug) continue
+
+        const loc = slug === 'home' ? `${SITE_URL}/${locale}` : `${SITE_URL}/${locale}/${slug}`
+        sitemap.push({ loc, lastmod })
+      }
+    }
+
+    return sitemap
   },
   ['pages-sitemap'],
   {

@@ -3,6 +3,7 @@ import Link from 'next/link'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import { ArrowRight, UserRound } from 'lucide-react'
+import { getTranslations } from 'next-intl/server'
 
 import { Media as MediaComponent } from '@/components/Media'
 import { SectionWrapper } from '@/components/SectionWrapper'
@@ -17,7 +18,10 @@ export const TeamTeaserBlockComponent: React.FC<TeamTeaserBlockProps> = async ({
   ctaLabel,
   pinnedMembers,
 }) => {
-  const payload = await getPayload({ config: configPromise })
+  const [payload, t] = await Promise.all([
+    getPayload({ config: configPromise }),
+    getTranslations('TeamTeaser'),
+  ])
 
   let members: Team[]
 
@@ -42,7 +46,7 @@ export const TeamTeaserBlockComponent: React.FC<TeamTeaserBlockProps> = async ({
       <div className="mb-10 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <Badge variant="secondary" className="mb-3 text-xs font-medium uppercase tracking-wider">
-            Nasz zespół
+            {t('badge')}
           </Badge>
           {heading && (
             <h2 className="font-heading text-3xl font-bold text-foreground md:text-4xl">
@@ -52,7 +56,7 @@ export const TeamTeaserBlockComponent: React.FC<TeamTeaserBlockProps> = async ({
         </div>
         <Button asChild variant="outline" size="sm" className="shrink-0 gap-1.5">
           <Link href="/team">
-            {ctaLabel ?? 'Poznaj nasz zespół'}
+            {ctaLabel ?? t('defaultCta')}
             <ArrowRight className="size-3.5" />
           </Link>
         </Button>

@@ -1,20 +1,23 @@
 import { getCachedGlobal } from '@/utilities/getGlobals'
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
+import { getTranslations } from 'next-intl/server'
 import React from 'react'
 
 import type { Contact, Footer, SiteSetting } from '@/payload-types'
+import type { Locale } from '@/i18n/locales'
 
 import { CMSLink } from '@/components/Link'
 import { Logo } from '@/components/Logo/Logo'
 import { PhoneLink } from '@/components/PhoneLink'
 
-export async function Footer() {
+export async function Footer({ locale }: { locale: Locale }) {
   const [footerData, contactData, siteSettings] = (await Promise.all([
-    getCachedGlobal('footer', 1)(),
-    getCachedGlobal('contact', 1)(),
-    getCachedGlobal('site-settings', 0)(),
+    getCachedGlobal('footer', 1, locale)(),
+    getCachedGlobal('contact', 1, locale)(),
+    getCachedGlobal('site-settings', 0, locale)(),
   ])) as [Footer, Contact, SiteSetting]
 
+  const t = await getTranslations('Footer')
   const navItems = footerData?.navItems || []
   const primaryPhone = contactData?.phones?.[0]
   const clinicName = siteSettings?.clinicName
@@ -30,7 +33,7 @@ export async function Footer() {
               <Logo multiline={false} name={clinicName} />
             </Link>
             <p className="text-sm text-muted-foreground">
-              © {new Date().getFullYear()} {legalName}. Wszelkie prawa zastrzeżone.
+              © {new Date().getFullYear()} {legalName}. {t('rightsReserved')}
             </p>
           </div>
 

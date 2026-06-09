@@ -1,0 +1,74 @@
+{
+  "LanguageSwitcher": {
+    "label": "Język",
+    "pl": "Polski",
+    "en": "English"
+  },
+  "Header": {
+    "openMenu": "Otwórz menu",
+    "closeMenu": "Zamknij menu"
+  },
+  "Footer": {
+    "rightsReserved": "Wszelkie prawa zastrzeżone."
+  },
+  "NotFound": {
+    "message": "Nie znaleziono tej strony.",
+    "goHome": "Wróć na stronę główną"
+  },
+  "OpeningHours": {
+    "heading": "Godziny otwarcia",
+    "closed": "Nieczynne",
+    "days": {
+      "monday": "Poniedziałek",
+      "tuesday": "Wtorek",
+      "wednesday": "Środa",
+      "thursday": "Czwartek",
+      "friday": "Piątek",
+      "saturday": "Sobota",
+      "sunday": "Niedziela"
+    }
+  },
+  "QuickInfo": {
+    "open": "Otwarte",
+    "closed": "Zamknięte"
+  },
+  "Hero": {
+    "defaultCta": "Umów wizytę",
+    "callPrefix": "Zadzwoń: "
+  },
+  "Map": {
+    "sectionBadge": "Kontakt & Lokalizacja",
+    "heading": "Jak do nas dotrzeć",
+    "navigate": "Nawiguj do nas",
+    "phone": "Telefon",
+    "phones": "Telefony",
+    "email": "E-mail",
+    "address": "Adres",
+    "mapTitle": "Mapa — {clinicName}",
+    "mapAriaWithAddress": "Mapa z lokalizacją: {address}",
+    "mapAriaDefault": "Mapa z lokalizacją lecznicy"
+  },
+  "EquipmentHighlight": {
+    "defaultHeading": "Nowoczesny sprzęt",
+    "defaultSubtitle": "Inwestujemy w nowoczesne narzędzia dla dobra Twoich podopiecznych."
+  },
+  "ServiceGrid": {
+    "empty": "Brak usług."
+  },
+  "TeamGrid": {
+    "empty": "Brak członków zespołu."
+  },
+  "TeamTeaser": {
+    "badge": "Nasz zespół",
+    "defaultCta": "Poznaj nasz zespół"
+  },
+  "Form": {
+    "loading": "Ładowanie, proszę czekać...",
+    "errorDefault": "Coś poszło nie tak.",
+    "fieldRequired": "To pole jest wymagane."
+  },
+  "CopyButton": {
+    "copy": "Kopiuj",
+    "copied": "Skopiowano!"
+  }
+}

@@ -1,58 +1,60 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import React, { Fragment, useTransition } from 'react'
+import { useLocale, useTranslations } from 'next-intl'
 
-const LOCALE_COOKIE = 'payload-locale'
-const LOCALE_RE = new RegExp(`(?:^|; )${LOCALE_COOKIE}=([^;]*)`)
+import { usePathname, useRouter } from '@/i18n/navigation'
+import { routing } from '@/i18n/routing'
+import { resolveAlternatePath } from '@/i18n/switchLocaleAction'
+import type { Locale } from '@/i18n/locales'
 
-function getLocale(): string {
-  if (typeof document === 'undefined') return 'pl'
-  const match = document.cookie.match(LOCALE_RE)
-  return match ? decodeURIComponent(match[1]) : 'pl'
-}
-
+/**
+ * URL-prefix language switcher (ADR-0001). Switching is a sibling-slug lookup,
+ * not a prefix swap (ADR-0003): the target slug is resolved server-side, then
+ * next-intl's router applies the destination locale prefix.
+ */
 export const LanguageSwitcher: React.FC = () => {
+  const activeLocale = useLocale() as Locale
+  const pathname = usePathname() // locale-stripped, e.g. '/about' or '/'
   const router = useRouter()
-  const [locale, setLocale] = useState<string>('pl')
+  const t = useTranslations('LanguageSwitcher')
+  const [isPending, startTransition] = useTransition()
 
-  useEffect(() => {
-    setLocale(getLocale())
-  }, [])
+  const currentSlug = pathname === '/' ? 'home' : pathname.replace(/^\//, '')
 
-  const switchLocale = (newLocale: string) => {
-    document.cookie = `${LOCALE_COOKIE}=${newLocale}; path=/; max-age=31536000`
-    setLocale(newLocale)
-    router.refresh()
+  const switchTo = (target: Locale) => {
+    if (target === activeLocale) return
+    startTransition(async () => {
+      const targetPath = await resolveAlternatePath(currentSlug, activeLocale, target)
+      router.replace(targetPath, { locale: target })
+    })
   }
 
   return (
-    <div className="flex items-center gap-1 text-sm font-medium" aria-label="Language switcher">
-      <button
-        onClick={() => switchLocale('pl')}
-        className={
-          locale === 'pl'
-            ? 'text-primary font-bold'
-            : 'text-muted-foreground hover:text-foreground transition-colors'
-        }
-        aria-label="Polski"
-      >
-        PL
-      </button>
-      <span className="text-muted-foreground" aria-hidden="true">
-        |
-      </span>
-      <button
-        onClick={() => switchLocale('en')}
-        className={
-          locale === 'en'
-            ? 'text-primary font-bold'
-            : 'text-muted-foreground hover:text-foreground transition-colors'
-        }
-        aria-label="English"
-      >
-        EN
-      </button>
+    <div className="flex items-center gap-1 text-sm font-medium" aria-label={t('label')}>
+      {routing.locales.map((loc, i) => (
+        <Fragment key={loc}>
+          {i > 0 && (
+            <span className="text-muted-foreground" aria-hidden="true">
+              |
+            </span>
+          )}
+          <button
+            type="button"
+            onClick={() => switchTo(loc)}
+            disabled={isPending}
+            aria-label={t(loc)}
+            aria-current={loc === activeLocale ? 'true' : undefined}
+            className={
+              loc === activeLocale
+                ? 'text-primary font-bold'
+                : 'text-muted-foreground hover:text-foreground transition-colors'
+            }
+          >
+            {loc.toUpperCase()}
+          </button>
+        </Fragment>
+      ))}
     </div>
   )
 }

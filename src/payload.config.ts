@@ -20,6 +20,7 @@ import { SiteSettings } from './globals/SiteSettings'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
+import { locales, defaultLocale, localeLabels } from './i18n/locales'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -74,11 +75,8 @@ export default buildConfig({
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer, OpeningHours, Contact, SiteSettings],
   localization: {
-    locales: [
-      { label: 'Polish', code: 'pl' },
-      { label: 'English', code: 'en' },
-    ],
-    defaultLocale: 'pl',
+    locales: locales.map((code) => ({ code, label: localeLabels[code] })),
+    defaultLocale,
   },
   plugins,
   secret: process.env.PAYLOAD_SECRET,

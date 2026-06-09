@@ -3,6 +3,7 @@ import Link from 'next/link'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import { Phone } from 'lucide-react'
+import { getTranslations } from 'next-intl/server'
 
 import type { HeroBlock as HeroBlockProps } from '@/payload-types'
 import { Media } from '@/components/Media'
@@ -17,7 +18,10 @@ export const HeroBlockComponent: React.FC<HeroBlockProps> = async ({
   media,
   trustSignals,
 }) => {
-  const payload = await getPayload({ config: configPromise })
+  const [payload, t] = await Promise.all([
+    getPayload({ config: configPromise }),
+    getTranslations('Hero'),
+  ])
   const contact = await payload.findGlobal({ slug: 'contact' })
   const primaryPhone = contact?.phones?.[0]
   const city = contact?.address?.split(',').at(-1)?.trim().split(' ').at(-1)
@@ -56,7 +60,7 @@ export const HeroBlockComponent: React.FC<HeroBlockProps> = async ({
               size="lg"
               className="w-full sm:w-auto transition-transform hover:-translate-y-0.5 active:translate-y-0"
             >
-              <Link href="/contact">{primaryCtaLabel ?? 'Umów wizytę'}</Link>
+              <Link href="/contact">{primaryCtaLabel ?? t('defaultCta')}</Link>
             </Button>
 
             {primaryPhone && (
@@ -68,7 +72,7 @@ export const HeroBlockComponent: React.FC<HeroBlockProps> = async ({
               >
                 <a href={`tel:${primaryPhone.number}`}>
                   <Phone className="h-4 w-4" aria-hidden />
-                  {primaryPhone.label ? `${primaryPhone.label}: ` : 'Zadzwoń: '}
+                  {primaryPhone.label ? `${primaryPhone.label}: ` : t('callPrefix')}
                   {primaryPhone.number}
                 </a>
               </Button>
