@@ -1,5 +1,5 @@
 'use client'
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
 import { usePathname } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
@@ -10,6 +10,8 @@ import { PhoneLink } from '@/components/PhoneLink'
 import { HeaderNav } from './Nav'
 import { Menu, Phone, X } from 'lucide-react'
 import { CMSLink } from '@/components/Link'
+import { LanguageSwitcher } from './LanguageSwitcher'
+import { useTranslations } from 'next-intl'
 
 interface HeaderClientProps {
   data: Header
@@ -20,6 +22,7 @@ interface HeaderClientProps {
 export const HeaderClient: React.FC<HeaderClientProps> = ({ data, contact, clinicName }) => {
   const [menuOpen, setMenuOpen] = useState(false)
   const pathname = usePathname()
+  const t = useTranslations('Header')
 
   const navItems = data?.navItems || []
   const primaryPhone = contact?.phones?.[0]
@@ -40,6 +43,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, contact, clini
           {/* Desktop nav + controls */}
           <div className="hidden md:flex items-center gap-6">
             <HeaderNav data={data} />
+            <LanguageSwitcher />
             {primaryPhone && (
               <a
                 href={`tel:${primaryPhone.number.replace(/\s/g, '')}`}
@@ -55,7 +59,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, contact, clini
           <button
             className="md:hidden p-2 rounded hover:bg-accent/10"
             onClick={() => setMenuOpen((prev) => !prev)}
-            aria-label={menuOpen ? 'Zamknij menu' : 'Otwórz menu'}
+            aria-label={menuOpen ? t('closeMenu') : t('openMenu')}
           >
             {menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -71,6 +75,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, contact, clini
                 <CMSLink key={i} {...link} appearance="link" />
               ))}
             </nav>
+            <LanguageSwitcher />
             {primaryPhone && (
               <PhoneLink
                 number={primaryPhone.number}

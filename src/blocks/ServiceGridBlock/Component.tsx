@@ -5,13 +5,12 @@ import { ServiceAccordion } from './ServiceAccordion.client'
 import { getServices } from '@/loaders/getServices'
 
 type Props = {
-  locale?: string
   heading?: string | null
   description?: string | null
 }
 
-export async function ServiceGridBlock({ locale = 'pl', heading, description }: Props) {
-  const docs = await getServices(locale as 'pl' | 'en')
+export async function ServiceGridBlock({ heading, description }: Props) {
+  const docs = await getServices()
 
   const groupMap = new Map<string | null, { categoryName: string | null; items: any[] }>()
 

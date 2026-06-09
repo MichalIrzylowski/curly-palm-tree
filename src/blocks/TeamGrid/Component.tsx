@@ -4,13 +4,12 @@ import { SectionHeading } from '@/components/SectionHeading'
 import { getTeamMembers } from '@/loaders/getTeamMembers'
 
 type Props = {
-  locale?: string
   heading?: string | null
   description?: string | null
 }
 
-export async function TeamGridBlock({ locale = 'pl', heading, description }: Props) {
-  const docs = await getTeamMembers(locale as 'pl' | 'en')
+export async function TeamGridBlock({ heading, description }: Props) {
+  const docs = await getTeamMembers()
 
   return (
     <SectionWrapper>

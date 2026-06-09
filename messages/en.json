@@ -1,0 +1,18 @@
+{
+  "LanguageSwitcher": {
+    "label": "Language",
+    "pl": "Polski",
+    "en": "English"
+  },
+  "Header": {
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "Footer": {
+    "rightsReserved": "All rights reserved."
+  },
+  "NotFound": {
+    "message": "This page could not be found.",
+    "goHome": "Go home"
+  }
+}
