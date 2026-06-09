@@ -33,12 +33,12 @@ describe('slug generation from a Polish title', () => {
       draft: true,
       context: { disableRevalidate: true },
       data: {
-        title: 'Usługi',
+        title: 'Łódź',
         layout: [{ blockType: 'quickInfoBlock' }],
       },
     })
     pageId = created.id
 
-    expect(created.slug).toBe('uslugi')
+    expect(created.slug).toBe('lodz')
   })
 })
