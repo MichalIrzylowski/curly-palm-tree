@@ -2,6 +2,7 @@ import TeamMemberCard from '@/components/TeamMemberCard'
 import { SectionWrapper } from '@/components/SectionWrapper'
 import { SectionHeading } from '@/components/SectionHeading'
 import { getTeamMembers } from '@/loaders/getTeamMembers'
+import { getTranslations } from 'next-intl/server'
 
 type Props = {
   heading?: string | null
@@ -9,13 +10,13 @@ type Props = {
 }
 
 export async function TeamGridBlock({ heading, description }: Props) {
-  const docs = await getTeamMembers()
+  const [docs, t] = await Promise.all([getTeamMembers(), getTranslations('TeamGrid')])
 
   return (
     <SectionWrapper>
       {heading && <SectionHeading subtitle={description ?? undefined}>{heading}</SectionHeading>}
       {docs.length === 0 ? (
-        <p className="text-muted-foreground">Brak członków zespołu.</p>
+        <p className="text-muted-foreground">{t('empty')}</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {docs.map((member) => (

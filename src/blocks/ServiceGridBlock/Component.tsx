@@ -3,6 +3,7 @@ import { SectionWrapper } from '@/components/SectionWrapper'
 import { SectionHeading } from '@/components/SectionHeading'
 import { ServiceAccordion } from './ServiceAccordion.client'
 import { getServices } from '@/loaders/getServices'
+import { getTranslations } from 'next-intl/server'
 
 type Props = {
   heading?: string | null
@@ -10,7 +11,7 @@ type Props = {
 }
 
 export async function ServiceGridBlock({ heading, description }: Props) {
-  const docs = await getServices()
+  const [docs, t] = await Promise.all([getServices(), getTranslations('ServiceGrid')])
 
   const groupMap = new Map<string | null, { categoryName: string | null; items: any[] }>()
 
@@ -40,7 +41,7 @@ export async function ServiceGridBlock({ heading, description }: Props) {
     <SectionWrapper>
       {heading && <SectionHeading subtitle={description ?? undefined}>{heading}</SectionHeading>}
       {docs.length === 0 ? (
-        <p className="text-muted-foreground">Brak usług.</p>
+        <p className="text-muted-foreground">{t('empty')}</p>
       ) : (
         <ServiceAccordion groups={groups} />
       )}

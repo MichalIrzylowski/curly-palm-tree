@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useTranslations } from 'next-intl'
 
 import { Badge } from '@/components/ui/badge'
 
@@ -22,6 +23,7 @@ function checkOpenNow(openTime: string, closeTime: string): boolean {
 }
 
 export function OpenBadge({ openTime, closeTime, isClosed }: Props) {
+  const t = useTranslations('QuickInfo')
   const [open, setOpen] = useState<boolean | null>(null)
 
   useEffect(() => {
@@ -39,7 +41,6 @@ export function OpenBadge({ openTime, closeTime, isClosed }: Props) {
     return () => clearInterval(timer)
   }, [openTime, closeTime, isClosed])
 
-  // null = not yet hydrated — renders nothing (graceful for <noscript>)
   if (open === null) return null
 
   return (
@@ -47,7 +48,7 @@ export function OpenBadge({ openTime, closeTime, isClosed }: Props) {
       variant={open ? 'default' : 'destructive'}
       className={open ? 'border-transparent bg-green-100 text-green-800 hover:bg-green-100' : undefined}
     >
-      {open ? 'Otwarte' : 'Zamknięte'}
+      {open ? t('open') : t('closed')}
     </Badge>
   )
 }
