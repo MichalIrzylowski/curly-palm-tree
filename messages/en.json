@@ -53,7 +53,13 @@
     "defaultSubtitle": "We invest in modern tools for the benefit of your pets."
   },
   "ServiceGrid": {
-    "empty": "No services available."
+    "empty": "No services available.",
+    "navLabel": "Service categories"
+  },
+  "ServicesHighlights": {
+    "badge": "Our services",
+    "viewAll": "View all",
+    "learnMore": "Learn more"
   },
   "TeamGrid": {
     "empty": "No team members found."

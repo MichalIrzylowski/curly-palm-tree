@@ -53,7 +53,13 @@
     "defaultSubtitle": "Inwestujemy w nowoczesne narzędzia dla dobra Twoich podopiecznych."
   },
   "ServiceGrid": {
-    "empty": "Brak usług."
+    "empty": "Brak usług.",
+    "navLabel": "Kategorie usług"
+  },
+  "ServicesHighlights": {
+    "badge": "Nasze usługi",
+    "viewAll": "Zobacz wszystkie",
+    "learnMore": "Dowiedz się więcej"
   },
   "TeamGrid": {
     "empty": "Brak członków zespołu."

@@ -392,7 +392,7 @@ export interface QuickInfoBlock {
 export interface ServicesHighlightsBlock {
   heading?: string | null;
   /**
-   * Select 3–4 services to display on the homepage.
+   * Select the service categories to display as cards on the homepage.
    */
   services?: (number | Service)[] | null;
   id?: string | null;
@@ -400,58 +400,39 @@ export interface ServicesHighlightsBlock {
   blockType: 'servicesHighlightsBlock';
 }
 /**
+ * Each document is one category section (e.g. Profilaktyka) with its full list of services.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "services".
  */
 export interface Service {
   id: number;
   name: string;
-  description?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
+  /**
+   * Short blurb shown on homepage highlight cards
+   */
+  summary?: string | null;
   icon?: string | null;
-  category?: (number | null) | Category;
   /**
    * Display order (lower number = shown first)
    */
   order?: number | null;
-  /**
-   * Show on homepage highlight block
-   */
-  featured?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "categories".
- */
-export interface Category {
-  id: number;
-  title: string;
-  /**
-   * When enabled, the slug will auto-generate from the title field on save and autosave.
-   */
-  generateSlug?: boolean | null;
-  slug: string;
-  parent?: (number | null) | Category;
-  breadcrumbs?:
+  services?:
     | {
-        doc?: (number | null) | Category;
-        url?: string | null;
-        label?: string | null;
+        name: string;
+        /**
+         * Optional one-line description shown under the service name
+         */
+        description?: string | null;
+        /**
+         * Optional bullet points (e.g. individual tests or procedures)
+         */
+        details?:
+          | {
+              text: string;
+              id?: string | null;
+            }[]
+          | null;
         id?: string | null;
       }[]
     | null;
@@ -690,6 +671,30 @@ export interface Post {
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories".
+ */
+export interface Category {
+  id: number;
+  title: string;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  parent?: (number | null) | Category;
+  breadcrumbs?:
+    | {
+        doc?: (number | null) | Category;
+        url?: string | null;
+        label?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1736,11 +1741,22 @@ export interface TeamSelect<T extends boolean = true> {
  */
 export interface ServicesSelect<T extends boolean = true> {
   name?: T;
-  description?: T;
+  summary?: T;
   icon?: T;
-  category?: T;
   order?: T;
-  featured?: T;
+  services?:
+    | T
+    | {
+        name?: T;
+        description?: T;
+        details?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }

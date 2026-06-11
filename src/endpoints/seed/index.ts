@@ -1,7 +1,6 @@
 import type { Payload, PayloadRequest } from 'payload'
 
 import { seedTeam } from './vet-team'
-import { seedCategories } from './vet-categories'
 import { seedServices } from './vet-services'
 import { seedEquipment } from './vet-equipment'
 import { clearData } from './clear-data'
@@ -34,21 +33,12 @@ export async function seed({
   const { staffImages } = await seedMedia(payload)
 
   // 3. Seed collections
-  log('Seeding categories...')
-  const categories = await seedCategories({ payload, req })
   log('Seeding services...')
-  await seedServices({ payload, req, categories })
+  const serviceCategoryIds = await seedServices({ payload, req })
   log('Seeding equipment...')
   await seedEquipment({ payload, req, images: staffImages })
   log('Seeding team...')
   await seedTeam({ payload, req, images: staffImages })
-
-  const featuredResult = await payload.find({
-    collection: 'services',
-    where: { featured: { equals: true } },
-    limit: 4,
-  })
-  const featuredServiceIds = featuredResult.docs.map((s) => s.id)
 
   // 4. Seed globals
   log('Seeding globals...')
@@ -56,7 +46,7 @@ export async function seed({
 
   // 5. Seed pages
   log('Seeding pages...')
-  await seedPages(payload, featuredServiceIds)
+  await seedPages(payload, serviceCategoryIds)
 
   log('✓ Seeding complete.')
 }

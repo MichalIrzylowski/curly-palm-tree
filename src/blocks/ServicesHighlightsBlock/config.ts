@@ -21,9 +21,9 @@ export const ServicesHighlightsBlock: Block = {
       relationTo: 'services',
       hasMany: true,
       maxRows: 4,
-      label: 'Services to highlight',
+      label: 'Service categories to highlight',
       admin: {
-        description: 'Select 3–4 services to display on the homepage.',
+        description: 'Select the service categories to display as cards on the homepage.',
       },
     },
   ],

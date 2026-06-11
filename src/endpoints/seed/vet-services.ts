@@ -1,190 +1,183 @@
-import { faker } from '@faker-js/faker'
 import type { Payload, PayloadRequest } from 'payload'
 
-faker.seed(43)
+interface Localized {
+  pl: string
+  en: string
+}
 
-interface ServiceData {
-  name: { pl: string; en: string }
-  description: { pl: string; en: string }
+interface ServiceItem {
+  name: Localized
+  description?: Localized
+  details?: Localized[]
+}
+
+interface CategoryData {
+  name: Localized
+  summary: Localized
   icon: string
-  category: string
   order: number
-  featured?: boolean
+  services: ServiceItem[]
 }
 
-function richText(text: string) {
-  return {
-    root: {
-      type: 'root',
-      children: [
-        {
-          type: 'paragraph',
-          children: [
-            {
-              type: 'text',
-              detail: 0,
-              format: 0,
-              mode: 'normal',
-              style: '',
-              text,
-              version: 1,
-            },
-          ],
-          direction: 'ltr' as const,
-          format: '' as const,
-          indent: 0,
-          textFormat: 0,
-          version: 1,
-        },
-      ],
-      direction: 'ltr' as const,
-      format: '' as const,
-      indent: 0,
-      version: 1,
-    },
-  }
-}
-
-const SERVICES: ServiceData[] = [
+const SERVICE_CATEGORIES: CategoryData[] = [
   {
-    name: { pl: 'Konsultacja weterynaryjna', en: 'Veterinary Consultation' },
-    description: {
-      pl: 'Kompleksowe badanie kliniczne zwierzęcia, ocena stanu zdrowia oraz omówienie zaleceń profilaktycznych i leczniczych.',
-      en: 'A comprehensive clinical examination of your pet, health status assessment and discussion of preventive and therapeutic recommendations.',
-    },
-    icon: 'stethoscope',
-    category: 'Profilaktyka',
-    order: 1,
-    featured: true,
-  },
-  {
-    name: { pl: 'Szczepienia', en: 'Vaccinations' },
-    description: {
-      pl: 'Szczepienia ochronne dla psów, kotów i innych zwierząt towarzyszących zgodnie z aktualnym kalendarzem szczepień.',
-      en: 'Protective vaccinations for dogs, cats and other companion animals in line with the current vaccination schedule.',
+    name: { pl: 'Profilaktyka', en: 'Preventive care' },
+    summary: {
+      pl: 'Badania kliniczne, szczepienia, ochrona przed pasożytami, czipowanie oraz paszporty i świadectwa zdrowia.',
+      en: 'Clinical examinations, vaccinations, parasite prevention, microchipping, passports and health certificates.',
     },
     icon: 'syringe',
-    category: 'Profilaktyka',
+    order: 1,
+    services: [
+      { name: { pl: 'badanie kliniczne', en: 'clinical examination' } },
+      { name: { pl: 'szczepienia psów i kotów', en: 'dog and cat vaccinations' } },
+      {
+        name: {
+          pl: 'profilaktyka przeciwko pasożytom wewnętrznym i zewnętrznym',
+          en: 'prevention of internal and external parasites',
+        },
+      },
+      {
+        name: {
+          pl: 'wszczepienie oraz rejestracja mikroczipu',
+          en: 'microchip implantation and registration',
+        },
+      },
+      { name: { pl: 'wystawienie paszportu', en: 'pet passport issuance' } },
+      { name: { pl: 'wystawienie świadectwa zdrowia', en: 'health certificate issuance' } },
+    ],
+  },
+  {
+    name: { pl: 'Diagnostyka', en: 'Diagnostics' },
+    summary: {
+      pl: 'Badania laboratoryjne wykonywane na miejscu, USG i RTG — szybka i dokładna diagnoza.',
+      en: 'In-house laboratory tests, ultrasound and X-ray — fast and accurate diagnosis.',
+    },
+    icon: 'microscope',
     order: 2,
-    featured: true,
+    services: [
+      {
+        name: {
+          pl: 'badania laboratoryjne wykonywane na miejscu',
+          en: 'in-house laboratory tests',
+        },
+        details: [
+          {
+            pl: 'badanie morfologiczne krwi (wynik w ciągu 3 minut)',
+            en: 'complete blood count (results within 3 minutes)',
+          },
+          { pl: 'badanie biochemiczne krwi', en: 'blood biochemistry' },
+          { pl: 'badanie moczu', en: 'urinalysis' },
+          { pl: 'badanie kału', en: 'faecal examination' },
+          { pl: 'badanie mikroskopowe', en: 'microscopic examination' },
+        ],
+      },
+      { name: { pl: 'badanie USG', en: 'ultrasound examination' } },
+      { name: { pl: 'badanie RTG', en: 'X-ray examination' } },
+    ],
   },
   {
-    name: { pl: 'Diagnostyka USG', en: 'Ultrasound Diagnostics' },
-    description: {
-      pl: 'Badanie ultrasonograficzne jamy brzusznej, serca i innych narządów przy użyciu nowoczesnego aparatu USG.',
-      en: 'Ultrasound examination of the abdomen, heart and other organs using state-of-the-art equipment.',
-    },
-    icon: 'monitor',
-    category: 'Diagnostyka',
-    order: 3,
-    featured: true,
-  },
-  {
-    name: { pl: 'Rentgenografia', en: 'X-Ray Imaging' },
-    description: {
-      pl: 'Cyfrowe badanie rentgenowskie kości, stawów i klatki piersiowej. Szybki wynik i możliwość konsultacji ze specjalistą.',
-      en: 'Digital X-ray of bones, joints and the thoracic cavity. Fast results and specialist consultation available.',
-    },
-    icon: 'scan-line',
-    category: 'Diagnostyka',
-    order: 4,
-    featured: true,
-  },
-  {
-    name: { pl: 'Badania laboratoryjne', en: 'Laboratory Tests' },
-    description: {
-      pl: 'Morfologia krwi, biochemia, badanie moczu i kału. Wyniki dostępne w ciągu kilku godzin.',
-      en: 'Blood count, biochemistry, urinalysis and faecal examination. Results available within a few hours.',
-    },
-    icon: 'flask-conical',
-    category: 'Diagnostyka',
-    order: 5,
-  },
-  {
-    name: { pl: 'Chirurgia ogólna', en: 'General Surgery' },
-    description: {
-      pl: faker.lorem.sentence(20),
-      en: faker.lorem.sentence(20),
-    },
-    icon: 'scissors',
-    category: 'Chirurgia',
-    order: 6,
-  },
-  {
-    name: { pl: 'Kardiologia', en: 'Cardiology' },
-    description: {
-      pl: 'Echokardiografia, EKG oraz monitorowanie ciśnienia tętniczego. Diagnostyka i leczenie chorób serca u psów i kotów.',
-      en: 'Echocardiography, ECG and blood pressure monitoring. Diagnosis and treatment of heart disease in dogs and cats.',
+    name: { pl: 'Specjalistyczne', en: 'Specialist care' },
+    summary: {
+      pl: 'Chirurgia, kardiologia, stomatologia, dermatologia i inne specjalizacje dla psów i kotów.',
+      en: 'Surgery, cardiology, dentistry, dermatology and other specialities for dogs and cats.',
     },
     icon: 'heart-pulse',
-    category: 'Specjalistyczne',
-    order: 7,
-  },
-  {
-    name: { pl: 'Dermatologia', en: 'Dermatology' },
-    description: {
-      pl: 'Diagnostyka i leczenie chorób skóry, alergii i schorzeń uszu. Pobieranie próbek do badań cytologicznych i histologicznych.',
-      en: 'Diagnosis and treatment of skin diseases, allergies and ear disorders. Sample collection for cytological and histological examination.',
-    },
-    icon: 'shield',
-    category: 'Specjalistyczne',
-    order: 8,
-  },
-  {
-    name: { pl: 'Dentystyka weterynaryjna', en: 'Veterinary Dentistry' },
-    description: {
-      pl: 'Przegląd i czyszczenie zębów, ekstrakcje oraz leczenie chorób przyzębia w pełnym znieczuleniu ogólnym.',
-      en: 'Dental check-up and cleaning, extractions and periodontal treatment under full general anaesthesia.',
-    },
-    icon: 'smile',
-    category: 'Leczenie',
-    order: 9,
-  },
-  {
-    name: { pl: 'Hospitalizacja', en: 'Hospitalisation' },
-    description: {
-      pl: 'Całodobowa opieka nad pacjentem w przypadkach wymagających intensywnego nadzoru medycznego.',
-      en: 'Round-the-clock patient care for cases requiring intensive medical supervision.',
-    },
-    icon: 'bed',
-    category: 'Leczenie',
-    order: 10,
+    order: 3,
+    services: [
+      {
+        name: { pl: 'chirurgia i anestezjologia', en: 'surgery and anaesthesiology' },
+        description: {
+          pl: 'wykonywanie zabiegów z zakresu chirurgii tkanek miękkich, okulistycznych w znieczuleniu wziewnym',
+          en: 'soft tissue and ophthalmic surgical procedures under inhalation anaesthesia',
+        },
+      },
+      {
+        name: { pl: 'kardiologia', en: 'cardiology' },
+        description: {
+          pl: 'diagnostyka schorzeń układu sercowo-naczyniowego',
+          en: 'diagnosis of cardiovascular disorders',
+        },
+        details: [
+          { pl: 'EKG', en: 'ECG' },
+          { pl: 'echo serca', en: 'echocardiography' },
+          { pl: 'pomiar ciśnienia', en: 'blood pressure measurement' },
+        ],
+      },
+      {
+        name: { pl: 'stomatologia', en: 'dentistry' },
+        details: [
+          { pl: 'usuwanie kamienia nazębnego', en: 'dental scaling' },
+          { pl: 'ekstrakcje zębów', en: 'tooth extractions' },
+        ],
+      },
+      {
+        name: {
+          pl: 'choroby wewnętrzne psów i kotów',
+          en: 'internal medicine for dogs and cats',
+        },
+      },
+      { name: { pl: 'gastroenterologia', en: 'gastroenterology' } },
+      { name: { pl: 'endokrynologia', en: 'endocrinology' } },
+      { name: { pl: 'dermatologia', en: 'dermatology' } },
+      { name: { pl: 'nefrologia', en: 'nephrology' } },
+      { name: { pl: 'urologia', en: 'urology' } },
+      { name: { pl: 'okulistyka', en: 'ophthalmology' } },
+    ],
   },
 ]
 
 export async function seedServices({
   payload,
   req: _req,
-  categories,
 }: {
   payload: Payload
   req: PayloadRequest
-  categories: Record<string, number>
-}): Promise<void> {
+}): Promise<(string | number)[]> {
   payload.logger.info('— Seeding services...')
 
-  for (const service of SERVICES) {
+  const categoryIds: (string | number)[] = []
+
+  for (const category of SERVICE_CATEGORIES) {
     const doc = await payload.create({
       collection: 'services',
       locale: 'pl',
       data: {
-        name: service.name.pl,
-        description: richText(service.description.pl),
-        icon: service.icon,
-        category: categories[service.category] ?? null,
-        order: service.order,
-        featured: service.featured ?? false,
+        name: category.name.pl,
+        summary: category.summary.pl,
+        icon: category.icon,
+        order: category.order,
+        services: category.services.map((service) => ({
+          name: service.name.pl,
+          description: service.description?.pl,
+          details: service.details?.map((detail) => ({ text: detail.pl })),
+        })),
       },
     })
 
+    // Localized sub-fields inside arrays are matched by row id, so reuse the
+    // ids returned from the Polish create when writing the English texts.
     await payload.update({
       collection: 'services',
       id: doc.id,
       locale: 'en',
       data: {
-        name: service.name.en,
-        description: richText(service.description.en),
+        name: category.name.en,
+        summary: category.summary.en,
+        services: category.services.map((service, i) => ({
+          id: doc.services?.[i]?.id,
+          name: service.name.en,
+          description: service.description?.en,
+          details: service.details?.map((detail, j) => ({
+            id: doc.services?.[i]?.details?.[j]?.id,
+            text: detail.en,
+          })),
+        })),
       },
     })
+
+    categoryIds.push(doc.id)
   }
+
+  return categoryIds
 }

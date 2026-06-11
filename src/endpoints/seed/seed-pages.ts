@@ -3,7 +3,7 @@ import { richText } from './utils'
 
 export async function seedPages(
   payload: Payload,
-  featuredServiceIds: (string | number)[],
+  serviceCategoryIds: (string | number)[],
 ): Promise<void> {
   payload.logger.info('— Seeding pages...')
 
@@ -24,7 +24,7 @@ export async function seedPages(
     {
       blockType: 'servicesHighlightsBlock',
       heading: 'Nasze usługi',
-      services: featuredServiceIds,
+      services: serviceCategoryIds,
     },
     {
       blockType: 'whyUsBlock',
@@ -107,7 +107,7 @@ export async function seedPages(
           id: shb.id,
           blockType: 'servicesHighlightsBlock',
           heading: 'Our services',
-          services: featuredServiceIds,
+          services: serviceCategoryIds,
         },
         {
           id: wub.id,
