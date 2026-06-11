@@ -10,15 +10,16 @@ import type {
 } from '@/payload-types'
 
 import { Link } from '@/i18n/navigation'
+import { CMSLink } from '@/components/Link'
 import { SectionWrapper } from '@/components/SectionWrapper'
 import { ServiceIcon } from '@/components/ServiceIcon'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
 
 export const ServicesHighlightsBlockComponent: React.FC<ServicesHighlightsBlockProps> = async ({
   heading,
   services,
+  valLink,
 }) => {
   const [payload, t] = await Promise.all([
     getPayload({ config: configPromise }),
@@ -46,12 +47,17 @@ export const ServicesHighlightsBlockComponent: React.FC<ServicesHighlightsBlockP
             </h2>
           )}
         </div>
-        <Button asChild variant="outline" size="sm" className="shrink-0 gap-1.5">
-          <Link href="/services">
+        {valLink && (
+          <CMSLink
+            {...valLink}
+            appearance="outline"
+            size="sm"
+            className="shrink-0 gap-1.5"
+          >
             {t('viewAll')}
             <ArrowRight className="size-3.5" />
-          </Link>
-        </Button>
+          </CMSLink>
+        )}
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

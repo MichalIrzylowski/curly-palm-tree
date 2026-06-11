@@ -1,5 +1,7 @@
 import type { Block } from 'payload'
 
+import { link } from '@/fields/link'
+
 export const ServicesHighlightsBlock: Block = {
   slug: 'servicesHighlightsBlock',
   interfaceName: 'ServicesHighlightsBlock',
@@ -26,5 +28,16 @@ export const ServicesHighlightsBlock: Block = {
         description: 'Select the service categories to display as cards on the homepage.',
       },
     },
+    link({
+      disableLabel: true,
+      appearances: false,
+      overrides: {
+        name: 'valLink',
+        label: '"View all" button link',
+        admin: {
+          description: 'Where the "View all services" button should point.',
+        },
+      },
+    }),
   ],
 }
