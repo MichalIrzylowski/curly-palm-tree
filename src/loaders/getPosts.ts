@@ -8,10 +8,9 @@ import type { Locale } from '@/i18n/locales'
 export const getPosts = cache(
   async (opts: {
     limit: number
-    categoryIds?: (string | number)[]
     locale?: Locale
   }): Promise<Post[]> => {
-    const { limit, categoryIds, locale } = opts
+    const { limit, locale } = opts
     const activeLocale = locale ?? ((await getLocale()) as Locale)
     const payload = await getPayload({ config: configPromise })
     const { docs } = await payload.find({
@@ -19,9 +18,6 @@ export const getPosts = cache(
       depth: 1,
       limit,
       locale: activeLocale,
-      ...(categoryIds && categoryIds.length > 0
-        ? { where: { categories: { in: categoryIds } } }
-        : {}),
     })
     return docs
   },

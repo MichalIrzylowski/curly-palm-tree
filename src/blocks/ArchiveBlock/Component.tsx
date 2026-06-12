@@ -11,19 +11,14 @@ export const ArchiveBlock: React.FC<
     id?: string
   }
 > = async (props) => {
-  const { id, categories, introContent, limit: limitFromProps, populateBy, selectedDocs } = props
+  const { id, introContent, limit: limitFromProps, populateBy, selectedDocs } = props
 
   const limit = limitFromProps || 3
 
   let posts: Post[] = []
 
   if (populateBy === 'collection') {
-    const categoryIds = categories?.map((category) => {
-      if (typeof category === 'object') return category.id
-      else return category
-    })
-
-    posts = await getPosts({ limit, categoryIds })
+    posts = await getPosts({ limit })
   } else {
     if (selectedDocs?.length) {
       const filteredSelectedPosts = selectedDocs.map((post) => {

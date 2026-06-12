@@ -29,5 +29,4 @@ export async function clearData(payload: Payload, req: PayloadRequest): Promise<
   await payload.db.deleteMany({ collection: 'equipment', req, where: {} })
   await payload.db.deleteMany({ collection: 'media', req, where: {} })
   await payload.db.deleteMany({ collection: 'services', req, where: {} })
-  await payload.db.deleteMany({ collection: 'categories', req, where: {} })
 }
