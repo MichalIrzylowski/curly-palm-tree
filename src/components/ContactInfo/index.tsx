@@ -5,6 +5,7 @@ import { MapPin, Phone, Mail } from 'lucide-react'
 
 import type { Contact } from '@/payload-types'
 import { cn } from '@/utilities/ui'
+import { formatAddress } from '@/utilities/formatAddress'
 import { Separator } from '@/components/ui/separator'
 import { Card } from '@/components/ui/card'
 
@@ -70,9 +71,11 @@ export const ContactInfo: React.FC<Props> = async ({ className }) => {
   const payload = await getPayload({ config: configPromise })
   const contact = await payload.findGlobal({ slug: 'contact' })
 
+  const address = formatAddress(contact)
+
   const hasPhones = contact.phones && contact.phones.length > 0
   const hasEmail = Boolean(contact.email)
-  const hasAddress = Boolean(contact.address)
+  const hasAddress = Boolean(address)
 
   return (
     <Card
@@ -94,7 +97,7 @@ export const ContactInfo: React.FC<Props> = async ({ className }) => {
             icon={<MapPin size={20} strokeWidth={1.5} />}
             label="Adres"
           >
-            <span>{contact.address}</span>
+            <span>{address}</span>
           </InfoItem>
         )}
 

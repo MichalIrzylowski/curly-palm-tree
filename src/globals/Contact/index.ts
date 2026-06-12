@@ -38,11 +38,36 @@ export const Contact: GlobalConfig = {
       ],
     },
     {
-      name: 'address',
+      name: 'street',
       type: 'text',
       required: true,
-      localized: true,
-      defaultValue: 'ul. 23 Marca 32E, 81-820 Sopot',
+      defaultValue: 'ul. 23 Marca 32E',
+      admin: {
+        description: 'Street name and number',
+      },
+    },
+    {
+      type: 'row',
+      fields: [
+        {
+          name: 'postalCode',
+          type: 'text',
+          required: true,
+          defaultValue: '81-820',
+          admin: {
+            width: '50%',
+          },
+        },
+        {
+          name: 'city',
+          type: 'text',
+          required: true,
+          defaultValue: 'Sopot',
+          admin: {
+            width: '50%',
+          },
+        },
+      ],
     },
     {
       name: 'phones',

@@ -153,6 +153,16 @@ export const Posts: CollectionConfig<'posts'> = {
               titlePath: 'meta.title',
               descriptionPath: 'meta.description',
             }),
+            {
+              name: 'noIndex',
+              type: 'checkbox',
+              defaultValue: false,
+              label: 'Hide from search engines',
+              admin: {
+                description:
+                  'Adds a noindex robots tag and removes the post from the sitemap.',
+              },
+            },
           ],
         },
       ],

@@ -192,6 +192,7 @@ export interface Page {
     | ImageGalleryBlock
     | MapBlock
     | OpeningHoursBlock
+    | FaqBlock
     | CallToActionBlock
     | ContentBlock
     | {
@@ -210,6 +211,10 @@ export interface Page {
      */
     image?: (number | null) | Media;
     description?: string | null;
+    /**
+     * Adds a noindex robots tag and removes the page from the sitemap. Use for utility pages (e.g. form confirmations).
+     */
+    noIndex?: boolean | null;
   };
   publishedAt?: string | null;
   /**
@@ -261,7 +266,7 @@ export interface HeroBlock {
  */
 export interface Media {
   id: number;
-  alt?: string | null;
+  alt: string;
   caption?: {
     root: {
       type: string;
@@ -485,6 +490,10 @@ export interface Post {
      */
     image?: (number | null) | Media;
     description?: string | null;
+    /**
+     * Adds a noindex robots tag and removes the post from the sitemap.
+     */
+    noIndex?: boolean | null;
   };
   publishedAt?: string | null;
   authors?: (number | User)[] | null;
@@ -663,6 +672,23 @@ export interface OpeningHoursBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'openingHoursBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FaqBlock".
+ */
+export interface FaqBlock {
+  heading?: string | null;
+  items?:
+    | {
+        question: string;
+        answer: string;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'faqBlock';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1334,6 +1360,7 @@ export interface PagesSelect<T extends boolean = true> {
         imageGalleryBlock?: T | ImageGalleryBlockSelect<T>;
         mapBlock?: T | MapBlockSelect<T>;
         openingHoursBlock?: T | OpeningHoursBlockSelect<T>;
+        faqBlock?: T | FaqBlockSelect<T>;
         cta?: T | CallToActionBlockSelect<T>;
         content?: T | ContentBlockSelect<T>;
         mediaBlock?: T | MediaBlockSelect<T>;
@@ -1346,6 +1373,7 @@ export interface PagesSelect<T extends boolean = true> {
         title?: T;
         image?: T;
         description?: T;
+        noIndex?: T;
       };
   publishedAt?: T;
   generateSlug?: T;
@@ -1468,6 +1496,22 @@ export interface OpeningHoursBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FaqBlock_select".
+ */
+export interface FaqBlockSelect<T extends boolean = true> {
+  heading?: T;
+  items?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "CallToActionBlock_select".
  */
 export interface CallToActionBlockSelect<T extends boolean = true> {
@@ -1564,6 +1608,7 @@ export interface PostsSelect<T extends boolean = true> {
         title?: T;
         image?: T;
         description?: T;
+        noIndex?: T;
       };
   publishedAt?: T;
   authors?: T;
@@ -2126,7 +2171,12 @@ export interface Contact {
    * Longitude (e.g. 18.5504898)
    */
   lng: number;
-  address: string;
+  /**
+   * Street name and number
+   */
+  street: string;
+  postalCode: string;
+  city: string;
   /**
    * One or more phone numbers
    */
@@ -2249,7 +2299,9 @@ export interface OpeningHoursSelect<T extends boolean = true> {
 export interface ContactSelect<T extends boolean = true> {
   lat?: T;
   lng?: T;
-  address?: T;
+  street?: T;
+  postalCode?: T;
+  city?: T;
   phones?:
     | T
     | {

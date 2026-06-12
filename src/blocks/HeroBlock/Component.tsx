@@ -24,7 +24,7 @@ export const HeroBlockComponent: React.FC<HeroBlockProps> = async ({
   ])
   const contact = await payload.findGlobal({ slug: 'contact' })
   const primaryPhone = contact?.phones?.[0]
-  const city = contact?.address?.split(',').at(-1)?.trim().split(' ').at(-1)
+  const city = contact?.city
 
   return (
     <section className="relative overflow-hidden bg-background">

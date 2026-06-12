@@ -5,6 +5,7 @@ import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
 import { Archive } from '../../blocks/ArchiveBlock/config'
 import { CallToAction } from '../../blocks/CallToAction/config'
 import { Content } from '../../blocks/Content/config'
+import { FaqBlock } from '../../blocks/FaqBlock/config'
 import { FormBlock } from '../../blocks/Form/config'
 import { HeroBlock } from '../../blocks/HeroBlock/config'
 import { MapBlock } from '../../blocks/MapBlock/config'
@@ -92,6 +93,7 @@ export const Pages: CollectionConfig<'pages'> = {
                 ImageGalleryBlock,
                 MapBlock,
                 OpeningHoursBlock,
+                FaqBlock,
                 CallToAction,
                 Content,
                 MediaBlock,
@@ -134,6 +136,16 @@ export const Pages: CollectionConfig<'pages'> = {
               titlePath: 'meta.title',
               descriptionPath: 'meta.description',
             }),
+            {
+              name: 'noIndex',
+              type: 'checkbox',
+              defaultValue: false,
+              label: 'Hide from search engines',
+              admin: {
+                description:
+                  'Adds a noindex robots tag and removes the page from the sitemap. Use for utility pages (e.g. form confirmations).',
+              },
+            },
           ],
         },
       ],

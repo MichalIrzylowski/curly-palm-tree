@@ -27,7 +27,9 @@ export async function seedGlobals(payload: Payload): Promise<void> {
     data: {
       lat: 54.4472595,
       lng: 18.5504898,
-      address: 'ul. 23 Marca 32E, 81-820 Sopot',
+      street: 'ul. 23 Marca 32E',
+      postalCode: '81-820',
+      city: 'Sopot',
       phones: [{ label: 'Rejestracja', number: '+48 58 555 01 01' }],
       email: 'kontakt@lecznica-weterynaryjna.pl',
       directionsNotes: richText(
@@ -43,7 +45,9 @@ export async function seedGlobals(payload: Payload): Promise<void> {
     data: {
       lat: 54.4472595,
       lng: 18.5504898,
-      address: 'ul. 23 Marca 32E, 81-820 Sopot',
+      street: 'ul. 23 Marca 32E',
+      postalCode: '81-820',
+      city: 'Sopot',
       phones: [{ label: 'Reception', number: '+48 58 555 01 01' }],
       email: 'kontakt@lecznica-weterynaryjna.pl',
       directionsNotes: richText(

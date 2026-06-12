@@ -3,6 +3,7 @@ import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import { getTranslations } from 'next-intl/server'
 
+import { formatAddress } from '@/utilities/formatAddress'
 import { OpenBadge } from './OpenBadge.client'
 
 type DayKey = 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday'
@@ -61,9 +62,9 @@ export const QuickInfoBlockComponent: React.FC = async () => {
             </a>
           )}
 
-          {contact?.address && (
+          {contact && (
             <span className="hidden text-sm text-muted-foreground sm:inline">
-              {contact.address}
+              {formatAddress(contact)}
             </span>
           )}
         </div>

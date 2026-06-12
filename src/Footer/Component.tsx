@@ -9,6 +9,7 @@ import type { Locale } from '@/i18n/locales'
 import { CMSLink } from '@/components/Link'
 import { Logo } from '@/components/Logo/Logo'
 import { PhoneLink } from '@/components/PhoneLink'
+import { formatAddress } from '@/utilities/formatAddress'
 
 export async function Footer({ locale }: { locale: Locale }) {
   const [footerData, contactData, siteSettings] = (await Promise.all([
@@ -48,7 +49,7 @@ export async function Footer({ locale }: { locale: Locale }) {
 
           {/* Contact info */}
           <div className="flex flex-col gap-2 text-sm">
-            {contactData?.address && <p>{contactData.address}</p>}
+            {contactData && <p>{formatAddress(contactData)}</p>}
             {primaryPhone && (
               <PhoneLink
                 number={primaryPhone.number}

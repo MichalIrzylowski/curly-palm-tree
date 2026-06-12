@@ -26,6 +26,9 @@ const getPagesSitemap = unstable_cache(
         _status: {
           equals: 'published',
         },
+        'meta.noIndex': {
+          not_equals: true,
+        },
       },
       select: {
         slug: true,

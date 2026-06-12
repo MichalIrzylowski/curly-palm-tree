@@ -22,12 +22,15 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 import { AdminBar } from '@/components/AdminBar'
 import { Footer } from '@/Footer/Component'
 import { Header } from '@/Header/Component'
+import { VeterinaryCareJsonLd } from '@/components/VeterinaryCareJsonLd'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 import { draftMode } from 'next/headers'
 
 import '../globals.css'
 import { getServerSideURL } from '@/utilities/getURL'
+import { getCachedGlobal } from '@/utilities/getGlobals'
 import { routing } from '@/i18n/routing'
+import type { SiteSetting } from '@/payload-types'
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }))
@@ -71,16 +74,22 @@ export default async function RootLayout({ children, params }: Args) {
           {children}
           <Footer locale={locale} />
         </NextIntlClientProvider>
+        <VeterinaryCareJsonLd />
       </body>
     </html>
   )
 }
 
-export const metadata: Metadata = {
-  metadataBase: new URL(getServerSideURL()),
-  openGraph: mergeOpenGraph(),
-  twitter: {
-    card: 'summary_large_image',
-    creator: '@payloadcms',
-  },
+export async function generateMetadata(): Promise<Metadata> {
+  const siteSettings = (await getCachedGlobal('site-settings', 0)()) as SiteSetting
+  const clinicName = siteSettings?.clinicName ?? 'Lecznica Weterynaryjna'
+
+  return {
+    metadataBase: new URL(getServerSideURL()),
+    title: clinicName,
+    openGraph: mergeOpenGraph({ siteName: clinicName, title: clinicName }),
+    twitter: {
+      card: 'summary_large_image',
+    },
+  }
 }

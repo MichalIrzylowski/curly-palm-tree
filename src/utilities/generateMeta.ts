@@ -6,18 +6,15 @@ import { mergeOpenGraph } from './mergeOpenGraph'
 import { getServerSideURL } from './getURL'
 import { getCachedGlobal } from './getGlobals'
 
-const getImageURL = (image?: Media | Config['db']['defaultIDType'] | null) => {
-  const serverUrl = getServerSideURL()
-
-  let url = serverUrl + '/website-template-OG.webp'
-
+const getImageURL = (image?: Media | Config['db']['defaultIDType'] | null): string | undefined => {
   if (image && typeof image === 'object' && 'url' in image) {
+    const serverUrl = getServerSideURL()
     const ogUrl = image.sizes?.og?.url
 
-    url = ogUrl ? serverUrl + ogUrl : serverUrl + image.url
+    return ogUrl ? serverUrl + ogUrl : serverUrl + image.url
   }
 
-  return url
+  return undefined
 }
 
 export const generateMeta = async (args: {
@@ -34,6 +31,7 @@ export const generateMeta = async (args: {
 
   return {
     description: doc?.meta?.description,
+    robots: doc?.meta?.noIndex ? { index: false } : undefined,
     openGraph: mergeOpenGraph({
       description: doc?.meta?.description || '',
       images: ogImage
@@ -43,6 +41,7 @@ export const generateMeta = async (args: {
             },
           ]
         : undefined,
+      siteName: clinicName,
       title,
       url: Array.isArray(doc?.slug) ? doc?.slug.join('/') : '/',
     }),

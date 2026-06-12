@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
 import RichText from '@/components/RichText'
+import { formatAddress } from '@/utilities/formatAddress'
 
 // the smaller the closer
 const BBOX_DELTA = 0.005
@@ -51,7 +52,8 @@ export const MapBlockComponent: React.FC = async () => {
     payload.findGlobal({ slug: 'site-settings' }),
   ])
 
-  const { lat, lng, address, directionsNotes, phones, email } = contact
+  const { lat, lng, directionsNotes, phones, email } = contact
+  const address = formatAddress(contact)
 
   const osmEmbedUrl =
     `https://www.openstreetmap.org/export/embed.html` +
