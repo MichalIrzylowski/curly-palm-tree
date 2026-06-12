@@ -1,15 +1,14 @@
 import React from 'react'
-import Link from 'next/link'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import { ArrowRight, UserRound } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
 
 import { Media as MediaComponent } from '@/components/Media'
+import { CMSLink } from '@/components/Link'
 import { SectionWrapper } from '@/components/SectionWrapper'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
 
 import type { TeamTeaserBlock as TeamTeaserBlockProps, Team, Media } from '@/payload-types'
 
@@ -54,12 +53,15 @@ export const TeamTeaserBlockComponent: React.FC<TeamTeaserBlockProps> = async ({
             </h2>
           )}
         </div>
-        <Button asChild variant="outline" size="sm" className="shrink-0 gap-1.5">
-          <Link href="/team">
-            {ctaLabel ?? t('defaultCta')}
-            <ArrowRight className="size-3.5" />
-          </Link>
-        </Button>
+        <CMSLink
+          url="/team"
+          appearance="outline"
+          size="sm"
+          className="shrink-0 gap-1.5"
+          label={ctaLabel ?? t('defaultCta')}
+        >
+          <ArrowRight className="size-3.5" />
+        </CMSLink>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
