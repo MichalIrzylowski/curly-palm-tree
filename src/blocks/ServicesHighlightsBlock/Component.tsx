@@ -12,9 +12,9 @@ import type {
 import { Link } from '@/i18n/navigation'
 import { CMSLink } from '@/components/Link'
 import { SectionWrapper } from '@/components/SectionWrapper'
+import { SectionHeading } from '@/components/SectionHeading'
 import { ServiceIcon } from '@/components/ServiceIcon'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
 
 export const ServicesHighlightsBlockComponent: React.FC<ServicesHighlightsBlockProps> = async ({
   heading,
@@ -36,29 +36,20 @@ export const ServicesHighlightsBlockComponent: React.FC<ServicesHighlightsBlockP
 
   return (
     <SectionWrapper className="bg-muted/40">
-      <div className="mb-10 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-          <Badge variant="secondary" className="mb-3 text-xs font-medium uppercase tracking-wider">
-            {t('badge')}
-          </Badge>
-          {heading && (
-            <h2 className="font-heading text-3xl font-bold text-foreground md:text-4xl">
-              {heading}
-            </h2>
-          )}
-        </div>
-        {valLink && (
-          <CMSLink
-            {...valLink}
-            appearance="outline"
-            size="sm"
-            className="shrink-0 gap-1.5"
-          >
-            {t('viewAll')}
-            <ArrowRight className="size-3.5" />
-          </CMSLink>
-        )}
-      </div>
+      <SectionHeading
+        size="lg"
+        badge={t('badge')}
+        actions={
+          valLink ? (
+            <CMSLink {...valLink} appearance="outline" size="sm" className="shrink-0 gap-1.5">
+              {t('viewAll')}
+              <ArrowRight className="size-3.5" />
+            </CMSLink>
+          ) : undefined
+        }
+      >
+        {heading ?? ''}
+      </SectionHeading>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {resolvedServices.map((service) => (

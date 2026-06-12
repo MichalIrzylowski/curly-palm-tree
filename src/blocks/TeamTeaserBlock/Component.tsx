@@ -7,8 +7,8 @@ import { getTranslations } from 'next-intl/server'
 import { Media as MediaComponent } from '@/components/Media'
 import { CMSLink } from '@/components/Link'
 import { SectionWrapper } from '@/components/SectionWrapper'
+import { SectionHeading } from '@/components/SectionHeading'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
 
 import type { TeamTeaserBlock as TeamTeaserBlockProps, Team, Media } from '@/payload-types'
 
@@ -42,27 +42,23 @@ export const TeamTeaserBlockComponent: React.FC<TeamTeaserBlockProps> = async ({
 
   return (
     <SectionWrapper>
-      <div className="mb-10 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-          <Badge variant="secondary" className="mb-3 text-xs font-medium uppercase tracking-wider">
-            {t('badge')}
-          </Badge>
-          {heading && (
-            <h2 className="font-heading text-3xl font-bold text-foreground md:text-4xl">
-              {heading}
-            </h2>
-          )}
-        </div>
-        <CMSLink
-          url="/team"
-          appearance="outline"
-          size="sm"
-          className="shrink-0 gap-1.5"
-          label={ctaLabel ?? t('defaultCta')}
-        >
-          <ArrowRight className="size-3.5" />
-        </CMSLink>
-      </div>
+      <SectionHeading
+        size="lg"
+        badge={t('badge')}
+        actions={
+          <CMSLink
+            url="/team"
+            appearance="outline"
+            size="sm"
+            className="shrink-0 gap-1.5"
+            label={ctaLabel ?? t('defaultCta')}
+          >
+            <ArrowRight className="size-3.5" />
+          </CMSLink>
+        }
+      >
+        {heading ?? ''}
+      </SectionHeading>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {members.map((member) => {

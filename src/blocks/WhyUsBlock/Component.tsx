@@ -10,12 +10,13 @@ import {
   Star,
   type LucideProps,
 } from 'lucide-react'
+import { getTranslations } from 'next-intl/server'
 
 import type { WhyUsBlock as WhyUsBlockProps } from '@/payload-types'
 
 import { SectionWrapper } from '@/components/SectionWrapper'
+import { SectionHeading } from '@/components/SectionHeading'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
 
 const ICON_MAP: Record<string, React.FC<LucideProps>> = {
   microscope: Microscope,
@@ -28,17 +29,14 @@ const ICON_MAP: Record<string, React.FC<LucideProps>> = {
   star: Star,
 }
 
-export const WhyUsBlockComponent: React.FC<WhyUsBlockProps> = ({ heading, items }) => {
+export const WhyUsBlockComponent: React.FC<WhyUsBlockProps> = async ({ heading, items }) => {
+  const t = await getTranslations('WhyUs')
+
   return (
     <SectionWrapper className="bg-muted/40">
-      <div className="mb-10">
-        <Badge variant="secondary" className="mb-3 text-xs font-medium uppercase tracking-wider">
-          Dlaczego my
-        </Badge>
-        {heading && (
-          <h2 className="font-heading text-3xl font-bold text-foreground md:text-4xl">{heading}</h2>
-        )}
-      </div>
+      <SectionHeading size="lg" badge={t('badge')}>
+        {heading ?? ''}
+      </SectionHeading>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {(items ?? []).map((item, index) => {

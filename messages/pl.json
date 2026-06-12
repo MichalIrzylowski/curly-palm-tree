@@ -68,6 +68,9 @@
     "badge": "Nasz zespół",
     "defaultCta": "Poznaj nasz zespół"
   },
+  "WhyUs": {
+    "badge": "Dlaczego my"
+  },
   "Form": {
     "loading": "Ładowanie, proszę czekać...",
     "errorDefault": "Coś poszło nie tak.",

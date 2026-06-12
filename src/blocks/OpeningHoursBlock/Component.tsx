@@ -1,6 +1,7 @@
 import React from 'react'
 import { getTranslations } from 'next-intl/server'
 import { getOpeningHours } from '@/loaders/getOpeningHours'
+import { SectionHeading } from '@/components/SectionHeading'
 
 function getTodayDayKey(): string {
   return new Intl.DateTimeFormat('en-US', {
@@ -22,7 +23,7 @@ export const OpeningHoursBlockComponent: React.FC = async () => {
 
   return (
     <div className="container py-12">
-      <h2 className="mb-6 text-2xl font-semibold">{t('heading')}</h2>
+      <SectionHeading>{t('heading')}</SectionHeading>
       <ul className="divide-y divide-border rounded-lg border border-border">
         {hours.map((entry) => {
           const isToday = entry.day === todayKey

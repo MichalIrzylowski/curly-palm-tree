@@ -68,6 +68,9 @@
     "badge": "Our team",
     "defaultCta": "Meet our team"
   },
+  "WhyUs": {
+    "badge": "Why us"
+  },
   "Form": {
     "loading": "Loading, please wait...",
     "errorDefault": "Something went wrong.",

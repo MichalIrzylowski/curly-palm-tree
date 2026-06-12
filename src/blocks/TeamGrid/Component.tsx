@@ -14,7 +14,7 @@ export async function TeamGridBlock({ heading, description }: Props) {
 
   return (
     <SectionWrapper>
-      {heading && <SectionHeading subtitle={description ?? undefined}>{heading}</SectionHeading>}
+      {heading && <SectionHeading size="lg" subtitle={description ?? undefined}>{heading}</SectionHeading>}
       {docs.length === 0 ? (
         <p className="text-muted-foreground">{t('empty')}</p>
       ) : (
