@@ -2,34 +2,25 @@ import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-postgres'
 
 export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   await db.execute(sql`
-   ALTER TABLE "categories_breadcrumbs" DISABLE ROW LEVEL SECURITY;
-  ALTER TABLE "categories" DISABLE ROW LEVEL SECURITY;
-  ALTER TABLE "categories_locales" DISABLE ROW LEVEL SECURITY;
-  ALTER TABLE "search_categories" DISABLE ROW LEVEL SECURITY;
-  DROP TABLE "categories_breadcrumbs" CASCADE;
-  DROP TABLE "categories" CASCADE;
-  DROP TABLE "categories_locales" CASCADE;
-  DROP TABLE "search_categories" CASCADE;
-  ALTER TABLE "pages_rels" DROP CONSTRAINT "pages_rels_categories_fk";
-  
-  ALTER TABLE "_pages_v_rels" DROP CONSTRAINT "_pages_v_rels_categories_fk";
-  
-  ALTER TABLE "posts_rels" DROP CONSTRAINT "posts_rels_categories_fk";
-  
-  ALTER TABLE "_posts_v_rels" DROP CONSTRAINT "_posts_v_rels_categories_fk";
-  
-  ALTER TABLE "payload_locked_documents_rels" DROP CONSTRAINT "payload_locked_documents_rels_categories_fk";
-  
-  DROP INDEX "pages_rels_categories_id_idx";
-  DROP INDEX "_pages_v_rels_categories_id_idx";
-  DROP INDEX "posts_rels_categories_id_idx";
-  DROP INDEX "_posts_v_rels_categories_id_idx";
-  DROP INDEX "payload_locked_documents_rels_categories_id_idx";
-  ALTER TABLE "pages_rels" DROP COLUMN "categories_id";
-  ALTER TABLE "_pages_v_rels" DROP COLUMN "categories_id";
-  ALTER TABLE "posts_rels" DROP COLUMN "categories_id";
-  ALTER TABLE "_posts_v_rels" DROP COLUMN "categories_id";
-  ALTER TABLE "payload_locked_documents_rels" DROP COLUMN "categories_id";`)
+  DROP TABLE IF EXISTS "categories_breadcrumbs" CASCADE;
+  DROP TABLE IF EXISTS "categories" CASCADE;
+  DROP TABLE IF EXISTS "categories_locales" CASCADE;
+  DROP TABLE IF EXISTS "search_categories" CASCADE;
+  ALTER TABLE "pages_rels" DROP CONSTRAINT IF EXISTS "pages_rels_categories_fk";
+  ALTER TABLE "_pages_v_rels" DROP CONSTRAINT IF EXISTS "_pages_v_rels_categories_fk";
+  ALTER TABLE "posts_rels" DROP CONSTRAINT IF EXISTS "posts_rels_categories_fk";
+  ALTER TABLE "_posts_v_rels" DROP CONSTRAINT IF EXISTS "_posts_v_rels_categories_fk";
+  ALTER TABLE "payload_locked_documents_rels" DROP CONSTRAINT IF EXISTS "payload_locked_documents_rels_categories_fk";
+  DROP INDEX IF EXISTS "pages_rels_categories_id_idx";
+  DROP INDEX IF EXISTS "_pages_v_rels_categories_id_idx";
+  DROP INDEX IF EXISTS "posts_rels_categories_id_idx";
+  DROP INDEX IF EXISTS "_posts_v_rels_categories_id_idx";
+  DROP INDEX IF EXISTS "payload_locked_documents_rels_categories_id_idx";
+  ALTER TABLE "pages_rels" DROP COLUMN IF EXISTS "categories_id";
+  ALTER TABLE "_pages_v_rels" DROP COLUMN IF EXISTS "categories_id";
+  ALTER TABLE "posts_rels" DROP COLUMN IF EXISTS "categories_id";
+  ALTER TABLE "_posts_v_rels" DROP COLUMN IF EXISTS "categories_id";
+  ALTER TABLE "payload_locked_documents_rels" DROP COLUMN IF EXISTS "categories_id";`)
 }
 
 export async function down({ db, payload, req }: MigrateDownArgs): Promise<void> {
