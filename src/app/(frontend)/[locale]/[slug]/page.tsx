@@ -6,6 +6,7 @@ import { getPayload } from 'payload'
 import { draftMode } from 'next/headers'
 import React from 'react'
 import { RenderBlocks } from '@/blocks/RenderBlocks'
+import { CampaignModal } from '@/components/CampaignModal'
 import { generateMeta } from '@/utilities/generateMeta'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import { getPageBySlug } from '@/loaders/getPageBySlug'
@@ -64,7 +65,14 @@ export default async function Page({ params: paramsPromise }: Args) {
     return <PayloadRedirects url={url} />
   }
 
-  const { layout } = page
+  const { layout, campaign } = page
+
+  // Render the campaign only when it is populated, enabled, and targets this locale.
+  const showCampaign =
+    campaign &&
+    typeof campaign === 'object' &&
+    campaign.enabled &&
+    (campaign.showOnLocales ?? []).includes(locale)
 
   return (
     <article className="pb-24">
@@ -73,6 +81,16 @@ export default async function Page({ params: paramsPromise }: Args) {
       {draft && <LivePreviewListener />}
 
       <RenderBlocks blocks={layout} />
+
+      {showCampaign ? (
+        <CampaignModal
+          id={String(campaign.id)}
+          url={campaign.url}
+          headline={campaign.headline}
+          description={campaign.description}
+          variant={campaign.variant}
+        />
+      ) : null}
     </article>
   )
 }

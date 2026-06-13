@@ -12,6 +12,7 @@ import * as migration_20260612_184509 from './20260612_184509';
 import * as migration_20260612_202059_seo_improvements from './20260612_202059_seo_improvements';
 import * as migration_20260613_144249 from './20260613_144249';
 import * as migration_20260613_144343 from './20260613_144343';
+import * as migration_20260613_161006_campaigns from './20260613_161006_campaigns';
 
 export const migrations = [
   {
@@ -82,6 +83,11 @@ export const migrations = [
   {
     up: migration_20260613_144343.up,
     down: migration_20260613_144343.down,
-    name: '20260613_144343'
+    name: '20260613_144343',
+  },
+  {
+    up: migration_20260613_161006_campaigns.up,
+    down: migration_20260613_161006_campaigns.down,
+    name: '20260613_161006_campaigns'
   },
 ];

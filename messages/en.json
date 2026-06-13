@@ -79,5 +79,9 @@
   "CopyButton": {
     "copy": "Copy",
     "copied": "Copied!"
+  },
+  "Campaign": {
+    "close": "Close",
+    "visit": "Visit site"
   }
 }

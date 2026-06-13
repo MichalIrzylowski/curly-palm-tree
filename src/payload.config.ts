@@ -4,6 +4,7 @@ import path from 'path'
 import { buildConfig, PayloadRequest } from 'payload'
 import { fileURLToPath } from 'url'
 
+import { Campaigns } from './collections/Campaigns'
 import { Equipment } from './collections/Equipment'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
@@ -67,7 +68,7 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URL || '',
     },
   }),
-  collections: [Pages, Posts, Media, Team, Services, Equipment, Users],
+  collections: [Pages, Posts, Media, Team, Services, Equipment, Campaigns, Users],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer, OpeningHours, Contact, SiteSettings],
   localization: {
