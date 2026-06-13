@@ -15,6 +15,7 @@ import type { TeamTeaserBlock as TeamTeaserBlockProps, Team, Media } from '@/pay
 export const TeamTeaserBlockComponent: React.FC<TeamTeaserBlockProps> = async ({
   heading,
   ctaLabel,
+  ctaLink,
   pinnedMembers,
 }) => {
   const [payload, t] = await Promise.all([
@@ -47,7 +48,12 @@ export const TeamTeaserBlockComponent: React.FC<TeamTeaserBlockProps> = async ({
         badge={t('badge')}
         actions={
           <CMSLink
-            url="/team"
+            type="reference"
+            reference={
+              ctaLink && typeof ctaLink === 'object'
+                ? { relationTo: 'pages', value: ctaLink }
+                : undefined
+            }
             appearance="outline"
             size="sm"
             className="shrink-0 gap-1.5"

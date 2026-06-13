@@ -23,6 +23,16 @@ export const TeamTeaserBlock: Block = {
       label: 'CTA button label',
     },
     {
+      name: 'ctaLink',
+      type: 'relationship',
+      relationTo: 'pages',
+      label: 'CTA target page',
+      admin: {
+        description:
+          'Page the CTA button links to (e.g. the Team page). The link uses the page’s localized slug, so it resolves to /en/team or /pl/zespol automatically.',
+      },
+    },
+    {
       name: 'pinnedMembers',
       type: 'relationship',
       relationTo: 'team',

@@ -546,6 +546,10 @@ export interface TeamTeaserBlock {
   heading?: string | null;
   ctaLabel?: string | null;
   /**
+   * Page the CTA button links to (e.g. the Team page). The link uses the page’s localized slug, so it resolves to /en/team or /pl/zespol automatically.
+   */
+  ctaLink?: (number | null) | Page;
+  /**
    * Leave empty to show all active team members (sorted by order). Select specific members to override.
    */
   pinnedMembers?: (number | Team)[] | null;
@@ -1433,6 +1437,7 @@ export interface ServicesHighlightsBlockSelect<T extends boolean = true> {
 export interface TeamTeaserBlockSelect<T extends boolean = true> {
   heading?: T;
   ctaLabel?: T;
+  ctaLink?: T;
   pinnedMembers?: T;
   id?: T;
   blockName?: T;
