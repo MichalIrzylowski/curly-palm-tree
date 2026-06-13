@@ -13,6 +13,7 @@ import * as migration_20260612_202059_seo_improvements from './20260612_202059_s
 import * as migration_20260613_144249 from './20260613_144249';
 import * as migration_20260613_144343 from './20260613_144343';
 import * as migration_20260613_161006_campaigns from './20260613_161006_campaigns';
+import * as migration_20260613_162508_campaign_link_type from './20260613_162508_campaign_link_type';
 
 export const migrations = [
   {
@@ -88,6 +89,11 @@ export const migrations = [
   {
     up: migration_20260613_161006_campaigns.up,
     down: migration_20260613_161006_campaigns.down,
-    name: '20260613_161006_campaigns'
+    name: '20260613_161006_campaigns',
+  },
+  {
+    up: migration_20260613_162508_campaign_link_type.up,
+    down: migration_20260613_162508_campaign_link_type.down,
+    name: '20260613_162508_campaign_link_type'
   },
 ];

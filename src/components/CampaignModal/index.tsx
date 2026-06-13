@@ -10,13 +10,26 @@ import { cn } from '@/utilities/ui'
 type Props = {
   /** Campaign document id — used to remember dismissal for the session. */
   id: string
-  url: string
+  /** Click destination: an external URL or a locale-prefixed internal path. */
+  href: string
+  /** Absolute URL encoded in the QR code. */
+  qrValue: string
+  /** External links are marked rel="sponsored" and open in a new tab. */
+  isExternal: boolean
   headline?: string | null
   description: string
   variant: 'small-bottom-right'
 }
 
-export function CampaignModal({ id, url, headline, description, variant }: Props) {
+export function CampaignModal({
+  id,
+  href,
+  qrValue,
+  isExternal,
+  headline,
+  description,
+  variant,
+}: Props) {
   const t = useTranslations('Campaign')
   const [open, setOpen] = useState(false)
 
@@ -54,20 +67,20 @@ export function CampaignModal({ id, url, headline, description, variant }: Props
       <div className="flex items-start gap-4">
         {/* QR code: desktop only — scanning from the same device is pointless. */}
         <div className="hidden shrink-0 sm:block">
-          <QRCodeSVG value={url} size={88} className="rounded" />
+          <QRCodeSVG value={qrValue} size={88} className="rounded" />
         </div>
 
         <div className="min-w-0 pr-4">
           {headline ? <p className="font-semibold leading-tight">{headline}</p> : null}
           <p className="mt-1 text-sm text-muted-foreground">{description}</p>
           <a
-            href={url}
-            target="_blank"
-            rel="sponsored noopener"
+            href={href}
+            // Promotional outbound links are disclosed; internal links are not.
+            {...(isExternal ? { target: '_blank', rel: 'sponsored noopener' } : {})}
             className="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
           >
             {t('visit')}
-            <ExternalLink className="h-3.5 w-3.5" />
+            {isExternal ? <ExternalLink className="h-3.5 w-3.5" /> : null}
           </a>
         </div>
       </div>

@@ -1052,9 +1052,22 @@ export interface Campaign {
    */
   variant: 'small-bottom-right';
   /**
-   * External destination, e.g. https://parassess.pl
+   * Where the campaign sends visitors.
    */
-  url: string;
+  linkType: 'internal' | 'external';
+  internalDoc?:
+    | ({
+        relationTo: 'pages';
+        value: number | Page;
+      } | null)
+    | ({
+        relationTo: 'posts';
+        value: number | Post;
+      } | null);
+  /**
+   * e.g. https://parassess.pl
+   */
+  externalUrl?: string | null;
   /**
    * Which language versions of the site show this campaign.
    */
@@ -1843,7 +1856,9 @@ export interface CampaignsSelect<T extends boolean = true> {
   name?: T;
   enabled?: T;
   variant?: T;
-  url?: T;
+  linkType?: T;
+  internalDoc?: T;
+  externalUrl?: T;
   showOnLocales?: T;
   headline?: T;
   description?: T;

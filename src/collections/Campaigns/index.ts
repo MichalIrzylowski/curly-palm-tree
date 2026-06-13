@@ -47,11 +47,37 @@ export const Campaigns: CollectionConfig = {
       },
     },
     {
-      name: 'url',
+      name: 'linkType',
+      type: 'radio',
+      required: true,
+      defaultValue: 'external',
+      options: [
+        { label: 'Internal page or post', value: 'internal' },
+        { label: 'External URL', value: 'external' },
+      ],
+      admin: {
+        layout: 'horizontal',
+        description: 'Where the campaign sends visitors.',
+      },
+    },
+    {
+      name: 'internalDoc',
+      type: 'relationship',
+      relationTo: ['pages', 'posts'],
+      required: true,
+      label: 'Document to link to',
+      admin: {
+        condition: (_, siblingData) => siblingData?.linkType === 'internal',
+      },
+    },
+    {
+      name: 'externalUrl',
       type: 'text',
       required: true,
+      label: 'External URL',
       admin: {
-        description: 'External destination, e.g. https://parassess.pl',
+        condition: (_, siblingData) => siblingData?.linkType === 'external',
+        description: 'e.g. https://parassess.pl',
       },
     },
     {
