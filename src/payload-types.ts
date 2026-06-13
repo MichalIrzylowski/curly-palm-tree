@@ -73,6 +73,7 @@ export interface Config {
     team: Team;
     services: Service;
     equipment: Equipment;
+    campaigns: Campaign;
     users: User;
     redirects: Redirect;
     forms: Form;
@@ -97,6 +98,7 @@ export interface Config {
     team: TeamSelect<false> | TeamSelect<true>;
     services: ServicesSelect<false> | ServicesSelect<true>;
     equipment: EquipmentSelect<false> | EquipmentSelect<true>;
+    campaigns: CampaignsSelect<false> | CampaignsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
@@ -216,6 +218,10 @@ export interface Page {
      */
     noIndex?: boolean | null;
   };
+  /**
+   * Optional promotional modal shown on this page. Leave empty for no campaign.
+   */
+  campaign?: (number | null) | Campaign;
   publishedAt?: string | null;
   /**
    * When enabled, the slug will auto-generate from the title field on save and autosave.
@@ -1026,6 +1032,58 @@ export interface Form {
   createdAt: string;
 }
 /**
+ * Promotional modals shown to visitors. Attach a campaign to a page via the page’s Campaign tab.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "campaigns".
+ */
+export interface Campaign {
+  id: number;
+  /**
+   * Internal label only — never shown to visitors.
+   */
+  name: string;
+  /**
+   * Master switch. Turn off to hide this campaign on every page at once.
+   */
+  enabled?: boolean | null;
+  /**
+   * How the modal is displayed.
+   */
+  variant: 'small-bottom-right';
+  /**
+   * Where the campaign sends visitors.
+   */
+  linkType: 'internal' | 'external';
+  internalDoc?:
+    | ({
+        relationTo: 'pages';
+        value: number | Page;
+      } | null)
+    | ({
+        relationTo: 'posts';
+        value: number | Post;
+      } | null);
+  /**
+   * e.g. https://parassess.pl
+   */
+  externalUrl?: string | null;
+  /**
+   * Which language versions of the site show this campaign.
+   */
+  showOnLocales: ('pl' | 'en')[];
+  /**
+   * Optional short hook shown above the description.
+   */
+  headline?: string | null;
+  /**
+   * Short line telling visitors where the link leads.
+   */
+  description: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "equipment".
  */
@@ -1265,6 +1323,10 @@ export interface PayloadLockedDocument {
         value: number | Equipment;
       } | null)
     | ({
+        relationTo: 'campaigns';
+        value: number | Campaign;
+      } | null)
+    | ({
         relationTo: 'users';
         value: number | User;
       } | null)
@@ -1379,6 +1441,7 @@ export interface PagesSelect<T extends boolean = true> {
         description?: T;
         noIndex?: T;
       };
+  campaign?: T;
   publishedAt?: T;
   generateSlug?: T;
   slug?: T;
@@ -1782,6 +1845,23 @@ export interface EquipmentSelect<T extends boolean = true> {
   photo?: T;
   description?: T;
   order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "campaigns_select".
+ */
+export interface CampaignsSelect<T extends boolean = true> {
+  name?: T;
+  enabled?: T;
+  variant?: T;
+  linkType?: T;
+  internalDoc?: T;
+  externalUrl?: T;
+  showOnLocales?: T;
+  headline?: T;
+  description?: T;
   updatedAt?: T;
   createdAt?: T;
 }

@@ -6,6 +6,7 @@ import { getPayload } from 'payload'
 import { draftMode } from 'next/headers'
 import React from 'react'
 import { RenderBlocks } from '@/blocks/RenderBlocks'
+import { CampaignModal } from '@/components/CampaignModal'
 import { generateMeta } from '@/utilities/generateMeta'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import { getPageBySlug } from '@/loaders/getPageBySlug'
@@ -13,6 +14,7 @@ import { setRequestLocale } from 'next-intl/server'
 import { routing } from '@/i18n/routing'
 import type { Locale } from '@/i18n/locales'
 import { buildHreflangAlternates } from '@/utilities/buildHreflangAlternates'
+import { resolveCampaignHref } from '@/utilities/resolveCampaignHref'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -64,7 +66,16 @@ export default async function Page({ params: paramsPromise }: Args) {
     return <PayloadRedirects url={url} />
   }
 
-  const { layout } = page
+  const { layout, campaign } = page
+
+  // Render the campaign only when it is populated, enabled, and targets this locale.
+  const campaignActive =
+    campaign &&
+    typeof campaign === 'object' &&
+    campaign.enabled &&
+    (campaign.showOnLocales ?? []).includes(locale)
+
+  const campaignLink = campaignActive ? resolveCampaignHref(campaign, locale) : null
 
   return (
     <article className="pb-24">
@@ -73,6 +84,18 @@ export default async function Page({ params: paramsPromise }: Args) {
       {draft && <LivePreviewListener />}
 
       <RenderBlocks blocks={layout} />
+
+      {campaignActive && campaignLink ? (
+        <CampaignModal
+          id={String(campaign.id)}
+          href={campaignLink.href}
+          qrValue={campaignLink.qrValue}
+          isExternal={campaignLink.isExternal}
+          headline={campaign.headline}
+          description={campaign.description}
+          variant={campaign.variant}
+        />
+      ) : null}
     </article>
   )
 }

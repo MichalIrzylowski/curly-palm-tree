@@ -148,6 +148,20 @@ export const Pages: CollectionConfig<'pages'> = {
             },
           ],
         },
+        {
+          label: 'Campaign',
+          fields: [
+            {
+              name: 'campaign',
+              type: 'relationship',
+              relationTo: 'campaigns',
+              admin: {
+                description:
+                  'Optional promotional modal shown on this page. Leave empty for no campaign.',
+              },
+            },
+          ],
+        },
       ],
     },
     {
