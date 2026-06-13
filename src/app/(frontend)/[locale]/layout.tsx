@@ -6,6 +6,7 @@ import React from 'react'
 import { notFound } from 'next/navigation'
 import { hasLocale, NextIntlClientProvider } from 'next-intl'
 import { setRequestLocale } from 'next-intl/server'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 
 const inter = Inter({
   subsets: ['latin', 'latin-ext'],
@@ -75,6 +76,7 @@ export default async function RootLayout({ children, params }: Args) {
           <Footer locale={locale} />
         </NextIntlClientProvider>
         <VeterinaryCareJsonLd />
+        <SpeedInsights />
       </body>
     </html>
   )
