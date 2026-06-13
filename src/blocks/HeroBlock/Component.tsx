@@ -94,6 +94,7 @@ export const HeroBlockComponent: React.FC<HeroBlockProps> = async ({
               <Media
                 resource={media}
                 priority
+                size="(min-width: 1024px) 540px, 100vw"
                 imgClassName="w-full object-cover"
                 className="aspect-4/3 w-full"
               />

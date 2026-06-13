@@ -8,10 +8,7 @@ import React from 'react'
 
 import type { Props as MediaProps } from '../types'
 
-import { cssVariables } from '@/cssVariables'
 import { getMediaUrl } from '@/utilities/getMediaUrl'
-
-const { breakpoints } = cssVariables
 
 // A base64 encoded image to use as a placeholder while the image is loading
 const placeholderBlur =
@@ -87,12 +84,12 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
 
   const loading = loadingFromProps || (!priority ? 'lazy' : undefined)
 
-  // NOTE: this is used by the browser to determine which image to download at different screen sizes
-  const sizes = sizeFromProps
-    ? sizeFromProps
-    : Object.entries(breakpoints)
-        .map(([, value]) => `(max-width: ${value}px) ${value * 2}w`)
-        .join(', ')
+  // NOTE: this tells the browser which rendered width to assume when picking a srcset candidate.
+  // Callers should pass an explicit `size` matching the layout slot (e.g. "(min-width: 1024px) 540px, 100vw").
+  // The fallback is "100vw" — the same assumption the browser makes when `sizes` is absent, but valid.
+  // (The previous default emitted `…w` descriptors, which are invalid inside `sizes` and were silently
+  // ignored, so the browser fell back to 100vw and over-fetched for narrow slots.)
+  const sizes = sizeFromProps ?? '100vw'
 
   return (
     <picture className={cn(pictureClassName)}>
@@ -103,7 +100,7 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
         height={!fill ? height : undefined}
         placeholder="empty"
         priority={priority}
-        quality={100}
+        quality={80}
         loading={loading}
         sizes={sizes}
         src={src}
