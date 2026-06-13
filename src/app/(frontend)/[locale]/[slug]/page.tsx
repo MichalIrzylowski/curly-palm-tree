@@ -13,9 +13,8 @@ import { getPageBySlug } from '@/loaders/getPageBySlug'
 import { setRequestLocale } from 'next-intl/server'
 import { routing } from '@/i18n/routing'
 import type { Locale } from '@/i18n/locales'
-import type { Page as PageDoc } from '@/payload-types'
 import { buildHreflangAlternates } from '@/utilities/buildHreflangAlternates'
-import { getServerSideURL } from '@/utilities/getURL'
+import { resolveCampaignHref } from '@/utilities/resolveCampaignHref'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -99,35 +98,6 @@ export default async function Page({ params: paramsPromise }: Args) {
       ) : null}
     </article>
   )
-}
-
-type CampaignDoc = NonNullable<PageDoc['campaign']>
-
-/**
- * Resolves a campaign's link into a click href and an absolute URL for the QR
- * code. External links are used verbatim; internal references resolve to the
- * locale-prefixed path of the target document.
- */
-function resolveCampaignHref(
-  campaign: Extract<CampaignDoc, object>,
-  locale: Locale,
-): { href: string; qrValue: string; isExternal: boolean } | null {
-  if (campaign.linkType === 'external') {
-    const href = campaign.externalUrl
-    if (!href) return null
-    return { href, qrValue: href, isExternal: true }
-  }
-
-  const doc = campaign.internalDoc
-  if (!doc || typeof doc !== 'object' || typeof doc.value !== 'object' || !doc.value?.slug) {
-    return null
-  }
-
-  const prefix = doc.relationTo === 'posts' ? '/posts' : ''
-  const slug = doc.value.slug
-  const path = slug === 'home' ? '' : `${prefix}/${slug}`
-  const href = `/${locale}${path}`
-  return { href, qrValue: `${getServerSideURL()}${href}`, isExternal: false }
 }
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {

@@ -6,5 +6,6 @@ This project uses **shadcn/ui** for UI primitives.
   - tell what will change
   - tell why do you want to make the change
   - ask for acceptance
-- **Custom components:** `src/components/<Name>/` — project-specific React components
 - To add a new shadcn component: `pnpm dlx shadcn@latest add <component>`
+- **Custom components:** `src/components/<Name>/` — project-specific React components
+  - Custom components should do one thing well and be reusable.
