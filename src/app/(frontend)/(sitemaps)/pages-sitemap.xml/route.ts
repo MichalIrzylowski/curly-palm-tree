@@ -1,8 +1,9 @@
-import { getServerSideSitemap } from 'next-sitemap'
+import { getServerSideSitemap, type ISitemapField } from 'next-sitemap'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { unstable_cache } from 'next/cache'
 
+import { defaultLocale } from '@/i18n/locales'
 import { routing } from '@/i18n/routing'
 
 const getPagesSitemap = unstable_cache(
@@ -38,18 +39,39 @@ const getPagesSitemap = unstable_cache(
 
     const dateFallback = new Date().toISOString()
 
-    const sitemap: { loc: string; lastmod: string }[] = []
+    const sitemap: ISitemapField[] = []
 
     for (const page of results.docs ?? []) {
       const slugByLocale = (page?.slug ?? {}) as unknown as Record<string, string | undefined>
       const lastmod = page.updatedAt || dateFallback
 
+      // Resolve the absolute URL for every locale this page is published in.
+      const locByLocale: Partial<Record<string, string>> = {}
       for (const locale of routing.locales) {
         const slug = slugByLocale[locale]
         if (!slug) continue
+        locByLocale[locale] = slug === 'home' ? `${SITE_URL}/${locale}` : `${SITE_URL}/${locale}/${slug}`
+      }
 
-        const loc = slug === 'home' ? `${SITE_URL}/${locale}` : `${SITE_URL}/${locale}/${slug}`
-        sitemap.push({ loc, lastmod })
+      const availableLocales = routing.locales.filter((locale) => locByLocale[locale])
+      if (availableLocales.length === 0) continue
+
+      // Shared hreflang alternates so each locale entry declares its translations,
+      // plus x-default pointing at the default locale (or the only one available).
+      const alternateRefs: NonNullable<ISitemapField['alternateRefs']> = availableLocales.map(
+        (locale) => ({
+          href: locByLocale[locale]!,
+          hreflang: locale,
+          hrefIsAbsolute: true,
+        }),
+      )
+      const xDefault = locByLocale[defaultLocale] ?? locByLocale[availableLocales[0]]
+      if (xDefault) {
+        alternateRefs.push({ href: xDefault, hreflang: 'x-default', hrefIsAbsolute: true })
+      }
+
+      for (const locale of availableLocales) {
+        sitemap.push({ loc: locByLocale[locale]!, lastmod, alternateRefs })
       }
     }
 
