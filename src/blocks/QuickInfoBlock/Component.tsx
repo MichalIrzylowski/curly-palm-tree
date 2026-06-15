@@ -1,21 +1,12 @@
-import React, { Suspense } from 'react'
+import React from 'react'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import { getTranslations } from 'next-intl/server'
 
 import { formatAddress } from '@/utilities/formatAddress'
-import { OpenBadge } from './OpenBadge.client'
+import { QuickInfoToday, type QuickInfoEntry } from './QuickInfoToday.client'
 
 type DayKey = 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday'
-
-function getTodayDayKey(): string {
-  return new Intl.DateTimeFormat('en-US', {
-    timeZone: 'Europe/Warsaw',
-    weekday: 'long',
-  })
-    .format(new Date())
-    .toLowerCase()
-}
 
 export const QuickInfoBlockComponent: React.FC = async () => {
   const payload = await getPayload({ config: configPromise })
@@ -28,32 +19,20 @@ export const QuickInfoBlockComponent: React.FC = async () => {
 
   const tQuick = await getTranslations('QuickInfo')
 
-  const todayKey = getTodayDayKey()
-  const todayEntry = openingHours?.hours?.find((h) => h.day === todayKey)
   const primaryPhone = contact?.phones?.[0]
 
-  const hoursLabel = todayEntry?.isClosed
-    ? tQuick('closed')
-    : todayEntry?.openTime && todayEntry?.closeTime
-      ? `${todayEntry.openTime} – ${todayEntry.closeTime}`
-      : null
+  const entries: QuickInfoEntry[] = (openingHours?.hours ?? []).map((entry) => ({
+    day: entry.day,
+    label: t(`days.${entry.day as DayKey}`),
+    openTime: entry.openTime,
+    closeTime: entry.closeTime,
+    isClosed: entry.isClosed,
+  }))
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/80 xl:relative xl:bottom-auto xl:left-auto xl:right-auto xl:z-auto xl:border-b xl:border-t-0">
       <div className="container flex flex-col gap-2 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4 xl:py-2">
-        {hoursLabel && (
-          <div className="flex items-center gap-2 text-sm">
-            <span className="font-medium">{t(`days.${todayKey as DayKey}`)}:</span>
-            <span>{hoursLabel}</span>
-            <Suspense fallback={null}>
-              <OpenBadge
-                openTime={todayEntry?.openTime}
-                closeTime={todayEntry?.closeTime}
-                isClosed={todayEntry?.isClosed}
-              />
-            </Suspense>
-          </div>
-        )}
+        <QuickInfoToday entries={entries} closedLabel={tQuick('closed')} />
 
         <div className="flex items-center gap-4">
           {primaryPhone && (
