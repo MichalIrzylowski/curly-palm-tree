@@ -1,5 +1,4 @@
 import React from 'react'
-import Link from 'next/link'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import { Phone } from 'lucide-react'
@@ -9,12 +8,13 @@ import type { HeroBlock as HeroBlockProps } from '@/payload-types'
 import { Media } from '@/components/Media'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { CMSLink } from '@/components/Link'
 import { TrustSignals } from '@/components/TrustSignals'
 
 export const HeroBlockComponent: React.FC<HeroBlockProps> = async ({
   heading,
   tagline,
-  primaryCtaLabel,
+  primaryCta,
   media,
   trustSignals,
 }) => {
@@ -55,13 +55,14 @@ export const HeroBlockComponent: React.FC<HeroBlockProps> = async ({
           )}
 
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center w-full sm:w-auto">
-            <Button
-              asChild
-              size="lg"
-              className="w-full sm:w-auto transition-transform hover:-translate-y-0.5 active:translate-y-0"
-            >
-              <Link href="/contact">{primaryCtaLabel ?? t('defaultCta')}</Link>
-            </Button>
+            {primaryCta && (
+              <CMSLink
+                {...primaryCta}
+                appearance="default"
+                size="lg"
+                className="w-full sm:w-auto transition-transform hover:-translate-y-0.5 active:translate-y-0"
+              />
+            )}
 
             {primaryPhone && (
               <Button

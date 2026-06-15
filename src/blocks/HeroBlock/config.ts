@@ -1,5 +1,7 @@
 import type { Block } from 'payload'
 
+import { link } from '@/fields/link'
+
 export const HeroBlock: Block = {
   slug: 'heroBlock',
   interfaceName: 'HeroBlock',
@@ -28,16 +30,16 @@ export const HeroBlock: Block = {
           'PL: "Dbamy o Twoje zwierzę — profesjonalnie i z troską." / EN: "Expert care, every visit."',
       },
     },
-    {
-      name: 'primaryCtaLabel',
-      type: 'text',
-      localized: true,
-      label: 'Primary CTA label',
-      defaultValue: 'Umów wizytę',
-      admin: {
-        description: 'Label for the booking button. Links to /contact.',
+    link({
+      appearances: false,
+      overrides: {
+        name: 'primaryCta',
+        label: 'Primary CTA',
+        admin: {
+          description: 'The main booking call-to-action button (e.g. links to the contact page).',
+        },
       },
-    },
+    }),
     {
       name: 'media',
       type: 'upload',

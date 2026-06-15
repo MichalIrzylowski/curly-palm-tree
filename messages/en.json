@@ -33,7 +33,6 @@
     "closed": "Closed"
   },
   "Hero": {
-    "defaultCta": "Book an appointment",
     "callPrefix": "Call: "
   },
   "Map": {

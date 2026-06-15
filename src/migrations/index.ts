@@ -14,6 +14,7 @@ import * as migration_20260613_144249 from './20260613_144249';
 import * as migration_20260613_144343 from './20260613_144343';
 import * as migration_20260613_161006_campaigns from './20260613_161006_campaigns';
 import * as migration_20260613_162508_campaign_link_type from './20260613_162508_campaign_link_type';
+import * as migration_20260615_161731_hero_primary_cta_link from './20260615_161731_hero_primary_cta_link';
 
 export const migrations = [
   {
@@ -94,6 +95,11 @@ export const migrations = [
   {
     up: migration_20260613_162508_campaign_link_type.up,
     down: migration_20260613_162508_campaign_link_type.down,
-    name: '20260613_162508_campaign_link_type'
+    name: '20260613_162508_campaign_link_type',
+  },
+  {
+    up: migration_20260615_161731_hero_primary_cta_link.up,
+    down: migration_20260615_161731_hero_primary_cta_link.down,
+    name: '20260615_161731_hero_primary_cta_link'
   },
 ];
