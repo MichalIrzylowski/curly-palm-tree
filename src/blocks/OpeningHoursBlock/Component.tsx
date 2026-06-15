@@ -2,15 +2,9 @@ import React from 'react'
 import { getTranslations } from 'next-intl/server'
 import { getOpeningHours } from '@/loaders/getOpeningHours'
 import { SectionHeading } from '@/components/SectionHeading'
+import { OpeningHoursList, type OpeningHoursEntry } from './OpeningHoursList.client'
 
-function getTodayDayKey(): string {
-  return new Intl.DateTimeFormat('en-US', {
-    timeZone: 'Europe/Warsaw',
-    weekday: 'long',
-  })
-    .format(new Date())
-    .toLowerCase()
-}
+type DayKey = 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday'
 
 export const OpeningHoursBlockComponent: React.FC = async () => {
   const [openingHours, t] = await Promise.all([
@@ -18,37 +12,23 @@ export const OpeningHoursBlockComponent: React.FC = async () => {
     getTranslations('OpeningHours'),
   ])
 
-  const todayKey = getTodayDayKey()
   const hours = openingHours?.hours ?? []
+
+  const entries: OpeningHoursEntry[] = hours.map((entry) => ({
+    day: entry.day,
+    label: t(`days.${entry.day as DayKey}`),
+    valueLabel: entry.isClosed
+      ? t('closed')
+      : entry.openTime && entry.closeTime
+        ? `${entry.openTime} – ${entry.closeTime}`
+        : '—',
+    note: entry.note,
+  }))
 
   return (
     <div className="container py-12">
       <SectionHeading>{t('heading')}</SectionHeading>
-      <ul className="divide-y divide-border rounded-lg border border-border">
-        {hours.map((entry) => {
-          const isToday = entry.day === todayKey
-          const label = entry.isClosed
-            ? t('closed')
-            : entry.openTime && entry.closeTime
-              ? `${entry.openTime} – ${entry.closeTime}`
-              : '—'
-
-          return (
-            <li
-              key={entry.day}
-              className={`flex items-center justify-between px-4 py-3 text-sm${isToday ? ' bg-muted font-medium' : ''}`}
-            >
-              <span>{t(`days.${entry.day as 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday'}`)}</span>
-              <span className="flex items-center gap-3">
-                {label}
-                {entry.note && (
-                  <span className="text-xs text-muted-foreground">({entry.note})</span>
-                )}
-              </span>
-            </li>
-          )
-        })}
-      </ul>
+      <OpeningHoursList entries={entries} />
     </div>
   )
 }
