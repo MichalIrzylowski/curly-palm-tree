@@ -17,10 +17,17 @@ const getImageURL = (image?: Media | Config['db']['defaultIDType'] | null): stri
   return undefined
 }
 
+const getCanonicalPageURL = (slug: Page['slug'] | Post['slug'] | undefined, locale: string): string => {
+  const path = slug && slug !== 'home' ? `/${slug}` : ''
+
+  return `${getServerSideURL()}/${locale}${path}`
+}
+
 export const generateMeta = async (args: {
   doc: Partial<Page> | Partial<Post> | null
+  locale: string
 }): Promise<Metadata> => {
-  const { doc } = args
+  const { doc, locale } = args
 
   const siteSettings = (await getCachedGlobal('site-settings', 0)()) as SiteSetting
   const clinicName = siteSettings?.clinicName ?? 'Lecznica Weterynaryjna'
@@ -43,7 +50,7 @@ export const generateMeta = async (args: {
         : undefined,
       siteName: clinicName,
       title,
-      url: Array.isArray(doc?.slug) ? doc?.slug.join('/') : '/',
+      url: getCanonicalPageURL(doc?.slug, locale),
     }),
     title,
   }

@@ -106,7 +106,7 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
   const decodedSlug = decodeURIComponent(slug)
   const page = await getPageBySlug(decodedSlug, locale)
 
-  const meta = await generateMeta({ doc: page })
+  const meta = await generateMeta({ doc: page, locale })
   const alternates = await buildHreflangAlternates(decodedSlug, locale)
 
   return { ...meta, alternates }
